@@ -8,9 +8,9 @@ This document has two different kinds of content: general information and action
 
 General information appears in ordinary unlabeled text, like this sentence. This form of content will be used to introduce and explain new concepts.
 
-For action steps, carry out the instructions and **mark the checkbox!**  This helps me figure out where you are in the process should you have questions, and hopefully will help you avoid skipping steps by accident.
+Action steps are indicated with a checkbox.  Basically just do all the stuff with a box next to it.  
 
-Complete the assignment at the end of the tutorial and submit it electronically on Sakai using the Assignments tab.
+Complete the tutorial program, AND the assignment at the end of the tutorial in separate js fies and submit them by right-clicking `sync.sh` in the github-tools folder.
 
 ## Overview
 
@@ -71,7 +71,7 @@ Some explanations are in order.  `game` is an object created in sgc that has sev
 
 - [ ] Read the w3schools tutorial about objects (https://www.w3schools.com/js/js_objects.asp)
 
-All we are doing with these three lines is assigning values to two `game` properties (`setBackground` and `showScore`).  From now on I will refer to these properties and methods without the `game` *identifier* (the name of the object), but remember to always include it in your code!
+All we are doing with these three lines is assigning values to a`game` *property*  (`showScore`) and calling a `game` *method* (`setBackground()`).  From now on I will refer to these properties and methods without the `game` *identifier* (the name of the object), but remember to always include it in your code!
 
 - [ ] Open the `strangerHunt.html` file and hit the green arrow to 'Run' it.  Alternatively, you can right click the html file without opening it, and select 'Run' from the right-click menu.  You will see a status window appear below the editor window, with a statement that looks like this:
 
@@ -117,13 +117,11 @@ Notice the class definition has a list of properties and methods, which can be u
 
 Let's import this class definition into our strangerHunt.js file.
 
-- [ ] Modify the first line of your code to add the `Sprite` class to the list of *arguments* in the `import` method like this:
+- [ ] Modify the first line of your code to add the `Sprite` class to the list of modules in the `import` directive like this:
 
 ```javascript
 import {game, Sprite} from "./sgc/sgc.js";
 ```
-
-An *argument* of a method is the value passed to that method by putting it in parentheses after the method name.  For more about arguments see https://www.w3schools.com/js/js_function_parameters.asp .
 
 ## Creating an Object from a Class definition
 
@@ -131,7 +129,7 @@ Javascript uses an "object-oriented" programming style. This means that the prog
 
 Let's declare and initialize an object called `topWall`, by creating an instance of the `Sprite` class like this:  
 
-- [ ] Type this in your `strangerHunt.js` file, somewhere after your `import`  method:
+- [ ] Type this in your `strangerHunt.js` file, somewhere after your `import`  statement:
 
 ```javascript
 let topWall = new Sprite();
@@ -195,7 +193,81 @@ Not too exciting yet, but we have covered a lot of advanced background material 
 
 Next we will learn another powerful way to use classes; using "child" object classes that inherit features from their "parent" classes.
 
-If you are reading this, you are ahead of where I expected you to be at the end of day 1.  Please use the extra time to start working on your strangerHunt project (see below).
+- [ ] Read [Classes, Inheritance, and the Three Little Pigs](http://computationaltales.blogspot.com/2012/01/classes-inheritance-and-three-little.html)
+
+##Using derived classes (children) to customize behavior
+
+To customize Sprite behavior, we must create a new class that `extend`s the `Sprite` class. This allows us to modify the default behavior for mouse clicks (which is do nothing) by **overriding** the `Sprite` class's `handleMouseClick`method. 
+
+- [ ] Add the following class definition to your `strangerHunt.js` file, somewhere after your `import` command:
+
+```javascript
+class Princess extends Sprite {
+    handleMouseClick() {
+        game.end();
+    }
+}
+```
+
+Memorize this syntax!  This is the way we create derived classes that have all the properties and methods of the parent class, and override (as in "overwrite" or "replace") the methods we want to customize.  There is a pretty good discussion of these concepts at [javascript.info](https://javascript.info/class-inheritance).
+
+- [ ] See the [handleMouseClick()](https://csci110.github.io/sgc/Sprite.html#handleMouseClick) documentation in the sgc help file.  Note that sgc will call the handler every time an object in the `Sprite` class is clicked.  
+
+Clicking on an object created directly from the parent class  `Sprite` does nothing (for example, the wall objects).  But clicking on an object created from [derived] class  `Princess` will end the game.  Other than that the `Princess` and `Sprite` classes are exactly the same.  There is a fancy word for this: *Polymorphism*.
+
+"Polymorphism" comes from Greek roots that mean "having many forms". Here, this means that it's possible for a block to be an instance of `Princess` and also to be an instance of `Sprite`, the parent.
+
+**Polymorphism**:
+
+*A feature of object-oriented programming that treats instances differently depending on their most specific object. In particular, allowing child objects to define their own specific behavior for some operations, while continuing to inherit parent behavior for other operations.*
+
+Let's create an object from the `Princess` class.  Do you remember how to do this?  Review the previous section "Creating an Object from a Class definition" if needed to perform the following task:
+
+- [ ] Create an object called `ann` which is a member of the `Princess` class.  
+- [ ] Set her `name` property to "Princess Ann" like this:
+
+```
+ann.name = "Princess Ann";
+```
+
+- [ ] Set her `height` property to 48.
+- [ ] Set her `width` property to 48.
+- [ ] Call her `setImage` method with the argument "ann.png" like this:
+
+```javascript
+ann.setImage("ann.png");
+```
+
+Now we want to place her somewhere in the room and get her moving. 
+
+- [ ] Set her `x` property to 300.
+- [ ] Set her `y` property to 300.
+- [ ] Set her `speed` property to 200.
+- [ ] Set her `angle` property to 45.
+
+You can read about the speed and angle properties in the sgc help file, but here are the cliff notes:  `speed` is  the speed of travel for the sprite in pixels per second, and `angle` is the angle of travel for the sprite, in degrees counter-clockwise from the positive x-axis (the horizontal axis).
+
+- [ ] Run your game and verify that Princess Ann appears in the room and bounces off the walls until you manage to click on her to end the game.
+
+We almost have something that could be called a game, except it is not very interesting.  Let's add some spice to it by introducing random behavior: Instead of always starting the princess in the same place with the same initial direction, we will give her a random starting location somewhere in the room, and a random starting direction.
+
+To do this we will use a `Math` method called `random()` .
+
+## The Math object
+
+The Math object is built into JavaScript and allows you to perform mathematical tasks.  One of these tasks is a random number generator.  The `Math.random()` method generates a number between 0 and 1 (including 0 but not 1).  To get a random (but valid) x coordinate, all we have to do is multiply this random number by the _greatest_ **range of values** we would allow and add it to the _least_ **value** we would allow.  In this case, the greatest range of values we can allow beyond the left wall's right edge is the right wall's left edge, minus the width of ann's sprite and minus the width of the left wall.  The least value we can allow is the right edge of the left wall, given by `leftWall.width`.
+
+- [ ] Replace `ann`'s `x` assignment with with
+
+```javascript
+ann.x = Math.random() * (rightWall.x - ann.width - leftWall.width) + leftWall.width;
+```
+
+- [ ] Using the previous step as a guide, modify `ann`'s `y` assignment.
+- [ ] Using the `Math.random()` method, replace `ann`'s  `angle` property with an expression that generates a random angle between 0 and 360.  *HINT: 360 is the range of values, and 0 is the minimum.*
+- [ ] Run your program and verify that Ann appears at a random place in the room and moves in a random direction.
+
+If you are reading this, you are ahead of where I expected you to be at the end of Wednesday day 2.  Please use the extra time to start working on your sprite project (see below).
 
 ## Wrapping up
 
@@ -203,10 +275,17 @@ We aren't done with the first tutorial yet, but here are some other things that 
 
 
 - [ ] Complete the quiz for Stranger Hunt in the Tests and Quizzes tab of Sakai before Friday noon. 
-- [ ] Project work minimum requirements (upload to Assignments tab of Sakai) due next Wednesday.
-      - [ ] Make your own sprite using the graphics editor of your choice.  
-      - [ ] Download a background image file, or create one of your own.  Resize as necessary to fit in the default window.
-      - [ ] Write a JavaScript program that loads the background image and places your sprite on it.  You will need to create a new .js file to do this (right-click the 1.strangerHunt folder in the Workspace tab and select `New File`, then type `MyAwesomeGame.js` or whatever else you want to call it![^2] )
+- [ ] Read [The Importance of Good Comments: A Tale of the Baker's Apprentice](http://computationaltales.blogspot.com/2011/08/importance-of-good-comments-tale-of.html)
+- [ ] Project work minimum requirements due next Wednesday.
+  - [ ] Make your own sprite using the graphics editor of your choice.  
+  - [ ] Download a background image file, or create one of your own.  Resize it to 800 by 600 to fit in the default window, or dig into `sgc.js` and change the `displayWidth` and `displayHeight` values in lines 28 and 34 to suit your tastes.
+  - [ ] Import the graphics file into your workspace by selecting `File` at the top of the workspace, and then `Upload Local Files...`.
+  - [ ] Right-click the `loader.js` file and select `Duplicate`.  Change the name of it to `spriteLoader.js`
+  - [ ] Add your image file names (for the background and the sprite) to the list of things that get pre-loaded in the `spriteLoader.js` file and delete the ones you won't use.  Save your changes by hitting `CTRL+s`.  You should see the grey circle next to the name in the `spriteLoader.js` tab turn green, and then turn into a x.
+  - [ ] Create a new JavaScript file by right-clicking the `strangerHunt` folder, selecting `New File` and giving it the name  `spriteProject.js`.
+  - [ ] Right-click the `strangerHunt.html` file and select `Duplicate`.  Change the name of it to `spriteProject.html`.   
+  - [ ] In the  `spriteProject.html` file, change the last script source callout to `spriteProject.js` instead of `strangerHunt.js`, and change the second-to-last callout to `spriteLoader.js` instead of `loader.js`.  Save your changes as before (`CTRL+s`).
+  - [ ] In the `spriteProject.js` file, write a JavaScript program that loads the background image and places your sprite on it.  Feel free to copy as much of the code as you need from the tutorial game you just completed!  Optionally, send the url to your mom so she can run your app from wherever she is -- in any browser, on any computer or smartphone.
+  - [ ] Don't forget to sync your changed files to github so I can review them before next Wednesday.
 
 [^1]: Some restrictions apply.  For example, your session has to be active in C9, and it will time out after a certain amount of inactivity.  But the code is portable - you could use a different hosting site if you wish, though usually they require payment to keep your content available.
-[^2]: Provided it is a name you wouldn't be afraid to show your mother
