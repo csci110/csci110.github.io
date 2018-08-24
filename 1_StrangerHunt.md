@@ -316,7 +316,7 @@ In JavaScript,  `this` is the object that "owns" the method we are executing.  I
 
 ## The *super*() method
 
-The `super` keyword is used to call functions on an object's parent.  When used in a constructor, it calls the parent's class constructor.  Note:  in derived classes you must call `super()` before you can use `this` in a constructor definition.  You can find more info and a clarifying example [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super).  So if the derived class has its own constructor, you always need to start it with `super`.
+The `super()` method is used to call functions on an object's parent.  When used in a constructor, it calls the parent's class constructor.  Note:  in derived classes you must call `super()` before you can use `this` in a constructor definition.  You can find more info and a clarifying example [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super).  So if the derived class has its own constructor, you always need to start it with `super()`.
 
 ____________
 
@@ -329,7 +329,7 @@ Let's practice using derived classes and constructors to create the other two ch
   * x and y =  some random spot in the room as you did for `ann`
   * angle = a random angle between 0 and 360 as you did for `ann`
 
-- [ ] Customize the sprite's behavior by overriding the handleMouseClick() method as follows (Add these lines inside the Wizard class definition, but *outside* the constructor method):
+- [ ] Customize the sprite's behavior by overriding the `handleMouseClick()` method as follows (Add these lines inside the Wizard class definition, but *outside* the constructor method):
 
 ```
     handleMouseClick() {
@@ -340,7 +340,7 @@ Let's practice using derived classes and constructors to create the other two ch
     }
 ```
 
-Replace the // comments with your code from the previous section.
+Replace the // comments with the appropriate code from the previous section.
 
 As you probably guessed, the `score` property holds the value of the score that we display in the upper left corner of the screen with we set the `game.showScore` property to `true`.   
 
