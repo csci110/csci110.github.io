@@ -197,7 +197,13 @@ Next we will learn another powerful way to use classes; using "child" object cla
 
 ##Using derived classes (children) to customize behavior
 
-To customize Sprite behavior, we must create a new class that `extend`s the `Sprite` class. This allows us to modify the default behavior for mouse clicks (which is do nothing) by **overriding** the `Sprite` class's `handleMouseClick`method. 
+Remember way back in the game design section we said that the player scores points by "casting a spell" (i.e. clicking) on the mysterious stranger, and loses points by hitting Marcus, and ends the game by clicking on Princess Ann?  Let's see if sgc has a sprite property or method we can use to interact with the mouse:
+
+![SpriteProperties](images/SpriteProperties.PNG)
+
+Yes!  It looks like `handleMouseClick` will do what we need.  Now we must define the method we want to invoke when a mouse button release on the sprite is detected.  By the way you can see the whole sgc reference [here.](https://dewv.github.io/csci110-retooled/sgc/GameController.html)
+
+To customize sprite behavior, we must first create a new class that `extend`s the `Sprite` class. This allows us to modify the default behavior for mouse clicks (which is do nothing) by **overriding** the `Sprite` class's `handleMouseClick`method. 
 
 - [ ] Add the following class definition to your `strangerHunt.js` file, somewhere after your `import` command:
 
@@ -209,7 +215,7 @@ class Princess extends Sprite {
 }
 ```
 
-Memorize this syntax!  This is the way we create derived classes that have all the properties and methods of the parent class, and override (as in "overwrite" or "replace") the methods we want to customize.  There is a pretty good discussion of these concepts at [javascript.info](https://javascript.info/class-inheritance).
+Memorize this syntax!  This is the way we create derived classes that **inherit** all the properties and methods of the parent class, and *override* (as in "overwrite" or "replace") the methods we want to customize.  There is a pretty good discussion of these concepts at [javascript.info](https://javascript.info/class-inheritance).
 
 - [ ] See the [handleMouseClick()](https://csci110.github.io/sgc/Sprite.html#handleMouseClick) documentation in the sgc help file.  Note that sgc will call the handler every time an object in the `Sprite` class is clicked.  
 
@@ -265,20 +271,126 @@ ann.x = Math.random() * (rightWall.x - ann.width - leftWall.width) + leftWall.wi
 
 - [ ] Using the previous step as a guide, modify `ann`'s `y` assignment.
 - [ ] Using the `Math.random()` method, replace `ann`'s  `angle` property with an expression that generates a random angle between 0 and 360.  *HINT: 360 is the range of values, and 0 is the minimum.*
-- [ ] Run your program and verify that Ann appears at a random place in the room and moves in a random direction.
+- [ ] Run your program and verify that Ann appears at a random place in the room and moves in a random direction, and that the game ends when you click on her.
 
-If you are reading this, you are ahead of where I expected you to be at the end of Wednesday day 2.  Please use the extra time to start working on your sprite project (see below).
+##The constructor
+
+In a previous section we created a new object in the `Princess` class and assigned values to the object's properties "by hand" using statements such as 
+
+```javascript
+ann.x = 300;
+```
+
+There is a method to automate this process if we want to assign the same values to every object created from the class; it's called the **`constructor`** method.  
+
+The `constructor` method is a special method for creating and initializing an object created with a class. There can only be one special method with the name "constructor" in a class.  Here is how we could do it for the `Princess` class.  It's a little pointless, since we are only making one object in the class, but it helps to illustrate the method.
+
+- [ ] Delete all your statements that start with `ann.`*something* and modify your Princess class definition as follows:
+
+```javascript
+class Princess extends Sprite {
+    constructor() {
+        super();
+        this.name = "Princess Ann";
+        this.width = 48;
+        this.height = 48;
+        this.setImage("ann.png");
+        this.x = leftWall.width + (Math.random() * (rightWall.x - ann.width - 					leftWall.width));
+        this.y = topWall.height + (Math.random() * (bottomWall.y - ann.height - 				topWall.height));
+        this.angle = Math.random() * 360;
+        this.speed = 200; 
+    }
+    handleMouseClick() {
+        game.end();
+    }
+}
+```
+
+Now when you create an object in this class with `let ann = new Princess();`, all the properties we need set for her will be set by the constructor.  This is a great way to package things together that we want defined, or that we want to execute every time an object of that class is created.
+
+There are some new things in here:  the **this** keyword, and the **super()** method.
+
+## The *this* keyword
+
+In JavaScript,  `this` is the object that "owns" the method we are executing.  It refers to (or you could say, "it's value is") the method's object.  Inside our constructor methods, we will use `this` to modify the properties of the object whose method it will be.  Even though we know we will only create one instance of the Princess object, and that object will be called `ann`, we can't use `ann` in place of `this` in the constructor, because `ann` hasn't been created yet.  In fact, as far as this class definition is concerned, no object of the `Princess` class has been created, because we are in the middle of defining the template that will be used to make the objects!  So `this` is a placeholder for *any* object that will be created with this class template.
+
+## The *super*() method
+
+The `super` keyword is used to call functions on an object's parent.  When used in a constructor, it calls the parent's class constructor.  Note:  in derived classes you must call `super()` before you can use `this` in a constructor definition.  You can find more info and a clarifying example [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super).  So if the derived class has its own constructor, you always need to start it with `super`.
+
+____________
+
+Let's practice using derived classes and constructors to create the other two characters in this story: "Marcus the Wizard" and "the mysterious stranger" (who is also a wizard). 
+
+- [ ] Define a new class called `Wizard` that is a child of the parent class `Sprite`.
+- [ ] Use a constructor function in the derived class that gives every object created from the `Wizard` class template the following property values:
+  * width = 48
+  * height = 48
+  * x and y =  some random spot in the room as you did for `ann`
+  * angle = a random angle between 0 and 360 as you did for `ann`
+
+- [ ] Customize the sprite's behavior by overriding the handleMouseClick() method as follows (Add these lines inside the Wizard class definition, but *outside* the constructor method):
+
+```
+    handleMouseClick() {
+        game.score = game.score + this.clickScore;
+        this.speed = this.speed * 1.1;
+        this.x = // some random spot in the room
+        this.y = // some random spot in the room
+    }
+```
+
+Replace the // comments with your code from the previous section.
+
+As you probably guessed, the `score` property holds the value of the score that we display in the upper left corner of the screen with we set the `game.showScore` property to `true`.   
+
+`this.clickScore` is a custom variable we will make when we create the  `stranger` and `marcus` objects.  The purpose of this variable (which contains -10 for `marcus` and +10 for `stranger`) is to either *increase* the score by 10 if we click on `stranger` or *decrease* the score by 10 if we click on `marcus`.  This will become clear very soon.
+
+What is not so clear is that to raise or lower the score by 10 points we used an assignment statement that probably seems very odd to you if you know anything about math:
+
+```javascript
+game.score = game.score + this.clickScore;
+```
+
+How is this possible?!  If that were a mathematical equation, there would be no solutions to it, unless `this.clickScore` equals zero.  That is why we like to say the word "gets"  (as in "is assigned the value of") instead of "equals" when we use the `=` sign operator.  Then the correct way to read this line is to say the `score` property "gets" `clickScore` more than the current value of `score`.   You can read more about mathematical operators [here]().
+
+We did something similar with the `speed` property.  Every time `this.speed = this.speed * 1.1;` is executed, the `speed` property will increase by a factor of 1.1 (i.e. 10%).
+
+We're almost done.  Now let's create two objects in the Wizard class.
+
+- [ ] Create an object in the Wizard class called `stranger` and assign it the following properties:
+  * speed = 300
+  * name = "The mysterious stranger"
+  * set the image to "stranger.png" (use the wall objects as guides for this step)
+  * create a custom variable called clickScore and set its value to 10 like this:
+
+```javascript
+stranger.clickScore = 10;
+```
+
+- [ ] Create an object in the Wizard class called `marcus` and assign it the following properties:
+  * speed = 100
+  * name = "Marcus the Wizard"
+  * set the image to "marcus.png"
+  * create a custom variable called clickScore and set its value to -10.
+
+- [ ] Test your program and verify that:
+  - The characters spawn in random locations and move in random directions
+  - Clicking on Marcus or the Stranger results in the expected behavior (random teleport with speed increase)
+  - Clicking on Princess Ann ends the game
+
+Here is a test of your understanding of constructors:  Can you explain why we didn't put the `speed,` `name` and `setImage()` statements inside the Wizard class constructor?
 
 ## Wrapping up
 
-We aren't done with the first tutorial yet, but here are some other things that need to get done soon:
+This completes the first game tutorial.  If there are any things that aren't working right in your program, please see one of the instructors before your final submission on Monday.
 
 
 - [ ] Complete the quiz for Stranger Hunt in the Tests and Quizzes tab of Sakai before Friday noon. 
 - [ ] Read [The Importance of Good Comments: A Tale of the Baker's Apprentice](http://computationaltales.blogspot.com/2011/08/importance-of-good-comments-tale-of.html)
 - [ ] Project work minimum requirements due next Wednesday.
   - [ ] Make your own sprite using the graphics editor of your choice.  
-  - [ ] Download a background image file, or create one of your own.  Resize it to 800 by 600 to fit in the default window, or dig into `sgc.js` and change the `displayWidth` and `displayHeight` values in lines 28 and 34 to suit your tastes.
+  - [ ] Download a background image file, or create one of your own.  Resize it to 800 by 600 to fit in the default window, or change the `game.displayWidth` and `game.displayHeight` values to suit your tastes.
   - [ ] Import the graphics file into your workspace by selecting `File` at the top of the workspace, and then `Upload Local Files...`.
   - [ ] Right-click the `loader.js` file and select `Duplicate`.  Change the name of it to `spriteLoader.js`
   - [ ] Add your image file names (for the background and the sprite) to the list of things that get pre-loaded in the `spriteLoader.js` file and delete the ones you won't use.  Save your changes by hitting `CTRL+s`.  You should see the grey circle next to the name in the `spriteLoader.js` tab turn green, and then turn into a x.
