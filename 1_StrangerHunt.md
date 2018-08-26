@@ -12,19 +12,11 @@ Action steps are indicated with a checkbox.  Basically just do all the stuff wit
 
 Complete the tutorial program, AND the assignment at the end of the tutorial in separate js fies and submit them by right-clicking `sync.sh` in the github-tools folder.
 
-## Overview
-
-We will be using a framework for desktop and mobile browser games called Phaser (https://phaser.io).  In order to facilitate our interactions with this framework, Prof Mattingly created an Application Programming Interface (API) called sgc.js (stands for "Simple Game Controller") that has a set of defined functions for interfacing with Phaser.  These functions mirror similar ones on other popular game engines such as Gamemaker. 
-
-Working from a virtual machine in the cloud (c9), we will create Javascript programs that run in a browser.  For example, our first game will be called Stranger Hunt, so we could create a Javascript file called strangerhunt.js to run it.  You will need to create a personal account for the Cloud9 virtual workspace (see below).
-
-We provide (or you can write, if you wish) a simple hyper-text mark-up language (HTML) file that calls the phaser script, and then calls the sgc script, and finally our specific game script.
-
-This sounds complicated, but in practice it amounts to writing some Javascript code in the C9 development environment, and viewing the output in a web browser.  The beauty of it is you can give anyone in the world with an internet connection the address of this webpage and they can use your application (i.e. play your game) on any platform with no additional software required.[^1]
-
 ## Access the virtual workspace
 
-Cloud9 (c9) combines an online code editor with a workspace in the cloud.  It supports over 40 languages including Javascript, which we will be using.   You should have received an email inviting you to sign up for a c9 account.  If not, let me know and I will send you one.  You can sign up without an invitation, but accepting my invitation will keep you from having to give c9 a credit card number.  See Sakai Welcome section item #1 for more information.  It will walk you through cloning a workspace for this assignment.
+Cloud9 (c9) combines an online code editor with a workspace in the cloud.  It supports over 40 languages including Javascript, which we will be using.   You should have received an email inviting you to sign up for a c9 account.  If not, let me know and I will send you one.  You can sign up without an invitation, but accepting my invitation will keep you from having to give c9 a credit card number.  See Sakai Welcome section item #1 for more information.  It will walk you through cloning a workspace for this assignment.  
+
+Most of your time in this course will be spent writing some Javascript code in the C9 development environment, and viewing the output in a web browser. The beauty of it is you can give anyone in the world with an internet connection the address of the webpage created when you launch your application from c9 and they can use your application (i.e. play your game) on any platform in any browser with no software required.[^1]
 
 ## Cast of Characters
 
@@ -227,7 +219,7 @@ Clicking on an object created directly from the parent class  `Sprite` does noth
 
 *A feature of object-oriented programming that treats instances differently depending on their most specific object. In particular, allowing child objects to define their own specific behavior for some operations, while continuing to inherit parent behavior for other operations.*
 
-Let's create an object from the `Princess` class.  Do you remember how to do this?  Review the previous section "Creating an Object from a Class definition" if needed to perform the following task:
+Let's create an object from the `Princess` class.  Do you remember how to do this?  Review the previous section "Creating an Object from a Class definition" if needed. In a later part of the tutorial we will be placing Ann in random locations by referring to wall height and width dimensions, so I suggest putting this code *after* your wall declarations (since a property must be declared before it can be used).
 
 - [ ] Create an object called `ann` which is a member of the `Princess` class.  
 - [ ] Set her `name` property to "Princess Ann" like this:
