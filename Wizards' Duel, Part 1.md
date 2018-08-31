@@ -5,7 +5,7 @@ First let's start with a review of what you learned in the last tutorial.  As a 
 In `wizardsDuel.js`, write some JavaScript code to accomplish the following things:
 
 - [ ] Import `game` and `Sprite` modules from "../sgc/sgc.js"
-- [ ] Set the background to "floor.png"
+- [ ] Set the background to "floor.png" (use the `game.setBackground()` method)
 - [ ] Declare a class called `PlayerWizard` that is a *child* of the `Sprite` class.
 - [ ] In the constructor method of the `PlayerWizard` class:
   - [ ] Call the parent's class constructor (*HINT: Clark Kent*)
