@@ -287,11 +287,17 @@ if (condition2) {
 
 ## Hitting a Target
 
-Now you will make the Stranger vulnerable to Marcus's spells. When he is hit, an explosion effect will display and the stranger object will be destroyed. And then a congratulations message will be shown.
+Now you will make the Stranger vulnerable to Marcus's spells. When he is hit:
 
-The `Sprite` method we will use for this is `handleCollision(otherSprite)`.  The method is called each game loop where *this* sprite is touching another sprite.  It *overrides* the base implementation, which is that the sprites just bounce off each other.  The `otherSprite` variable holds (is set equal to) the other sprite involved in the collision.  Instead of bouncing off the `stranger` sprite, we want to create a fireball, and delete both objects involved in the collision.
+1. An explosion effect will display.
+2. The stranger object will be destroyed. 
+3. A congratulations message will be shown.
+
+In the previous game, we used the default behavior for collisions between the objects in the `Sprite` class; they just bounced when they collided.  Now we'd like to define some different behavior for the collision between a `spell` object and the Stranger.  The `Sprite` method we will use for this is `handleCollision(otherSprite)`.  The method is called each game loop where *this* sprite is touching another sprite.  It *overrides* the base implementation, which is that the sprites just bounce off each other.  The `otherSprite` variable holds (is set equal to) the other sprite involved in the collision.  Instead of bouncing off the `stranger` sprite, we want to create a fireball, and delete both objects involved in the collision.
 
 ![handleCollision](.\images\handleCollision.PNG)
+
+## Create a fireball at the location where the Stranger used to be and delete the colliding sprites
 
 First let's create a Fireball class to make some "explosion effect" objects.  Up to now, we have not passed any arguments to the `constructor()` method.  This time, we will pass the `otherSprite` object to it, so we set the position of the fireball to the position of the sprite we just hit.
 
@@ -325,274 +331,64 @@ handleCollision(otherSprite) {
 }
 ```
 
-Here is how this works.  Let's say a `spell` object collides with the `stranger` object, triggering the `handleCollision()` method.  Now `otherSprite` = `stranger`.   The first line removes the `spell` object.  The second line calls the constructor of the `Fireball` class, passing it the `stranger` object.  Inside the `Fireball` constructor, any reference to `deadSprite` is a reference to the `stranger` object.  So when the `Fireball` constructor removes `deadSprite` it is actually removing the `stranger` object from the game.  If that doesn't make sense, please ask one of the instructors to explain it better; it's a tricky concept to grasp.
+Here is how this works.  Let's say a `spell` object collides with the `stranger` object, triggering the `handleCollision()` method.  Now `otherSprite` = `stranger`, and `this` refers to the `spell` object that hit him.   The first line removes the `spell` object.  The second line calls the constructor of the `Fireball` class, passing it the `stranger` object.  Inside the `Fireball` constructor, any reference to `deadSprite` is a reference to the `stranger` object.  So when the `Fireball` constructor removes `deadSprite` it is actually removing the `stranger` object from the game.  If that doesn't make sense, please ask one of the instructors to explain it better; it's a tricky concept to grasp.
 
 The last line *returns* false.  When a method returns something it means the method has a *value* that the caller can use to do stuff.  In this case, it signals the `Sprite` class that a bounce is not desired (see the `handleCollision()` documentation above). 
 
 - [ ] Run your program and verify that you get an explosion effect when you cast a spell
 
-The problem is we are getting a collision right away because Marcus is generating multiple spells with each press of the spacebar and they are running into each other.  Let's fix that.
+One problem is we are getting a collision right away because Marcus is generating multiple spells with each press of the spacebar and they are running into each other.  Let's fix that.
 
+- [ ] Inside the collision handler for the `Spell` class, enclose the first two lines in an `if` statement that checks to make sure that the same spell sprites don't destroy each other, like this:
 
-
-The images for Marcus's spell objects are mostly transparent, and only the central rectangle has visible contents.  We want to register a hit on the Stranger only when the center portion of the spell "projectile" collides with the Stranger, not the whole 48x48 square. One way to approximate this is by calculating the vertical offset between the sprites, and dividing by 2.
-
-
-
-### The Collision Rule Handler
-
-We will define this behavior in a custom method we will call `defeatStranger()` that accepts two arguments: the `stranger` object and the `spell` object that collided with it.
-
-- [ ] Add a call to the `gameController's` `addSpriteCollisionRule()` method in the constructor for the `MarcusSpell` class like this:
-
-```javascript
-gameController.addSpriteCollisionRule([this, stranger], this.defeatStranger);
 ```
-
-Here is the help file information for this method:
-
-![addSpriteCollisionRule](C:/Users/Renaud/Google%20Drive/DnE/Courses/CSCI-110/Archive/csci110-retooled/docs/images/addSpriteCollisionRule.PNG)
-
-The first argument is a array containing the two objects involved in the collision.  The second is the name of the method which we will define to handle collisions; in this case `defeatStranger`.
-
-When we create a `spell` object which is an instance of this class, the constructor function will execute and `this` will refer to the `spell` object which was just created.  So every `spell` object will have this `defeatStranger` method -- a method we haven't yet defined.  We will now.
-
-### Number 1: Eliminate both sprites
-
--[ ] Add the following method definition to the  `MarcusSpell` class *outside* of the constructor:
-
-```javascript
-defeatStranger(sprite1, sprite2) {
-    gameController.deleteSprite(sprite1);
-    gameController.deleteSprite(sprite2);
-};
-```
-
-So far we have defined our collision rule handler and asked it to eliminate the sprites involved in the collision.
-
-### Number 2: Create a fireball at the location where the Stranger used to be
-
-To create a fireball where the Stranger just was, we will need to create a new object when the collision happens.  We want this object to have the following properties:
-
-- a name (like 'A ball of fire')
-- x and y coordinates equal to `stranger`'s x and y coordinates when the object is created
-- an image sheet file called `fireballSheet.png`
-
-In addition, we would like to define an explosion animation for it using all 16 frames of the image sheet, and we want to play the animation once.
-
-We could make an object literal using `let fireball = { etc }` and then call the `defineAnimation()` and `playAnimation()` methods, but there is a cleaner way; one that uses classes like we did in part 2.  We will first create a `Fireball` class (upper case camelCase) that does everything in its constructor function that I just described , then in the `defeatStranger()` definition we will create an instance of the class, using the stranger's location.
-
-- [ ] Add the following line to the `defeatStranger` function definition.
-
-```javascript
-let fireball = new Fireball(stranger.x, stranger.y); 
-```
-
-This will give us a warning in the gutter, because we have not yet defined the `Fireball` class.  We will now.
-
-- [ ] Outside of all the object and class definitions, define a new class called `Fireball`  (use the `MarcusSpell` class definition as a guide)
-
-In the constructor definition for `Fireball`  {
-
-- [ ] Assign each object in the class a name, suitable x and y coordinates, and an `imageSheetFile` called `fireballSheet.png` 
-
-- [ ] Add a function call to `gameController.addSprite(this);` to add the fireball to the game.
-
-- [ ] Define an explosion animation using `this.defineAnimation()` that uses all 16 frames (0 to 15).  
-
-  *HINT: look at the way we defined an animation for `MarcusSpell` except this spell sheet has 16 frames instead of 8.*
-
-- [ ] Add a function call to `this.playAnimation()` to play the explosion animation you just defined.
-
-}
-
-- [ ] Don't forget to preload the image sheet!
-
-This takes care of #2 (create a fireball where the Stranger used to be).
-
-### Number 3: End the game with a congratulatory message
-
-We will accomplish this by defining an `handleAnimationEnd` function for the `fireball` object.  As you might have guessed, this function triggers whenever an animation defined for the associated object completes all of its frames.
-
-- [ ] Add the following to the `defeatStranger` function definition:
-
-```javascript
-fireball.handleAnimationEnd = function() {
-     gameController.endGame('Congratulations!\n\nMarcus has defeated the 						 mysterious\nstranger in the dark cloak!');
-};
-```
-
-- [ ] Run your game and test that hitting the Stranger with Marcus's spell has the desired effect.
-
-### Making the Code More Robust
-
-You might have noticed that if you spam spell casting while Marcus is being turned into a ball of fire, you can create an error condition with this message: 
-
-*Error: cannot add sprite collision rule that includes The Mysterious Stranger. The game controller does not know about this sprite. Either it was not added, or it has been deleted.*
-
-The problem is at the place where we add the collision rule in the constructor for the `MarcusSpell` class: we are using `stranger` as an argument in this function, but as far as sgc is concerned, we just deleted that sprite in the `defeatStranger` call.  Let's make the code a little more robust by adding a conditional statement on the `handleSpacebar` function for the `marcus` object. 
-
-One way to do this is to redefine the `stranger` object right after we create a fireball where the Stranger used to be, then check this redefined value before we allow the creation of a new `spell` object with the spacebar.  
-
--[ ] Add this line after the creation of a new fireball in the `MarcusSpell` class `defeatStranger` method:
-
-```javascript
-stranger = null;
-```
-
-Now all the properties and methods of `stranger` are gone; and a test of its value will return false.  
-
--[ ] Encapsulate everything you have in the `handleSpacebar` function definition of the `marcus` object inside an `if` statement like this (using your code in place of the comments):
-
-```javascript
-handleSpacebar: function() {
-        if (stranger) {
-            // create an instance of the MarcusSpell class 
-            // play the spell animation
-            // play the marcus 'right' animation
-        }
-}
-```
-
-## Targeting the Player Character
-
-The Stranger strikes back!
-
-- [ ] Using the `MarcusSpell` class as a guide, create a `StrangerSpell` class which is nearly identical to `MarcusSpell` except it:
-
-- Has a different `name` property (surprise me)
-- Uses the `strangerSpellSheet.png` image sheet, 
-- Goes in the opposite direction (angle of 180 instead of 0)
-- Has a collision rule handler called `defeatMarcus` which does the same thing as `defeatStranger` except the fireball arguments are `(marcus.x, marcus.y)` and the `endGame` message should be: 
-
-```javascript
-gameController.endGame('Marcus is defeated by the mysterious\nstranger in the dark cloak!\n\nBetter luck next time.');
-```
-
-- [ ] If you just copy/pasted your `MarcusSpell` class definition (that's what I would have done), don't forget to change the arguments of `gameController.addSpriteCollisionRule` to  `[this, marcus], this.defeatMarcus`, and also redefine `marcus` to false (instead of `stranger`).
-
-I probably don't need to remind you anymore to preload the image sheet for `strangerSpellSheet.png` but this might be a good time to mention the following suggestion from the [JavaScript style guide](https://www.w3schools.com/js/js_conventions.asp): 
-
-*"For readability, avoid lines longer than 80 characters.  If a JavaScript statement does not fit on one line, the 	best place to break it, is after an operator or a comma."*
-
-- [ ] By now your `preloadImageSheets` line is much longer than 80 characters, so you might consider writing it on two lines like this:
-
-```javascript
-gameController.preloadImageSheets("marcusSheet.png", 'marcusSpellSheet.png', 
-    'strangerSheet.png', 'fireballSheet.png', 'strangerSpellSheet.png');
-```
-
-You can tell how many characters are in your line by placing the cursor at the end of your line and looking at the grey text in the lower right corner of your development window.  The first set of numbers is line:character#.  (Line 5, character 73 in this example)
-
-![LineAndChar](C:/Users/Renaud/Google%20Drive/DnE/Courses/CSCI-110/Archive/csci110-retooled/docs/images/LineAndChar.PNG)
-
-This programming defines a spell to be cast by the Stranger, and makes Marcus vulnerable to that spell.  But how will the Stranger cast his spell?  As a non-player character, there is no one pressing a key to control him. You must automate his behavior.  In the Marcus object, we created a `spell` object in the `MarcusSpell` class every time we hit the spacebar.  Let's add similar code to the `handleGameLoop` definition in the `stranger` object.  Remember any code we place here will execute every game loop.
-
-- [ ] Using the `handleSpacebar` function definition in the `marcus` object as a guide, add the appropriate code to the `handleGameLoop` function of the `stranger` object that does the following:
-
-- test  `marcus` to make sure it hasn't been set to `false` before doing the rest. 
-
-- play the 'left' animation for the Stranger
-- create a `spell` object in the `StrangerSpell` class at a location one grid size to the *left* of the Stranger.
-- play the 'magic' animation for the `spell` object
-
-- [ ] Run your game.  Verify that the Stranger continuously casts spells toward Marcus, and that the visuals appear in the correct places. Correct any problems before moving on.
-
-## Random Behavior
-
-At this point, the Stranger should be continuously casting spells at Marcus. Once every game loop.
-
-Clearly that is too much.  It's better if the Stranger's spell timing is less frequent and unpredictable. Random, even.
-
-And that's the solution. Every time step, you will generate a random number. Depending on the number, you may or may not have the Stranger cast a spell.  Let's try having the Stranger cast a spell with 1% probability.
-
-We have already used `Math.random()` to teleport our characters to random spots in the room in the previous tutorial, so perhaps you remember that this method generates a random number between 0 and 1 (including zero but not 1).  Since all numbers are equally probable, there is a 100% probability that the number will be less than 1, a 10% probability that the number will be less than 0.1, and a 1% probability that the number will be less than 0.01.
-
-- [ ] Modify your conditional expression that tests if `marcus `is `true`  so that `marcus` has to be `true` *and* (&&) `Math.random()` is less than 0.01.  *If* it is, then cast the spell as above.  In other words, enclose the code you wrote in the previous step inside of an `if` statement like this (still inside the `handleGameLoop` function):
-
-```javascript
-if (*** write your conditional expression here ***) {
-   // Cast spell to the left            
-   // play the left animation 
-   // create a new spell in the StrangerSpell class
-   // play the 'magic' animation
-}
-```
-
-except with your code in place of, or in addition to the above comments.
-
-- [ ] Run your game and test that the Stranger casts spells at Marcus at a suitably challenging frequency.  If 1% is not suitable, change your conditional expression to taste.
-
-## Limiting Marcus's Spell Casting
-
-Marcus can cast spells as quickly as the player taps (or holds) the spacebar. It is possible for Marcus to cast a solid line of spells that extend across the entire screen. That makes the game too easy to be interesting.  Let's say we want Marcus to cast a spell only once every two seconds.  In order to program this we will have to learn about scheduling events with the game engine's built-in timer.
-
-We can get the number of seconds that have elapsed since the game started with the `gameController.getTime()` function.  As usual, you can check the usage and syntax for this method in the [gameController documentation](https://dewv.github.io/csci110-retooled/sgc/GameController.html).  Here is how we might use it.  
-
-First let's set our timer.
-
--[ ] Create a `marcus` property called `this.spellCastTime` and set it's value to zero.
-
-Now we define a *local* variable that stores the current time.
-
-- [ ] Add the following inside the `handleSpacebar` function for Marcus above your conditional expression (the one that says `if(stranger)`:
-
-```javascript
- let now = gameController.getTime();  // get time
-```
-
-And subtract the two every game loop to see if two seconds has elapsed.
-
--[ ] Modify the `if (stranger)` conditional expression as follows:
-
-```javascript
-// see if stranger exists AND current time is 2s greater than last spell cast
-if (stranger && now - this.spellCastTime >= 2) { 
-    // if it is, reset the timer and cast the spell 	
-    this.spellCastTime = now;		  
-   	// Cast a spell to the right
+ // Compare images so Stranger's spells don't destroy each other.
+ if (this.getImage() !== otherSprite.getImage()) {
+      game.removeSprite(this);
+      new Fireball(otherSprite);
  }
 ```
 
-- [ ] Move your three lines of spell-casting code to inside the brackets of the `if` statement shown above (where I have the `// Cast a spell to the right` comment).
+Here we are using another method of the `Sprite` class called `getImage()` that returns the image used to display the sprite.
 
-Hopefully the comments explain how we use the `getTime` function to set and reset a timer, and how to use the difference between the timer and current time to have something happen after 2 seconds has elapsed.  
+- [ ] Run the game and try to shoot the mysterious stranger (it shouldn't be too hard with Marcus's spell machine-gun).  Verify that the fireball is created at the location of the collision, and that the `stranger` sprite disappears. 
 
-What might not be so clear is why we use the `let` keyword to hold the current time, and a previously undefined object property `marcus.spellCastTime` to hold the time that the last spell was cast.  If we used `let` for the `spellCastTime` variable too, it would be redefined every time `handleSpacebar` is triggered, which would make it worthless as a holder for the last spell cast time.  This is important to remember:
+This is ok, but clearly we need to remove the fireball after the animation completes.  We will take care of that in the next step, along with a game winning (or losing) message.
 
-*Local variables are created when a function starts, and deleted when the function is completed.*
+### Number 3: End the game with a congratulatory message
 
-Instead we need a variable that will stick around even when we get ejected from the `handleSpacebar` function because the `if` condition fails (i.e. because the timer hasn't yet "gone off"). Thus, we use an object property which was declared outside of any function and therefore has *global* scope.
+We will accomplish this by defining an `handleAnimationEnd()` method for objects in the `Fireball` class, like we did before in the `NonPlayerWizard` class.  
 
-## When Spells Collide
+```
+ handleAnimationEnd() {
+        game.removeSprite(this);
 
-The game is bit more interesting when opposing spells destroy each other.
+        if (!game.isActiveSprite(marcus)) {
+            game.end("Marcus is defeated by the mysterious\nstranger in the dark cloak!\n\nBetter luck next time.");
+        }
 
-- [ ] Outside all of the object and class definitions, define a custom array called `spellClasses` which contains the values 'MarcusSpell', and 'StrangerSpell'.
-- [ ] Outside all of the object and class definitions, define a custom function called `spellCollisionHandler` that accepts two arguments: `spellSprite1` and `spellSprite2` and executes the following code:
-
-```javascript
-let fireball = new Fireball(spellSprite1.x, spellSprite1.y);
-fireball.handleAnimationEnd = function() {
-	gameController.deleteSprite(this);
-};
-gameController.deleteSprite(spellSprite1);
-gameController.deleteSprite(spellSprite2);
+        if (!game.isActiveSprite(stranger)) {
+            game.end("Congratulations!\n\nMarcus has defeated the mysterious\nstranger in the dark cloak!");
+        }
 ```
 
-- [ ] Outside all of the object and class definitions, add a *class* collision rule to handle collisions between any object of the associated classes like this:
+Here we are using a method of the `Game` class called `isActiveSprite()` that returns true if the argument is active in this game.  For example, `game.isActiveSprite(stranger)` will return true unless the `stranger` object has been removed from the game using `game.removeSprite()`.  Remember that the `!` operator *negates*, or gives the opposite of what comes after it, so `!game.isActiveSprite(stranger)` returns true if `stranger` has been removed.
 
-```javascript
-gameController.addClassCollisionRule(spellClasses, spellCollisionHandler);
-```
+- [ ] Run your game and test that the correct message is displayed when you hit the `stranger` and the explosion animation ends.
 
-- [ ] Run your game and test that opposing spells destroy one another as intended.
+____________
+
+We are improving with every iteration but every iteration uncovers new refinements we will want to implement.
+
+The images for Marcus's spell objects are mostly transparent, and only the central rectangle has visible contents.  We want to register a hit on the Stranger only when the center portion of the spell "projectile" collides with the Stranger, not the whole 48x48 square. One way to approximate this is by calculating the vertical offset between the sprites, and dividing by 2.
+
+... to be continued
 
 
 
 ## Wrapping Up
 
-We are not yet finished with the Wizard Duel tutorial (one part remains).  If you are reading this you are farther along than I expected.  Please use the extra time to start on your Shooter project (below).
+We are not yet finished with the Wizard Duel tutorial.  If you are reading this you are farther along than I expected.  Please use the extra time to start on your Shooter project (below).
 
 - [ ] Read [Functions and Sailing](http://computationaltales.blogspot.com/2011/04/functions-and-sailing.html)
 

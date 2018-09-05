@@ -287,8 +287,8 @@ class Princess extends Sprite {
         this.width = 48;
         this.height = 48;
         this.setImage("ann.png");
-        this.x = leftWall.width + (Math.random() * (rightWall.x - ann.width - 					leftWall.width));
-        this.y = topWall.height + (Math.random() * (bottomWall.y - ann.height - 				topWall.height));
+        this.x = leftWall.width + (Math.random() * (rightWall.x - this.width - 					leftWall.width));
+        this.y = topWall.height + (Math.random() * (bottomWall.y - this.height - 				topWall.height));
         this.angle = Math.random() * 360;
         this.speed = 200; 
     }
