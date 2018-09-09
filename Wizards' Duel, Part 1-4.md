@@ -373,19 +373,16 @@ Here we are using a method of the `Game` class called `isActiveSprite()` that re
 
 This might also be a good time to mention the following suggestion from the [JavaScript style guide](https://www.w3schools.com/js/js_conventions.asp): 
 
-	*"For readability, avoid lines longer than 80 characters.*
-	
-	*If a JavaScript statement does not fit on one line,* 
-	
-	*the best place to break it,* 
-	
-	*is after an operator or a comma."*
+*"For readability, avoid lines longer than 80 characters.*
+*If a JavaScript statement does not fit on one line,* 
+*the best place to break it,* 
+*is after an operator or a comma."*
 
 In the code snippet above, the game ending message string was longer than 80 characters, so we used the `+` operator to concatenate the two parts of the message.  This is our preferred way to break up long strings.  Notice that we don't need a continuation character for long lines of *code* that don't include strings.  JavaScript doesn't care about line endings; it uses semicolons to tell when you have completed a program statement.
 
 You can tell how many characters are in your line by placing the cursor at the end of your line and looking at the grey text in the lower right corner of your development window.  The first set of numbers is line:character#.  (Line 5, character 73 in this example)
 
-![LineAndChar](C:/Users/Renaud/Google%20Drive/DnE/Courses/CSCI-110/Archive/csci110-retooled/docs/images/LineAndChar.PNG)
+![LineAndChar](/images/LineAndChar.PNG)
 
 There is also a faint white line in the c9 IDE at the 80-character point.
 
@@ -420,6 +417,8 @@ Now the `spell` sprite will have to overlap the *center* of the `otherSprite` in
 
 The Stranger strikes back! 
 
+We want the Stranger to cast spells, and for Marcus to be vulnerable to that spell.  We were careful not to make our `Spell` class definition so narrow that it only applies spells cast by the `PlayerWizard` class objects, or to collisions with `NonPlayerWizard` class objects.  This is one of the advantages of object-oriented programming.  Each object is meant to "stand alone, " encapsulated with all its methods and properties, able to be used by any class.  But how will the Stranger cast his spell?  As a non-player character, there is no one pressing a key to control him. You must automate his behavior.  In the `PlayerWizard` class, we defined a `handleSpacebar()` method that created a `spell` object every time we hit the spacebar.  Let's add similar code to the `handleGameLoop()` definition in the `stranger` object.  Remember any code we place here will execute every game loop.
+
 - [ ] Using the `PlayerWizard`'s '`handleSpacebar()` method definition as a guide, add some code to the `NonPlayerWizard`'s `handleGameLoop()` method that casts a spell ... every game loop.  You can use the same object name (`spell`) and properties -- just modify: 
   * the `name`, 
   * the `x` and `y`  coordinates as appropriate, 
@@ -427,34 +426,21 @@ The Stranger strikes back!
   * the `angle` 
   * and the animation argument in the `playAnimation()` method.
 
-- [ ] Inside the `handleAnimationEnd()` method of the `Fireball` class definition, add a second condition that checks to see if the the `marcus` sprite has been removed from the game, and prints the following message at the end of the game:
+- [ ] Inside the `handleAnimationEnd()` method of the `Fireball` class definition, add a second `if` statement that checks to see if the the `marcus` sprite has been removed from the game, and prints the following message at the end of the game if it has:
 
   ```
   "Marcus is defeated by the mysterious\nstranger in the dark cloak!\n\nBetter luck next time."
   ```
 
-- [ ] 
-
-   
 
 *Remember to use the `+` operator to break up the string if it makes your line longer than 80 characters.* 
 
 
-- [ ] Run your game and test that the stranger sends out a continuous stream of spells.
+- [ ] Run your game and test that the stranger sends out a continuous stream of spells towards Marcus, and that the appropriate message displays after the fireball animation, which appears in the correct places. 
 
+Note that the spells destroy each other when they collide.  Why does this happen?
 
-
-This programming defines a spell to be cast by the Stranger, and makes Marcus vulnerable to that spell.  But how will the Stranger cast his spell?  As a non-player character, there is no one pressing a key to control him. You must automate his behavior.  In the Marcus object, we created a `spell` object in the `MarcusSpell` class every time we hit the spacebar.  Let's add similar code to the `handleGameLoop` definition in the `stranger` object.  Remember any code we place here will execute every game loop.
-
-- [ ] Using the `handleSpacebar` function definition in the `marcus` object as a guide, add the appropriate code to the `handleGameLoop` function of the `stranger` object that does the following:
-
-- test  `marcus` to make sure it hasn't been set to `false` before doing the rest. 
-
-- play the 'left' animation for the Stranger
-- create a `spell` object in the `StrangerSpell` class at a location one grid size to the *left* of the Stranger.
-- play the 'magic' animation for the `spell` object
-
-- [ ] Run your game.  Verify that the Stranger continuously casts spells toward Marcus, and that the visuals appear in the correct places. Correct any problems before moving on.
+- [ ] See if you can beat the game.  It is possible, but it is too easy to reproduce once you see the trick.
 
 ## Random Behavior
 
@@ -466,14 +452,13 @@ And that's the solution. Every time step, you will generate a random number. Dep
 
 We have already used `Math.random()` to teleport our characters to random spots in the room in the previous tutorial, so perhaps you remember that this method generates a random number between 0 and 1 (including zero but not 1).  Since all numbers are equally probable, there is a 100% probability that the number will be less than 1, a 10% probability that the number will be less than 0.1, and a 1% probability that the number will be less than 0.01.
 
-- [ ] Modify your conditional expression that tests if `marcus `is `true`  so that `marcus` has to be `true` *and* (&&) `Math.random()` is less than 0.01.  *If* it is, then cast the spell as above.  In other words, enclose the code you wrote in the previous step inside of an `if` statement like this (still inside the `handleGameLoop` function):
+- [ ] Inside the `NonPlayerWizard`'s  `handleGameLoop()` definition, enclose the code your wrote in the previous section within an `if` statement that tests to see if `Math.random()` is less than 0.01.  *If* it is, then cast the spell as above.  In other words, enclose the code you wrote in the previous step inside of an `if` statement like this (still inside the `handleGameLoop()` method):
 
 ```javascript
 if (*** write your conditional expression here ***) {
-   // Cast spell to the left            
-   // play the left animation 
-   // create a new spell in the StrangerSpell class
-   // play the 'magic' animation
+   // Create a spell object 48 pixels to the left of this object            
+   // Make it go left, give it a name and an image
+   // Play the left animation
 }
 ```
 
@@ -485,68 +470,39 @@ except with your code in place of, or in addition to the above comments.
 
 Marcus can cast spells as quickly as the player taps (or holds) the spacebar. It is possible for Marcus to cast a solid line of spells that extend across the entire screen. That makes the game too easy to be interesting.  Let's say we want Marcus to cast a spell only once every two seconds.  In order to program this we will have to learn about scheduling events with the game engine's built-in timer.
 
-We can get the number of seconds that have elapsed since the game started with the `gameController.getTime()` function.  As usual, you can check the usage and syntax for this method in the [gameController documentation](https://dewv.github.io/csci110-retooled/sgc/GameController.html).  Here is how we might use it.  
+We can get the number of seconds that have elapsed since the game started with the `game.getTime()` method.  As usual, you can check the usage and syntax for this method in the sgc documentation.  Here is how we might use it.  
 
 First let's set our timer.
 
--[ ] Create a `marcus` property called `this.spellCastTime` and set it's value to zero.
+- [ ] Inside the `constructor` method of the `PlayerWizard` class, define a variable called `spellCastTime` and set it's value to zero.  We want this variable to be a property of `PlayerWizard` objects so don't forget to use the `this` keyword.  If you don't remember how to do this, review the last part of Part 1, when we declared a `speedWhenWalking` variable.
 
-Now we define a *local* variable that stores the current time.
+Now we define a *local* variable that stores the current time (*local* means it can't be used outside of the curly brackets where it was declared).
 
-- [ ] Add the following inside the `handleSpacebar` function for Marcus above your conditional expression (the one that says `if(stranger)`:
-
-```javascript
- let now = gameController.getTime();  // get time
-```
-
-And subtract the two every game loop to see if two seconds has elapsed.
-
--[ ] Modify the `if (stranger)` conditional expression as follows:
+- [ ] Add the following to the beginning of your `handleSpacebar()` method for the `PlayerWizard` class:
 
 ```javascript
-// see if stranger exists AND current time is 2s greater than last spell cast
-if (stranger && now - this.spellCastTime >= 2) { 
-    // if it is, reset the timer and cast the spell 	
-    this.spellCastTime = now;		  
-   	// Cast a spell to the right
- }
+ let now = game.getTime();  // get the number of seconds since game start
 ```
 
-- [ ] Move your three lines of spell-casting code to inside the brackets of the `if` statement shown above (where I have the `// Cast a spell to the right` comment).
+- [ ] Encapsulate the rest of your code in the `handleSpacebar()` method (the code that generates a `spell` object and assigns values to its properties) within an `if` statement that tests to see if 2 seconds has elapsed like this: 
 
-Hopefully the comments explain how we use the `getTime` function to set and reset a timer, and how to use the difference between the timer and current time to have something happen after 2 seconds has elapsed.  
+```javascript
+ // if the current time is 2 or more seconds greater than the previous spellCastTime 
+if (now - this.spellCastTime >= 2) { 
+       // reset the timer 								
+       this.spellCastTime = now;
+       // and cast a spell 
+       // insert the rest of your spell-generating code here
+ }           
+```
 
-What might not be so clear is why we use the `let` keyword to hold the current time, and a previously undefined object property `marcus.spellCastTime` to hold the time that the last spell was cast.  If we used `let` for the `spellCastTime` variable too, it would be redefined every time `handleSpacebar` is triggered, which would make it worthless as a holder for the last spell cast time.  This is important to remember:
+Hopefully the comments clarify how we use the `getTime` function to set and reset a timer, and how to use the difference between the timer variable and the current time to have something happen after 2 seconds has elapsed.    
+
+What might not be so clear is why we use the `let` keyword to hold the current time, and a previously undefined object property `marcus.spellCastTime` to hold the time that the last spell was cast.  If we used `let` for the `spellCastTime` variable too, it would be redefined every time `handleSpacebar()` is triggered, which would make it worthless as a holder for the last spell cast time.  This is important to remember:
 
 *Local variables are created when a function starts, and deleted when the function is completed.*
 
-Instead we need a variable that will stick around even when we get ejected from the `handleSpacebar` function because the `if` condition fails (i.e. because the timer hasn't yet "gone off"). Thus, we use an object property which was declared outside of any function and therefore has *global* scope.
-
-## When Spells Collide
-
-The game is bit more interesting when opposing spells destroy each other.
-
-- [ ] Outside all of the object and class definitions, define a custom array called `spellClasses` which contains the values 'MarcusSpell', and 'StrangerSpell'.
-- [ ] Outside all of the object and class definitions, define a custom function called `spellCollisionHandler` that accepts two arguments: `spellSprite1` and `spellSprite2` and executes the following code:
-
-```javascript
-let fireball = new Fireball(spellSprite1.x, spellSprite1.y);
-fireball.handleAnimationEnd = function() {
-	gameController.deleteSprite(this);
-};
-gameController.deleteSprite(spellSprite1);
-gameController.deleteSprite(spellSprite2);
-```
-
-- [ ] Outside all of the object and class definitions, add a *class* collision rule to handle collisions between any object of the associated classes like this:
-
-```javascript
-gameController.addClassCollisionRule(spellClasses, spellCollisionHandler);
-```
-
-- [ ] Run your game and test that opposing spells destroy one another as intended.
-
-
+Instead we need a variable that will stick around even when we get ejected from the `handleSpacebar` function because the `if` condition fails (i.e. because the timer hasn't yet "gone off"). Thus, we use an object property which has *global* scope.
 
 ## Wrapping Up
 
