@@ -72,9 +72,9 @@ Did you find `handleDownArrowKey`?  Let's use it to move Marcus down the screen,
 
 ```javascript
 handleDownArrowKey() {
-        this.playAnimation("down");
-        this.speed = this.speedWhenWalking;
-        this.angle = 270;
+    this.playAnimation("down");
+    this.speed = this.speedWhenWalking;
+    this.angle = 270;
 }
 ```
 
@@ -94,14 +94,14 @@ To keep Marcus inside the display area of the window, we need to define a method
 
 Did you find `handleGameLoop`?  The game engine is built around a "game loop."   This is a repeating series of steps that cycle endlessly as long as the game is running.  When you want something to happen continuously, you can program it in the function definition for the `handleGameLoop` method.  Any commands that you place there will be performed on every pass through the game loop.
 
-There are many ways to confine the `y` coordinate to the display area, but one of the more elegant involves  `Math` methods called `Math.max()` and `Math.min()`.  These, and other methods in JavaScript's `Math` object are explained in detail [here](https://www.w3schools.com/js/js_math.asp).  For example, if we want `y` to stay above zero and below 552 (600 minus the sprite width) we could use the following lines in a `handleGameLoop` method definition:
+There are many ways to confine the `y` coordinate to the display area, but one of the more elegant involves  `Math` methods called `Math.max()` and `Math.min()`.  These, and other methods in JavaScript's `Math` object are explained in detail [here](https://www.w3schools.com/js/js_math.asp).  For example, if we want `y` to stay above five and below 552 (600 minus the sprite width) we could use the following lines in a `handleGameLoop` method definition:
 
 ```javascript
 this.y = Math.max(5, this.y);
 this.y = Math.min(552, this.y);
 ```
 
-This is an example of a code segment that should include comments, since it is not immediately obvious what it does. The first line picks the *greatest* of 5, or the current value of `y` and assigns it to `y`.  The second takes the *lowest* of 552, or the current value of `y` and assigns it to `y`.  In other words, if y gets to -1 as a result of being decremented in a call to `handleUpArrowKey`, the first assignment statement will set it to 0. If `y` gets to 553 as a result of being incremented in a call to `handleDownArrowKey`, the second assignment will set it back to 552.  The net effect is to keep Marcus in the display area.  Unfortunately, writing the code in this way does not make it very flexible, should you decide to change the display dimensions or sprite size.
+This is an example of a code segment that should include comments, since it is not immediately obvious what it does. The first line picks the *greatest* of 5, or the current value of `y` and assigns it to `y`.  The second takes the *lowest* of 552, or the current value of `y` and assigns it to `y`.  In other words, if y gets to -1 as a result of being decremented in a call to `handleUpArrowKey`, the first assignment statement will set it to 5. If `y` gets to 553 as a result of being incremented in a call to `handleDownArrowKey`, the second assignment will set it back to 552.  The net effect is to keep Marcus in the display area.  Unfortunately, writing the code in this way does not make it very flexible, should you decide to change the display dimensions or sprite size.
 
 - [ ] Inside the `PlayerWizard` class definition (but outside the constructor), define a `handleGameLoop` method that adjusts y coordinates as shown above, except modify the second line to use the`game` properties of `displayHeight` and `gridSize`.  Don't forget to add comments like this to your function definition:
 
@@ -137,7 +137,7 @@ this.playAnimation("magic", true);
 
 We are going to use the spacebar to cast spells for Marcus.
 
-- [ ] In the `PlayerWizard` class definition (outside the constructor), define a `handleSpaceBar()` method which does the following:
+- [ ] In the `PlayerWizard` class definition (outside the constructor), define a `handleSpacebar()` method which does the following:
 - Create an object called `spell` (lower case s) from the `Spell` class (upper case s).
 - Set the `spell` object's position to the position of *this* object in the `PlayerWizard` class like this:
 
@@ -229,7 +229,7 @@ Here is the syntax and usage for `if` statements in JavaScript:
 
 ```javascript
 if (condition) {
-    block of code to be executed if condition is true
+    // block of code to be executed if condition is true
 } 
 ```
 
@@ -256,7 +256,7 @@ if the Stranger is going off the bottom of the screen, then set his position bac
 
 ## Comparison Operators
 
-Comparison operators are used within conditional statements to determine equality or difference between variables or values.  We used the greater `>=` and less than `<+` operators in the previous example to see if the Stranger was out of bounds.  We need a few more.
+Comparison operators are used within conditional statements to determine equality or difference between variables or values.  We used the "greater than or equal to"  `>=` and "less than or equal to" `<=` operators in the previous example to see if the Stranger was out of bounds.  We need a few more.
 
 - [ ] Please read [The Incident at the North Gate (or Why = Is Not ==)](http://computationaltales.blogspot.com/2011/06/incident-at-north-gate-or-why-is-not.html).   I recommend saying "*is equal*" to yourself when you see `==` or `===` and "gets" when you see `=` .
 - [ ] Refer to [this](https://www.w3schools.com/js/js_comparisons.asp) article on operators and pay particular attention to the difference between `=`, ` ==`, and `===`.  We will be using `===` rather than `==` whenever possible.  Also now might be a good time to learn the symbols for the logical operators AND (`&&`), OR (`||`) and NOT(`!`). 
@@ -321,7 +321,7 @@ class Fireball extends Sprite {
 
 Where is a good place to define a `handleCollision(otherSprite)` method?  We could put it in the class definition for `NonPlayerWizard`, but if we did that, we would also have to put one in the `PlayerWizard` class eventually since the stranger will no doubt be casting some spells of his own.  Better to have it one place: the `Spell` class, since spells are the things that will be colliding with both types of wizards, and maybe even other spells.
 
-- [ ] Add and `handleCollision(otherSprite)` method to the `Spell` class definition that removes *this* spell sprite, and creates a new object in the `Fireball` class, while passing the `otherSprite` object to the constructor of the `Fireball` class like this:
+- [ ] Add a `handleCollision(otherSprite)` method to the `Spell` class definition that removes *this* spell sprite, and creates a new object in the `Fireball` class, while passing the `otherSprite` object to the constructor of the `Fireball` class like this:
 
 ```
 handleCollision(otherSprite) {
@@ -409,7 +409,7 @@ The images for Marcus's spell objects are mostly transparent, and only the centr
   return false;
 ```
 
-*Nesting* `if` statements ensures that the inner-most block (starting with `let verticalOffset...` ) will only execute if both the outer *and* inner conditions are true.  We could do this with a single `if` statement using the `&&` operator, which would make the code more compact but less computationally efficient.  Can you see why?[^*]  
+*Nesting* `if` statements ensures that the inner-most block (starting with `let verticalOffset...` ) will only execute if both the outer *and* inner conditions are true.  We could do this with a single `if` statement using the `&&` operator if we wanted to, but it might make the code harder to read.
 
 Now the `spell` sprite will have to overlap the *center* of the `otherSprite` in order for it to count as a "hit."
 
@@ -525,8 +525,6 @@ We are not yet finished with the Wizard Duel tutorial.  If you are reading this 
 
 - [ ] Consider uploading your own, or any open-source sprites you find to the "Sprites to Share" folder of the Resources tab in Sakai. 
 
-- [ ] **Site your sources for pixel art in the comments of your code, or explicitly state which sprites are your original work.**  I expect you will be making *your own* unique modifications to your `wizardsDuel.js` script to complete this project.
+- [ ] **Cite your sources for pixel art in the comments of your code, or explicitly state which sprites are your original work.**  I expect you will be making *your own* unique modifications to your `wizardsDuel.js` script to complete this project.
 
   Grading is based on level of effort in any of the above categories.  For example if you wish to focus on sprite creation instead of programming complexity, please see [this tutorial](http://makegames.tumblr.com/post/42648699708/pixel-art-tutorial) on pixel art. 
-
-[^*]: If you place both conditions within a single `if` statement, then both the conditions will need to be tested every time the collision handler is called, which includes calculating the vertical offset.  If instead, you nest the "vertical offset" condition inside the "different sprites" condition, the vertical offset will only be calculated in those cases where the sprites are different.
