@@ -50,7 +50,7 @@ It is called an anonymous object because we didn't "name it" by assigning it to 
 (HINT: pass these values to the constructor of the class as above)
 
 - [ ] Create an object called `rightWall` from the `Wall` class, using
-  * game-displayWidth - 48 for `x` and 200 for `y`
+  * game.displayWidth - 48 for `x` and 200 for `y`
   * "Right side wall" for the name
   * "wall.png" for the image
 
@@ -123,4 +123,83 @@ It is commonly assumed that an object in freefall increases its speed by a fixed
 - [ ] Define a `handleGameLoop()` method for the `Ball` class that increments `this.speed` by 2 every game loop *if* the speed is less than 200.
 - [ ] Run the game and test that the ball starts in a random, generally upward direction and accelerates in a somewhat realistic yet playable way.
 
+## The header "skill game"
 
+The default collision handler for sprites is to bounce off, like a wall (angle of incidence equals angle of reflection), but Ann's header skill allows her more precise control of the bounce direction.  We will simulate this by *overriding* the default `handleCollision()` method and adjusting the angle based on the horizontal offset between the center of the ball and the center of Ann's head.
+
+- [ ] Inside the `Princess` class definition, define a `handleCollision()` method as follows:
+
+```
+handleCollision(otherSprite) {
+        // Horizontally, Ann's image file is about one-third blank, one-third Ann, and 		   //one-third blank.
+        // Vertically, there is very little blank space. Ann's head is about one-fourth 		// the height.
+        // The other sprite (Ball) should change angle if:
+        // 1. it hits the middle horizontal third of the image, which is not blank, AND
+        // 2. it hits the upper fourth, which is Ann's head.
+        let horizontalOffset = this.x - otherSprite.x;
+        let verticalOffset = this.y - otherSprite.y;
+        if (Math.abs(horizontalOffset) < this.width / 3 
+                    && verticalOffset > this.height / 4) {
+            // The new angle depends on the horizontal difference between sprites.
+            otherSprite.angle = 90 + 2 * horizontalOffset;
+        }
+        return false;
+}
+```
+
+The last expression is a formula for calculating the ball's bounce angle. If they are perfectly aligned, the horizontal offset is zero, so the bounce angle is 90 degrees: straight up. If the difference is not zero, it will adjust the base angle of 90 to reflect the horizontal offset of the collision.
+
+The princess should now be able to play a game of "keepy uppy" by heading the ball each time that gravity brings it to her level. The ball should bounce against the walls and castle.  If she misses, it will leave the room at the bottom.
+
+We still need to clean up after ourselves when the ball leaves play (i.e. remove the sprite) and add some magic blocks for her to destroy with the soccer ball. It would also be nice if she got a second and third chance in case she misses a header, and to show a "you lose" message if she misses all three.  We will add the "second and third chances" in the next part. 
+
+# Castle Break-In, Part 2
+
+## Multiple lives
+
+In this game, the player will have three lives. One life is lost each time the soccer ball escapes the room. When all lives are lost, the game ends.
+
+- [ ] Inside the `constructor()` method of the `Princess` class definition, create a custom property called `lives` and set its value equal to 3.
+
+There is a `Sprite` method called `handleFirstGameLoop()` that is called by sgc on the first game loop that this sprite is active in the game.  The baseline `Sprite` class implementation does nothing.  We will override this method in our derived class (`Princess`) so that it will create a text area for displaying the number of lives remaining.
+
+As it happens, there is a `game` method that does this.  It is called `createTextArea(x, y)`, where x and y define the coordinates for the upper left corner of the text box.
+
+- [ ] Inside the `Princess` class definition, define a `handleFirstGameLoop()` method with the following lines:
+
+```
+// Set up a text area to display the number of lives remaining.
+this.livesDisplay = game.createTextArea(**PUT YOUR VALUE FOR X HERE**, 20);
+this.updateLivesDisplay();
+```
+
+In place of **PUT YOUR VALUE OF X HERE**, pick a value that is three soccer ball widths to the *left* of the *right* edge of the display (HINT: use `game.displayWidth`).  The last line calls a custom method we have not defined yet.  We will now.
+
+- [ ] Still inside the `Princess` class definition, define a custom method called `updateLivesDisplay()` that contains the following line of code:
+
+```
+game.writeToTextArea(this.livesDisplay, "Lives = " + this.lives);
+```
+
+The first argument of the method is the variable that refers to the text area object, and the second argument is the string of text to put there.
+
+Perhaps you are thinking to yourself, "Why didn't we just put that line inside the `handleFirstGameLoop()` method??"  The reason is that we will want to update the lives display several times throughout the game, not just on the first pass through the game loop, which means we would have to reiterate that line somewhere else in the program.  Remember we want to *reuse* our code whenever possible to avoid repeating ourselves and complicating the task of troubleshooting and maintenance.  I know ... I am repeating myself.  Perhaps I should take my own advice and write a method to remind you to reuse your code!  `tutorial.reduceReuseRecycle() {// Reminder to reuse code instead of repeating it}`
+
+## Dropping the ball
+
+If the ball leaves play, we should delete the sprite to avoid memory leaks, and decrement the life counter by one.  First let's create a custom method in the `Princess` class that decrements the life counter and gives us a new ball until we run out of lives.
+
+- [ ] In the `Princess` class definition, define a custom method called `LoseALife()` that does the following:
+  - [ ] Decrements the value of `this.lives` by 1.
+  - [ ] Calls `this.updateLivesDisplay()`.
+  - [ ] Checks to see if `this.lives` is greater than zero.  If it is, create an new anonymous instance of the `Ball` class.  If not, end the game with the following message: `game.end('The mysterious stranger has escaped\nPrincess Ann for now!\n\nBetter luck next time.'`
+
+- [ ] In the `Ball` class definition, define a `handleBoundaryContact()` method that:
+  - [ ]  Calls `game.removeSprite(this)` to delete the ball in play
+  - [ ] Calls  `ann.loseALife()` 
+
+- [ ] Run your game and verify that the lives are being properly updated and the game doesn't end until the princess misses three headers.
+
+We will add some blocks to the game in part 3.
+
+If you haven't done so already, please read [Variable Initialization in Busy Kitchens](http://computationaltales.blogspot.com/2011/06/variable-initialization-in-busy.html). 
