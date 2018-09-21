@@ -54,7 +54,7 @@ It is called an anonymous object because we didn't "name it" by assigning it to 
   * "Right side wall" for the name
   * "wall.png" for the image
 
-You should now have a grassy game play area that is enclosed by solid objects on all sides, except for the bottom.  This process you just completed, of generalizing left, right, top and bottom walls into a `Wall` class that serves for all of them is a form of *abstraction* -- one of the 4 pillars of Object-Oriented Programming (the others are Encapsulation, Inheritance and Polymorphism).
+You should now have a grassy game play area that is enclosed by solid objects on all sides, except for the bottom.  This process you just completed, of generalizing left, right, and top walls into a `Wall` class that serves for all of them is a form of *abstraction* -- one of the 4 pillars of Object-Oriented Programming (the others are Encapsulation, Inheritance and Polymorphism).
 
 - [ ] Run the game to check the layout.
 
@@ -72,7 +72,7 @@ You should now have a grassy game play area that is enclosed by solid objects on
   * Sets the `y` coordinate to `this.height` less than the display height (HINT: use `game.displayHeight`)
 
   * Set a custom property called `speedWhenWalking` equal to 150.
-  * Set a custom property called `lives` equal to 1.
+  * Set a custom property called `lives` equal to 3.
   * Set the `accelerateOnBounce` property to `false`.
   * Define `left` and `right` animations that use frames 9-11 and 3-5 respectively.
 
@@ -86,11 +86,6 @@ The Princess will move left and right using arrow keys.  Add the following to yo
 
 - [ ] Program the navigation using Marcus's navigation from Wizards' Duel as a model. You will need to define `handleLeftArrowKey()` and `handleRightArrowKey()` methods that play the appropriate animations, set the angle to 0 or 180, and the speed of the object to `this.speedWhenWalking`.
 
-- [ ] Define a `handleGameLoop()` method that sets the speed to zero, and uses the `Math.max` and `Math.min` functions to keep the sprite within the play area.  Keeping `ann` from going out of bounds on the left is pretty straightforward; just use the maximum of `leftWall.width` or her current position (`this.x`).  The right hand side is a little more tricky:
-
-```
-this.x = Math.min(game.displayWidth - rightWall.width - this.width, this.x);
-```
 
 - [ ] Run your game and test that you can move Princess Ann back and forth across the screen.
 
@@ -131,7 +126,7 @@ The default collision handler for sprites is to bounce off, like a wall (angle o
 
 ```
 handleCollision(otherSprite) {
-        // Horizontally, Ann's image file is about one-third blank, one-third Ann, and 		   //one-third blank.
+        // Horizontally, Ann's image file is about one-third blank, one-third Ann, and 		   // one-third blank.
         // Vertically, there is very little blank space. Ann's head is about one-fourth 		// the height.
         // The other sprite (Ball) should change angle if:
         // 1. it hits the middle horizontal third of the image, which is not blank, AND
@@ -147,7 +142,7 @@ handleCollision(otherSprite) {
 }
 ```
 
-The last expression is a formula for calculating the ball's bounce angle. If they are perfectly aligned, the horizontal offset is zero, so the bounce angle is 90 degrees: straight up. If the difference is not zero, it will adjust the base angle of 90 to reflect the horizontal offset of the collision.
+The last expression is a formula for calculating the ball's bounce angle. If the ball and Ann's head are perfectly aligned, the horizontal offset is zero, so the bounce angle is 90 degrees: straight up. If the difference is not zero, it will adjust the base angle of 90 to reflect the horizontal offset of the collision.
 
 The princess should now be able to play a game of "keepy uppy" by heading the ball each time that gravity brings it to her level. The ball should bounce against the walls and castle.  If she misses, it will leave the room at the bottom.
 
@@ -203,3 +198,86 @@ If the ball leaves play, we should delete the sprite to avoid memory leaks, and 
 We will add some blocks to the game in part 3.
 
 If you haven't done so already, please read [Variable Initialization in Busy Kitchens](http://computationaltales.blogspot.com/2011/06/variable-initialization-in-busy.html). 
+
+# Castle Break-In, Part 3
+
+Next, you will create the magic stone blocks that the stranger has placed in Princess Ann's way.  We will make several different types, but they will be more alike than different.  This could be an ideal time to use inheritance!  Let's start by making the parent `Block` class (which is itself a child of the `Sprite` class).
+
+- [ ] Define a class called `Block` derived from the `Sprite` class.  
+- [ ] Define a constructor method of this class that accepts two arguments (x and y) and does the following upon creation of each instance of the class:
+- Sets its x and y properties equal to the values in the passed arguments (i.e. `this.x = x;` etc.)
+- Gives it a name.
+- Gives it the `block1.png` image file
+- Sets the `accelerateOnBounce` property to `false`.
+
+(Did you remember to do the thing I said I wasn't going to remind you to do anymore?)
+
+- [ ] Outside the class definition, create an anonymous instance of `Block` located at (x,y) = (400, 200).
+
+- [ ] Run your game and make sure you have a block in front of the castle gate.  It doesn't do anything ... yet.
+
+## `For` loops
+
+Let's say we want to create many of these blocks to make the game more interesting.  We could write a series of `new Block()` statements but there is a more efficient and elegant way: with a loop!  This is probably tied for **the** most powerful programing technique you will learn (along with conditional statements)
+
+- [ ] Read [Loops and Making Horseshoes](http://computationaltales.blogspot.com/2011/03/loops-and-making-horseshoe.html)
+
+- [ ] Read [W3Schools article on `for` syntax in javascript]()
+
+Now let's use a `for` loop to automate the process of adding a row of blocks.
+
+- [ ] Replace the line you just wrote that creates *one* anonymous block with the following `for` loop that creates multiple blocks:
+
+```javascript
+for (let i = 0; i < 5; i = i + 1) {
+    new Block(200 + i * 48, 200);
+}
+```
+
+The `i++` in statement 3 is a short-hand way of writing
+
+```javascript
+i = i + 1;     // increment the value of i by 1
+```
+
+The `new Block()` command is executed 5 times:
+
+- One the first run through the loop, 		i = 0 and the `x` position of the block is 200 + 0(48) = 200
+- One the second run through the loop,    i = 1 and the `x` position of the block is 200 + 1(48) = 248
+- One the third run through the loop,        i = 2 and the `x` position of the block is 200 + 2(48) = 296
+- One the fourth run through the loop,     i = 3 and the `x` position of the block is 200 + 3(48) = 344
+- One the fifth run through the loop,         i = 4 and the `x` position of the block is 200 + 4(48) = 392
+- One the sixth attempt,                               i = 5 and conditional in statement 2 fails so the loop terminates
+
+- [ ] Run your game and test to see if you have a row of 5 blocks running in front of the castle gate.  
+
+
+## Static variables for the win
+
+The object of our game will be to eliminate all the blocks of a certain kind, not just the ones in front of the gate.  In order to know if we have eliminated all of them, we have to count how many we have made, and subtract one from this number every time a block is smashed.  To keep track of this we will need a so-called **static** variable associated with the `Block` *class*, not just a specific instance of that class.  To implement static variables in JavaScript we use the class name as the object identifier instead of the keyword `this` which refers to a specific instance of the class.  For example:  
+
+- [ ] Outside all of the class definitions, create a variable called `Block.blocksToDestroy` and set its value to zero.  Make sure you do this before the `for` loop that generates all the blocks!
+
+- [ ] Add this line to the `constructor()` method of the `Block` class
+
+```
+Block.blocksToDestroy = Block.blocksToDestroy + 1;
+```
+
+Now every instance of the class will modify this variable when the object is created.
+
+Next we need to define a collision handling method for the `Block` class.
+
+- [ ] In the `Block` class definition, define a new method called `handleCollision()` that does the following:
+
+- Deletes `this` sprite using the `game.removeSprite()` method.  (*HINT: pass `this` to the method by putting it in the argument list*)
+- Decrements the value of `Block.blocksToDestroy` by 1.
+- Checks to see if `Block.blocksToDestroy` is equal to zero.  If it is, end the game with the following message:  (*HINT: pass this message to the `game.end()` method*)
+
+```javascript
+'Congratulations!\n\nPrincess Ann can continue her pursuit\nof the mysterious stranger!'
+```
+
+* Return `true`.  The method should return `true `if a bounce is desired, and it is - we want the ball to bounce off the block.  There is no way you would know this without looking at the sgc documentation.
+
+- [ ] Run the game and test that you get the congratulatory message after destroying all the blocks.  (you may wish to decrease the number of blocks for testing purposes).  You should have the beginning of a "breakout" style game, where the ball destroys the blocks that it hits, but also bounces from the impact.
