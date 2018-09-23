@@ -251,7 +251,6 @@ The `new Block()` command is executed 5 times:
 
 - [ ] Run your game and test to see if you have a row of 5 blocks running in front of the castle gate.  
 
-
 ## Static variables for the win
 
 The object of our game will be to eliminate all the blocks of a certain kind, not just the ones in front of the gate.  In order to know if we have eliminated all of them, we have to count how many we have made, and subtract one from this number every time a block is smashed.  To keep track of this we will need a so-called **static** variable associated with the `Block` *class*, not just a specific instance of that class.  To implement static variables in JavaScript we use the class name as the object identifier instead of the keyword `this` which refers to a specific instance of the class.  For example:  
@@ -272,12 +271,130 @@ Next we need to define a collision handling method for the `Block` class.
 
 - Deletes `this` sprite using the `game.removeSprite()` method.  (*HINT: pass `this` to the method by putting it in the argument list*)
 - Decrements the value of `Block.blocksToDestroy` by 1.
-- Checks to see if `Block.blocksToDestroy` is equal to zero.  If it is, end the game with the following message:  (*HINT: pass this message to the `game.end()` method*)
+- Checks to see if `Block.blocksToDestroy` is less than or equal to zero.  If it is, end the game with the following message:  (*HINT: pass this message to the `game.end()` method*)
 
 ```javascript
 'Congratulations!\n\nPrincess Ann can continue her pursuit\nof the mysterious stranger!'
 ```
 
-* Return `true`.  The method should return `true `if a bounce is desired, and it is - we want the ball to bounce off the block.  There is no way you would know this without looking at the sgc documentation.
+* Return `true`.  The method should return `true `if a bounce is desired, and it is - we want the ball to bounce off the block.  There is no way you would know this without looking at the [sgc documentation](https://csci110.github.io/sgc/).
 
 - [ ] Run the game and test that you get the congratulatory message after destroying all the blocks.  (you may wish to decrease the number of blocks for testing purposes).  You should have the beginning of a "breakout" style game, where the ball destroys the blocks that it hits, but also bounces from the impact.
+
+## Using derived classes (children) to add more blocks
+
+Before you put very many blocks into the room, you will add some variety. There will be two more kinds of block.  They will be *mostly* like the first block but different in minor ways (like the houses in the 3 little pigs example).  An elegant way to implement this is with *children* of the parent class.  We've had some practice with this already, since all of our classes have been children of the `Sprite` class.  We will use the derived block classes, which are themselves derived from the `Sprite` class, to review the concepts of inheritance, overriding, and polymorphism.
+
+Somewhere *after* you declare the `Block.blocksToDestroy` static variable:
+
+- [ ] Define an `ExtraLifeBlock` class which are derived from the `Block` class.
+- [ ] Create an instance of the `ExtraLifeBlock` class at (x,y) = (200, 250).  
+- [ ] Define another child of the `Block` class called `ExtraBallBlock` which is just like the first one.
+- [ ] Create an instance of the `ExtraBallBlock` class at (x,y) = (300, 250). 
+- [ ] Run your game and observe what happens when the ball strikes an instance of `ExtraLifeBlock` or `ExtraBallBlock`.
+
+Did you notice that they behave exactly like the parent `Block` instances -- and have all the properties and methods of `Block` like the image file  and the collision handler?  And we did this without repeating any code!  
+
+## Inheriting behavior
+
+Even though there is no programming for `ExtraLifeBlock`and `ExtraBallBlock`, the associated objects behave just like `Block` objects.
+
+Why? A child (`ExtraLifeBlock` or `ExtraBallBlock`) "inherits" behavior from its parent (`Block`). The destroy-when-hit behavior is defined in the parent, but the child inherits this and behaves in the same way. (In programming, children inherit from parents, but parents never inherit from children.)
+
+Also because of the parent/child relationship, an `ExtraLifeBlock` instance is a special kind of `Block` instance. And an `ExtraBallBlock` instance is a special kind of `Block` instance. Our class collision handler  defines behavior that causes the block to be removed when the ball hits it. This will also apply when the ball collides with instances of `ExtraLifeBlock` or `ExtraBallBlock`, because these are a kind of `Block`.
+
+Parents help you to follow an important programming guideline: "Don't repeat yourself." Using inheritance, you do not have to define the same actions in all three types of blocks. You also don't need to do more collision rule programming for each type of block object.
+
+## *Overriding* the parent's behavior
+
+When a child matures, some of his or her behavior is different from the parents'.
+
+The same is true with object programming. There is no sense in creating a child object that behaves exactly like the parent.
+
+Right now, all three types of block have identical behavior and appearance. Let's start by defining some new properties and behavior for `ExtraLifeBlock`. The ball should still bounce against it. However, it will not be destroyed; it will remain in place. Each time the ball strikes it, the player earns an additional life.  And to distinguish it from the parent block, let's give it a different image file.  But we need to be careful here.  The parent class constructor accepts two arguments (`x` and `y`).  This means we will need to have these arguments in the constructor of the child class too, and pass those to the parent class constructor by putting them in the argument list for the `super()` method, like this:
+
+```
+class ExtraLifeBlock extends Block {
+    constructor(x, y) {
+        super(x, y);
+        ...
+    }
+}    
+```
+
+- [ ] In the constructor definition for the `ExtraLifeBlock` class:
+  - [ ] Set the image file to `'block2.png'`.  
+  - [ ] Decrement the value of `Block.blocksToDestroy` by 1.  We do this because the blocks are indestructible, so we don't want them to count against us to meet the win condition.
+
+Each `ExtraLifeBlock` instance is already inheriting a collision handler called `handleCollision()` from its parent class, `Block`. By re-defining that event in the child, we will "override" the parent behavior.
+
+- [ ] In the class definition for `ExtraLifeBlock`, define a new `handleCollision()` method that calls `ann.addALife()` and returns `true`.   
+
+Note that this *overrides* (replaces) the parent class `handleCollision()` method for each instance of `ExtraLifeBlock`.  We haven't yet defined `ann.addALife()`.  We will do that now.
+
+- [ ] In the `Princess` class definition, define an `addALife()` method that does the following:
+
+- Increments the value of `this.lives` by 1
+- Calls `this.updateLivesDisplay()`
+
+- [ ] Run your game and test that the `ExtraLifeBlock` instance behaves as expected.
+
+The instance of `ExtraLifeBlock` acts almost exactly like an instance of the parent `Block` class, but it used a different collision handler defined in the child object. This is an example of *polymorphism*.
+
+"Polymorphism" comes from Greek roots that mean "having many forms". Here, this means that it's possible for a block to be an instance of `ExtraLifeBlock` and also to be an instance of `Block`, the parent.
+
+**Polymorphism**:
+
+*A feature of object-oriented programming that treats instances differently depending on their most specific object. In particular, allowing child objects to define their own specific behavior for some operations, while continuing to inherit parent behavior for other operations.*
+
+Now for something new: expanding our use of the `super()` method.  It's not just for constructors!
+
+## *Adding* to the parent's behavior
+
+Suppose you want `ExtraBallBlock` to behave differently, too. It will still do everything the parent does: the ball should bounce against it, and the block should be destroyed. But *in addition*, a second soccer ball will be created, to add interest to the game play.
+
+- [ ] In the constructor definition for the `ExtraBallBlock` class, set the image file to `'block3.png'`.
+
+- [ ] Override the  `handleCollision()` method of the `ExtraBallBlock` class like this:
+
+```javascript
+handleCollision() {
+   super.handleCollision(); // call function in superclass
+   new Ball(); // extend superclass behavior
+   return true;
+}
+```
+
+The first command, `super.handleCollision();`,  calls the same event in the parent class. If you stopped here, you would get exactly the same behavior as you had before overriding the parent's behavior. But the goal is to *add* to that behavior, so we add some additional code to the function definition; in this case, creating a new instance of the `Ball` class.
+
+- [ ] Run the game and test for the expected behavior. When the ball strikes an instance of `ExtraBallBlock`, the block should be destroyed and an additional soccer ball should appear.
+
+### Removing the penalty for losing the 'extra' balls
+
+There is a small problem with this programming. Each time a soccer ball leaves the room, the player loses a life. The extra soccer balls are intended as a fun and useful "bonus" only. As long as the player keeps one or more balls in the air, there should be no penalty.
+
+You will now modify things so that the player loses a life only when all soccer balls have left the room.
+
+- [ ] Outside the class definitions, but *before* you create an object in the `Ball` class, initialize a new *static* variable called `Ball.ballsInPlay` and set its value to zero.
+
+- [ ] In the constructor method definition of the  `Ball` class, add a line to the  to increment the value of `Ball.ballsInPlay` by 1.
+
+- [ ] In the class definition for `Ball`, modify the `handleBoundaryContact()` method definition to decrement the value of `Ball.ballsInPlay` by 1, and then only call the `ann.loseALife()` method *if* `Ball.ballsInPlay` is equal to zero.
+
+- [ ] Run the game to verify that everything is working correctly.
+
+  ## Wrapping up
+
+  One final point: this game's level of interest and challenge depends not only on the programming, but also on the arrangement of blocks in the room. Experiment until you find a good balance.  Challenge yourself to use `for` loops to create rows or columns of blocks. 
+
+  If you find it too difficult to catch the balls when they are first created, consider modifying the speed of the Princess.
+
+- [ ] When you are satisfied with the playability of your game, synchronize your work with GitHub.
+
+- [ ] Use Question Set 4 to review and evaluate your mastery of new concepts. 
+
+  ## Break-In Project
+
+- [ ] Create a copy of your `.js` and `.html` files.  Modify the copied version of your Castle Break-In game to add two or more classes derived from the `Block` class.  Have each derived class provide a unique benefit, power-up or penalty to the player.  
+
+- [ ] Run `sync.sh` to upload your files to GitHub.
