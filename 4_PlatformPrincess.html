@@ -1,0 +1,314 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>4_PlatformPrincess_new</title><link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; padding-bottom: 70px; overflow-x: visible; }
+.first-line-indent #write div, .first-line-indent #write li, .first-line-indent #write p { text-indent: 2em; }
+.first-line-indent #write div :not(p):not(div), .first-line-indent #write div.md-htmlblock-container, .first-line-indent #write p *, .first-line-indent pre { text-indent: 0px; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write > blockquote:first-child, #write > div:first-child, #write > figure:first-child, #write > ol:first-child, #write > p:first-child, #write > pre:first-child, #write > ul:first-child { margin-top: 30px; }
+#write li > figure:first-child { margin-top: -20px; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 80px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
+  #write { margin-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 1cm; padding-right: 1cm; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  @page { margin: 20mm 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > img:only-child { display: block; margin: auto; }
+p > .md-image:only-child { display: inline-block; width: 100%; text-align: center; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background: inherit; }
+.CodeMirror-scroll { overflow-y: hidden; overflow-x: auto; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); background: inherit; white-space: nowrap; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background: inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background: inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: 0px 0px !important; border: none !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-radius: 0px; border-width: 0px; background: 0px 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; }
+.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background: rgba(255, 255, 0, 0.4); }
+@media print {
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+:root { --side-bar-bg-color: #fafafa; --control-text-color: #777; }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: normal; src: local("Open Sans Regular"), url("./github/400.woff") format("woff"); }
+@font-face { font-family: "Open Sans"; font-style: italic; font-weight: normal; src: local("Open Sans Italic"), url("./github/400i.woff") format("woff"); }
+@font-face { font-family: "Open Sans"; font-style: normal; font-weight: bold; src: local("Open Sans Bold"), url("./github/700.woff") format("woff"); }
+@font-face { font-family: "Open Sans"; font-style: italic; font-weight: bold; src: local("Open Sans Bold Italic"), url("./github/700i.woff") format("woff"); }
+html { font-size: 16px; }
+body { font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.6; }
+#write { max-width: 860px; margin: 0px auto; padding: 20px 30px 100px; }
+#write > ul:first-child, #write > ol:first-child { margin-top: 30px; }
+body > :first-child { margin-top: 0px !important; }
+body > :last-child { margin-bottom: 0px !important; }
+a { color: rgb(65, 131, 196); }
+h1, h2, h3, h4, h5, h6 { position: relative; margin-top: 1rem; margin-bottom: 1rem; font-weight: bold; line-height: 1.4; cursor: text; }
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor { text-decoration: none; }
+h1 tt, h1 code { font-size: inherit; }
+h2 tt, h2 code { font-size: inherit; }
+h3 tt, h3 code { font-size: inherit; }
+h4 tt, h4 code { font-size: inherit; }
+h5 tt, h5 code { font-size: inherit; }
+h6 tt, h6 code { font-size: inherit; }
+h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+h3 { font-size: 1.5em; line-height: 1.43; }
+h4 { font-size: 1.25em; }
+h5 { font-size: 1em; }
+h6 { font-size: 1em; color: rgb(119, 119, 119); }
+p, blockquote, ul, ol, dl, table { margin: 0.8em 0px; }
+li > ol, li > ul { margin: 0px; }
+hr { height: 2px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; overflow: hidden; box-sizing: content-box; }
+body > h2:first-child { margin-top: 0px; padding-top: 0px; }
+body > h1:first-child { margin-top: 0px; padding-top: 0px; }
+body > h1:first-child + h2 { margin-top: 0px; padding-top: 0px; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child { margin-top: 0px; padding-top: 0px; }
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 { margin-top: 0px; padding-top: 0px; }
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p { margin-top: 0px; }
+li p.first { display: inline-block; }
+ul, ol { padding-left: 30px; }
+ul:first-child, ol:first-child { margin-top: 0px; }
+ul:last-child, ol:last-child { margin-bottom: 0px; }
+blockquote { border-left: 4px solid rgb(223, 226, 229); padding: 0px 15px; color: rgb(119, 119, 119); }
+blockquote blockquote { padding-right: 0px; }
+table { padding: 0px; word-break: initial; }
+table tr { border-top: 1px solid rgb(223, 226, 229); margin: 0px; padding: 0px; }
+table tr:nth-child(2n), thead { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border-width: 1px 1px 0px; border-top-style: solid; border-right-style: solid; border-left-style: solid; border-top-color: rgb(223, 226, 229); border-right-color: rgb(223, 226, 229); border-left-color: rgb(223, 226, 229); border-image: initial; border-bottom-style: initial; border-bottom-color: initial; text-align: left; margin: 0px; padding: 6px 13px; }
+table tr td { border: 1px solid rgb(223, 226, 229); text-align: left; margin: 0px; padding: 6px 13px; }
+table tr th:first-child, table tr td:first-child { margin-top: 0px; }
+table tr th:last-child, table tr td:last-child { margin-bottom: 0px; }
+.CodeMirror-lines { padding-left: 4px; }
+.code-tooltip { box-shadow: rgba(0, 28, 36, 0.3) 0px 1px 1px 0px; border-top: 1px solid rgb(238, 242, 242); }
+.md-fences, code, tt { border: 1px solid rgb(231, 234, 237); background-color: rgb(248, 248, 248); border-radius: 3px; padding: 2px 4px 0px; font-size: 0.9em; }
+code { background-color: rgb(243, 244, 244); padding: 0px 4px 2px; }
+.md-fences { margin-bottom: 15px; margin-top: 15px; padding: 8px 1em 6px; }
+.md-task-list-item > input { margin-left: -1.3em; }
+@media screen and (min-width: 914px) {
+}
+@media print {
+  html { font-size: 13px; }
+  table, pre { break-inside: avoid; }
+  pre { word-wrap: break-word; }
+}
+.md-fences { background-color: rgb(248, 248, 248); }
+#write pre.md-meta-block { padding: 1rem; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border: 0px; border-radius: 3px; color: rgb(119, 119, 119); margin-top: 0px !important; }
+.mathjax-block > .code-tooltip { bottom: 0.375rem; }
+.md-mathjax-midline { background: rgb(250, 250, 250); }
+#write > h3.md-focus::before { left: -1.5625rem; top: 0.375rem; }
+#write > h4.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+#write > h5.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+#write > h6.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+.md-image > .md-meta { border-radius: 3px; padding: 2px 0px 0px 4px; font-size: 0.9em; color: inherit; }
+.md-tag { color: rgb(167, 167, 167); opacity: 1; }
+.md-toc { margin-top: 20px; padding-bottom: 20px; }
+.sidebar-tabs { border-bottom: none; }
+#typora-quick-open { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); }
+#typora-quick-open-item { background-color: rgb(250, 250, 250); border-color: rgb(254, 254, 254) rgb(229, 229, 229) rgb(229, 229, 229) rgb(238, 238, 238); border-style: solid; border-width: 1px; }
+.on-focus-mode blockquote { border-left-color: rgba(85, 85, 85, 0.12); }
+header, .context-menu, .megamenu-content, footer { font-family: "Segoe UI", Arial, sans-serif; }
+.file-node-content:hover .file-node-icon, .file-node-content:hover .file-node-open-state { visibility: visible; }
+.mac-seamless-mode #typora-sidebar { background-color: var(--side-bar-bg-color); }
+.md-lang { color: rgb(180, 101, 77); }
+.html-for-mac .context-menu { --item-hover-bg-color: #E6F0FE; }
+
+
+
+
+
+ .typora-export p, .typora-export .footnote-line {white-space: normal;} 
+</style>
+</head>
+<body class='typora-export os-windows' >
+<div  id='write'  class = 'is-node'><h1><a name='header-n1025' class='md-header-anchor '></a>Platform Princess, Part 1</h1><p>The instructions are deliberately sparse; please test often and make sure you have one section working without errors before moving on to the next. </p><h2><a name='header-n1028' class='md-header-anchor '></a>Set the scene</h2><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Import <code>game</code> and <code>Sprite</code> modules from &quot;./sgc/sgc.js&quot;</p></li></ul><p>First we will create a background and then add some interesting visual effects.</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Set the background to <code>water.png</code> using the <code>game.setBackground()</code> method.</p></li></ul><p>Now let&#39;s add a scrolling effect.  Consult the <a href='https://csci110.github.io/sgc/'>sgc Help File</a> and locate the <code>setBackground()</code> method in the <code>Game</code> class.  See if you can figure out how to set the arguments in this method in order to make the <code>water.png</code> image scroll horizontally at 500 pixels per second.</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Create a <code>wall</code> object from the <code>Sprite</code> class and give it the following properties:</p></li></ul><ul><li>a name</li><li>an image file (<code>wall.png</code>)</li><li>set it&#39;s position to (x,y) = (0, 175)</li><li>make it immovable by setting its <code>accelerateOnBounce</code> property to false.</li></ul><p>This might be a good place to test your game so far.  You should see a wavy water effect at the bottom of the window.  Although this game is not a &quot;scroller&quot;, a moving background is the main feature of such games. So now you know how to make your own scroller game.</p><h2><a name='header-n1051' class='md-header-anchor '></a>Platforms and Sliders</h2><p>At the risk of stating the obvious, another feature of platform games is that the player character&#39;s motion is constrained by a series of platforms.  Just above the water we want to create starting and finishing platforms for the Princess to stand on, and two wooden platforms that slide back and forth in between them. The start and stop blocks are instances of a class we will call <code>Platform</code> and the sliders will be instances of a <code>Slider</code> class, both of which are derived from a class we will call <code>Support</code>.  So the inheritance structure looks like this.</p><p><code>Sprite</code> class-&gt; <code>Support</code> class -&gt; <code>Platform</code> class and <code>Slider</code> class</p><p> We do this because we anticipate that we will want to check under the princess for the existence of an object in either the <code>Platform</code> or <code>Slider</code> class, even though these objects behave quite differently.</p><h3><a name='header-n1055' class='md-header-anchor '></a>Platforms</h3><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Define a class called <code>Support</code>, derived from the <code>Sprite</code> class, whose constructor function accepts three arguments (<code>x</code>, <code>y</code>, and <code>image</code>) and does the following for each instantiation of the class:</p><ul><li>calls the parent class constructor (which doesn&#39;t accept any arguments)</li><li>sets this object&#39;s <code>x</code> and <code>y</code> coordinates equal to the <code>x</code> and <code>y</code> arguments passed to the constructor</li><li>passes the <code>image</code> variable to this object&#39;s  <code>setImage()</code> method</li></ul></li><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Define a class called <code>Platform</code>, derived from the <code>Support</code> class, whose constructor function accepts the same three arguments (<code>x</code>, <code>y</code>, and <code>image</code>) and does the following for each instantiation of the class:</p><ul><li>calls the parent class constructor (which accepts <code>x</code>, <code>y</code> and <code>image</code> arguments)</li><li>gives it a timeless and classy name like &quot;A platform&quot;</li><li>sets the <code>accelerateOnBounce</code> property to <code>false</code>.</li></ul></li></ul><p>As a test of your inheritance knowledge, see if you can answer this question to your satisfaction:  How come we didn&#39;t have to set the <code>x</code> and <code>y</code> coordinates, or call the <code>setImage()</code> function for objects in the <code>Platform</code> class?</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Create two instances of the <code>Platform</code> class at opposite sides of the display.  </p><p>Call the one on the left <code>startPlatform</code> and the one on the right<code>finishPlatform</code>.  </p><p>Use the <code>start.png</code> file for <code>startPlatform</code> and use the <code>finish.png</code> image file for <code>finishPlatform</code>.</p><p>The position of <code>startPlatform</code> should be (0, 400), and the position of <code>finishPlatform</code> should be two <code>ann</code> widths away from the right edge of the display, at the same level. You can use <code>game.displayWidth - 48 * 2</code> for <code>x</code> if you wish, since we haven&#39;t created the Princess yet.</p></li></ul><p>Run your game and test.  You should see two blocks on either edge of the screen near the top of the water with finished corners pointing in.</p><h3><a name='header-n1083' class='md-header-anchor '></a>Sliders</h3><p>Now we will create a second child of the <code>Support</code> parent class to make the sliders.</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Define a class called <code>Slider</code> which is derived from the <code>Support</code> class.  Its constructor function should accept three arguments (<code>x</code>, <code>y</code>, and<code>angle</code>) and do the following for each instantiation of the class:</p></li></ul><ul><li>call the parent class constructor function with the <code>super</code> keyword as usual, passing it the values of <code>x</code>, <code>y</code>, and <code>&quot;slider.png&quot;</code> for <code>x</code>, <code>y</code> and <code>image</code>, respectively.</li><li>set the name to &#39;A sliding support&#39;</li><li>set the <code>angle</code> equal to the <code>angle</code> argument passed to the constructor</li><li>set the speed equal to 48.  </li></ul><p>This has the effect of moving the sliders 48 pixels per second in a direction defined by the <code>angle</code> property.</p><p>Notice that we are using the default value of <code>accelerateOnBounce</code> for objects in the class (true), which means they will bounce when there is a collision.</p><p>Did you also notice that we use <code>x</code>, <code>y</code> and <em><code>angle</code></em> arguments in the constructor of the child class, but we only passed two of those to the parent class constructor?  When we called the parent class constructor, we sent it the fixed value of <code>&quot;slider.png&quot;</code> in place of <code>image</code>, which the parent class needs for its constructor method.  Please make sure you understand this before you move on.  It seems like a subtle and small thing but it demonstrates the powerful flexibility of the inheritance system, and it might help you understand how the cascading <code>super()</code> calls work with derived classes.  It is not simple.</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Create two anonymous instances of the <code>Slider</code> class so that they are a few <code>ann</code> widths away from the start and finish platforms, and move opposite directions, like this:</p></li></ul><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="javascript"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="javascript"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">new</span> <span class="cm-variable">Slider</span>(<span class="cm-variable">startPlatform</span>.<span class="cm-property">x</span> <span class="cm-operator">+</span> <span class="cm-number">48</span> <span class="cm-operator">*</span> <span class="cm-number">3</span>, <span class="cm-variable">startPlatform</span>.<span class="cm-property">y</span> <span class="cm-operator">+</span> <span class="cm-number">48</span>, <span class="cm-number">0</span>);</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">new</span> <span class="cm-variable">Slider</span>(<span class="cm-variable">finishPlatform</span>.<span class="cm-property">x</span> <span class="cm-operator">-</span> <span class="cm-number">48</span> <span class="cm-operator">*</span> <span class="cm-number">5</span>, <span class="cm-variable">finishPlatform</span>.<span class="cm-property">y</span> <span class="cm-operator">+</span> <span class="cm-number">48</span>, <span class="cm-number">180</span>);</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 46px;"></div><div class="CodeMirror-gutters" style="display: none; height: 46px;"></div></div></div></pre><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Run your game and test.  You should see two wooden platforms floating just above the water and bouncing off of each other, and the start and finish blocks.  </p></li></ul><p>Now that the sliders are working, you will program the player character&#39;s navigation, including jumping onto the sliders.</p><h2><a name='header-n1108' class='md-header-anchor '></a>Player Navigation in a Platformer Game</h2><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Define a <code>Princess</code> class, derived from the <code>Sprite</code> class, whose constructor does the following for each instance of the class:</p></li></ul><ul><li>Uses &quot;ann.png&quot; as the argument for the <code>setImage()</code> method</li><li>set the position to (x,y) = (48, 300).  Yes, I know that is 100 pixels above the platform.  We are doing this on purpose to test her falling behavior later.</li><li>set her <code>speed</code> to zero.</li><li>create a custom variable called <code>speedWhenWalking</code> and set it equal to 125.</li><li>define left and right animations, using frames 9-11, and 3-5 respectively</li></ul><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Still inside the class definition, but outside the constructor, define keyboard methods for the left and right arrow keys (<code>handleLeftArrowKey()</code> and <code>handleRightArrowKey()</code>).  For now, these methods will do only these two things:</p></li></ul><ul><li>Set the <code>angle</code> property to 180 or 0, as appropriate.  </li><li>Set the <code>speed</code> property equal to <code>this.speedWhenWalking</code>.  </li></ul><p>We will take care of the animations in a <code>handleGameLoop()</code> method.</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Still inside the <code>Princess</code> class definition, define a <code>handleGameLoop()</code> method that tests to see if the object&#39;s angle property is equal to zero <strong>AND</strong> the object&#39;s speed is greater than zero.  If so, play the <code>right</code> animation.  If the object&#39;s angle property is equal to 180 <strong>AND</strong> the object&#39;s speed is greater than zero, play the<code>left</code> animation.</p></li><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Also within the <code>HandleGameLoop()</code> method, use the Math.max() method to keep the x coordinate 5 pixels from the edge of the screen like this:</p></li></ul><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="javascript"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="javascript"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">this</span>.<span class="cm-property">x</span> <span class="cm-operator">=</span> <span class="cm-variable">Math</span>.<span class="cm-property">max</span>(<span class="cm-number">5</span>, <span class="cm-keyword">this</span>.<span class="cm-property">x</span>);</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 23px;"></div><div class="CodeMirror-gutters" style="display: none; height: 23px;"></div></div></div></pre><p>Normally we would add a statement to set the speed to zero (when the arrow keys are not pressed) but we will make the game a little more challenging by not allowing her to stop.  Maybe she&#39;s frightened by something we will add to the game in the next section.</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Create an object called <code>ann</code> in the <code>Princess</code> class.</p></li></ul><p>Run your game at test that you can move the princess left and right using the arrow keys, and that she can&#39;t move off the left edge of the screen.  </p><p>But she walks in midair!  She should fall any time that she is not on top of a platform:  either a slider or the two blocks on each edge of the moat.  To implement this, we will test to see if the princess is standing on an object in the <code>Support</code> class during each game loop (which includes the start and finish platforms and the sliders, since they are all children of the <code>Support</code> class).  If she is <em>not</em>, we will increase her y position by 4 pixels every second to simulate gravity.  Later, we will want to know if the princess is falling for other reasons too, so we will find it useful to set a <em>flag</em> that tells us when this is happening.  A flag is a Boolean variable that signals a particular condition or status.  Let&#39;s define a flag for the condition of the princess falling.  </p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Within the <code>Princess</code> class constructor, define a custom variable called <code>isFalling</code> and set its value to <code>false</code>. </p></li></ul><p>There is a sgc method called <code>getSpritesOverlapping()</code> which might help us determine whether or not a <code>platform</code> sprite is directly under the <code>princess</code> sprite.  Please read the entry in the game controller help file about this method.</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Add the following to the <code>princess</code> object&#39;s <code>handleGameLoop</code> method definition:</p></li></ul><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="javascript"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="javascript"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">this</span>.<span class="cm-property">isFalling</span> <span class="cm-operator">=</span> <span class="cm-atom">false</span>; &nbsp;<span class="cm-comment">// assume she is not falling unless proven otherwise</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// Check directly below princess for supports</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">let</span> <span class="cm-def">supports</span> <span class="cm-operator">=</span> <span class="cm-variable">game</span>.<span class="cm-property">getSpritesOverlapping</span>(<span class="cm-keyword">this</span>.<span class="cm-property">x</span>, <span class="cm-keyword">this</span>.<span class="cm-property">y</span> <span class="cm-operator">+</span> <span class="cm-keyword">this</span>.<span class="cm-property">height</span>, <span class="cm-keyword">this</span>.<span class="cm-property">width</span>, <span class="cm-number">1</span>, <span class="cm-variable">Support</span>);</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-comment">// Is there none, or is its *top* at or below the bottom of the princess?</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">if</span> (<span class="cm-variable">supports</span>.<span class="cm-property">length</span> <span class="cm-operator">===</span> <span class="cm-number">0</span> <span class="cm-operator">||</span> <span class="cm-variable">supports</span>[<span class="cm-number">0</span>].<span class="cm-property">y</span> <span class="cm-operator">&lt;</span> <span class="cm-keyword">this</span>.<span class="cm-property">y</span> <span class="cm-operator">+</span> <span class="cm-keyword">this</span>.<span class="cm-property">height</span>) {</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; <span class="cm-keyword">this</span>.<span class="cm-property">isFalling</span> <span class="cm-operator">=</span> <span class="cm-atom">true</span>;<span class="cm-tab" role="presentation" cm-text="	"> </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-comment">// she is falling so ...</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; <span class="cm-keyword">this</span>.<span class="cm-property">y</span> <span class="cm-operator">=</span> <span class="cm-keyword">this</span>.<span class="cm-property">y</span> <span class="cm-operator">+</span> <span class="cm-number">4</span>; <span class="cm-tab" role="presentation" cm-text="	">  </span><span class="cm-tab" role="presentation" cm-text="	">    </span><span class="cm-comment">// simulate gravity</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 207px;"></div><div class="CodeMirror-gutters" style="display: none; height: 207px;"></div></div></div></pre><p>Some explanations are in order:</p><ul><li>We are using the <code>getSpritesOverlapping</code> method to get an array of sprites that overlap a 48-pixel-wide-by-1-pixel-deep rectangle whose upper left hand corner is at the <em>lower</em> left-hand corner of the <code>princess</code> sprite (remember the sprite&#39;s origin is in the upper left, so adding the sprites height to <code>y</code> places the rectangle right at her feet). </li><li><code>supports</code> is a local variable we use to hold this sprite array.  If there is at least one sprite in the array, the <em>length</em> of the array (given by <code>supports.length</code>) will be greater than zero.</li><li>To access the first element in the array, we use <code>supports[0]</code> since we start counting at zero. If there is something in the array it will be the start or finish platform, or one of the sliders.  So  <code>supports[0].y</code> marks the <em>top</em> of the overlapping platform sprite.</li><li>If this is greater than or equal to the bottom of the princess sprite, she has landed on a platform and is therefore <em>not</em> falling.</li><li>Otherwise, she is falling, and so we increase her <code>y</code> value by 4 pixels during the game loop.</li></ul><p>Run the game and test that the princess falls onto the start block at the beginning of the game.  When you walk off the starting block. She should:</p><ul><li>land safely on a sliding platform, if one is there, and</li><li>fall into the water if a sliding platform is not there.</li></ul><p>You probably noticed that when the princess is on a slider, you must use the arrow keys to reverse direction and keep her from walking off the end. This is intentional; to improve the game challenge, there is no way to stop the princess once she begins moving.</p><p>With careful timing, you can walk from the first slider to the second. However, there is no way to walk <em>up</em> onto the finish block. As in most platformers, the player character needs to jump.</p><h2><a name='header-n1172' class='md-header-anchor '></a>Jumping</h2><p>It wouldn&#39;t make sense for the <code>princess</code> to be able to jump unless she were standing on something, otherwise she could fly through the air by repeatedly jumping!  Now we can put that <code>isFalling</code> flag to good use.  </p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Within the <code>Princess</code> class definition, define a <code>handleSpacebar()</code> method that tests to see if she is <strong>not</strong> falling. if so, move her up the screen 1.25 times her height, like this:</p></li></ul><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="javascript"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="javascript"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 8px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-keyword">if</span> (<span class="cm-operator">!</span><span class="cm-keyword">this</span>.<span class="cm-property">isFalling</span>) {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp;<span class="cm-keyword">this</span>.<span class="cm-property">y</span> <span class="cm-operator">=</span> <span class="cm-keyword">this</span>.<span class="cm-property">y</span> <span class="cm-operator">-</span> <span class="cm-number">1.25</span> <span class="cm-operator">*</span> <span class="cm-keyword">this</span>.<span class="cm-property">height</span>; <span class="cm-comment">// jump</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 69px;"></div><div class="CodeMirror-gutters" style="display: none; height: 69px;"></div></div></div></pre><p>​Notice we are using the <code>!</code> (sometimes called the &quot;bang&quot; operator) for <strong>NOT</strong>.   In other words, it flips the value <code>true</code> to <code>false</code>, and vice-versa.  This is another way of saying <code>if (this.isFalling === false)</code>.  When the space bar is pressed, nothing will happen if the princess is falling. But if she isn&#39;t falling, she jumps up by 48*1.25 pixels, and then begins falling.</p><p>Run the game and test that the princess can:</p><ul><li>jump and land on the starting block,</li><li>jump and land on sliders, and</li><li>jump up onto the finish block.</li></ul><h2><a name='header-n1187' class='md-header-anchor '></a>Losing the game</h2><p>Apparently swimming is not among Princess Ann&#39;s many talents, so if she falls into the water, she sinks to the bottom and drowns.</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Within the <code>Princess</code> class definition, add a <code>handleBoundaryContact</code> method that ends the game with the message: &#39;Princess Ann has drowned.\n\nBetter luck next time.&#39;</p></li></ul><h2><a name='header-n1192' class='md-header-anchor '></a>Winning the game</h2><p>Let&#39;s say there is a door on the right-hand platform that leads deeper into the castle.  If Princess Ann gets there, the player wins.</p><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Define a <code>Door</code> class derived from the <code>Sprite</code> class.  Define a constructor method that does the following:</p></li></ul><ul><li>uses &quot;door.png&quot; as the argument for the <code>setImage()</code> method</li><li>sets the x coordinate to  <code>game.displayWidth</code> - 48;</li><li>sets the y coordinate to <code>finishPlatform.y</code> - 2 * 48;</li><li>make it immovable (<code>accelerateOnBounce</code> = <code>false</code>)</li></ul><ul><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Add a collision handler <code>handleCollision(otherSprite)</code> that checks to see if <code>otherSprite</code> is equal to the <code>ann</code> object and ends the game with the message: &#39;Congratulations!\n\nPrincess Ann can now pursue the\nstranger deeper into the castle!&#39;</p></li><li class='md-task-list-item task-list-item task-list-not-done' ><input type='checkbox' disabled='disabled' /><p>Create an object in the <code>Door</code> class called <code>exit</code>.  Set its name to &quot;The exit door&quot; or something similar.</p></li></ul><p>Run your game and test the winning and losing conditions. </p><p>Although you now have a complete game, it seems a bit simple and uninteresting. We will now add some enemies to increase the challenge.</p><p>&nbsp;</p><h2><a name='header-n1312' class='md-header-anchor '></a>Wrapping Up</h2><p>We&#39;re not quite done the tutorial yet.  If you are reading this, you are farther ahead than I expected.  Please use the extra time to start on the project below.  </p><p>-[ ] Read <a href='http://computationaltales.blogspot.com/2011/05/town-of-bool.html'>The Town of Bool: Part 1 of Ann&#39;s encounter with the Booleans</a>
+-[ ] Read <a href='http://computationaltales.blogspot.com/2011/09/marvelous-if-else-life-of-kings-turtle.html'>The Marvelous IF-ELSE Life of the King&#39;s Turtle</a></p><p>Use question set 5 (Platform Princess) to review and evaluate your mastery of new concepts.</p><p>-[ ] Using the png files in Sakai <a href='https://sakai.lampschools.org/portal/site/8327cf3f-758a-4ce1-bb40-5a816869e7bc/tool/40fd529a-cd2b-46fd-bed3-501a3f39e116?panel=Main#'>Platform images folder</a>*, create a Halloween-themed platform game similar to platformPrincess with the following minimum requirements:</p><ul><li>one or more sliding platforms move vertically in addition to horizontally</li><li>the background and platforms conform to the tile set in the Platform images folder</li><li>the object of the game is to push a crate object to the right edge of the screen (or door)</li></ul><p>You may remove the bat and spider objects and re-use the wooden platforms if you wish.  You can resize and otherwise molest the png files with a free program such as <a href='http://www.irfanview.com/main_download_engl.htm'>IrfanView</a>.  </p><p>-[ ] Upload your finished project js file to GitHub.</p><p>* The platform graphics were provided courtesy of <a href='http://www.gameart2d.com/freebies.html'>Game Art 2D</a>.</p><p><img src='/images/platformProject.PNG' alt='platformProject' referrerPolicy='no-referrer' /></p></div>
+</body>
+</html>
