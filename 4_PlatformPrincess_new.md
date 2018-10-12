@@ -126,7 +126,7 @@ There is a sgc method called `getSpritesOverlapping()` which might help us deter
 this.isFalling = false;  // assume she is not falling unless proven otherwise
 // Check directly below princess for supports
 let supports = game.getSpritesOverlapping(this.x, this.y + this.height, this.width, 1, Support);
-// Is there none, or is its *top* at or below the bottom of the princess?
+// Is there none, or is its *top* above the bottom of the princess?
 if (supports.length === 0 || supports[0].y < this.y + this.height) {
      this.isFalling = true;		// she is falling so ...
      this.y = this.y + 4; 		// simulate gravity
@@ -194,7 +194,173 @@ Run your game and test the winning and losing conditions.
 
 Although you now have a complete game, it seems a bit simple and uninteresting. We will now add some enemies to increase the challenge.
 
+# Platform Princess, Part 2
 
+## Along came a spider
+
+The first enemies are the spiders. They will move up and down the screen on their webs. If they collide with the princess, she will be knocked off balance— possibly into the water.
+
+- [ ] Define a class called `Spider` whose constructor function accepts two arguments (x, and y) and does the following for each instance of the class:
+
+- gives it a name
+- sets its image file as `spider.png`
+- sets its x and y coordinates equal to the values passed to the constructor
+- sets its speed to 48
+- makes it immovable (`accelerateOnBounce` = false)
+- defines an animation called 'creep' which uses all three frames in the image sheet
+- plays the animation continuously (see the sgc help file if you forget how to set the `playAnimation()` method to repeat)
+
+- [ ] Create two spiders, one at (200, 225), and the other at (550, 200).
+
+- [ ] Run your game and test that spiders appear on the wall, "creeping" in place and minding their own business.  That is about to change.
+
+  We will program two parts to the spider's movement behavior, depending on its position relative to the main area of the princess's travel.  This is the area just above the two sliders.  It is the spider's "attack zone."  If a spider is above the attack zone, it will drop.  If a spider is below the attack zone, it will move back up.
+
+  Let's define the top of the attack zone as anything more than one `ann` height higher than the princess (since an object there would be sitting just on top of her head) and the bottom of the attack zone as the y coordinate of the princess.
+
+  - [ ] In the `Spider` class, define a `handleGameLoop()` method that:
+    * tests to see if the spider is *above* the attack zone.  If so, move it down by setting the angle to 270. 
+    * tests to see if the spider is *below* the attack zone.  If so, move it up by setting the angle to 90.
+
+  - [ ] Run your game and test to see if the spiders move to below the level of the princess's head if they are above it and jump back up when they get to the level of her feet, whether she is standing on the starting platforms or one of the sliders. Notice what happens when the spiders collide with the princess.
+
+### Overriding the collision handler
+
+What happens if we just use the default "bounce" behavior for collisions between `ann` and the spiders? If one of the spiders collides with the princess by landing on her head, the spider will have a y-component to its motion that will result in the princess bouncing *down*. During first game loop in which the princess goes more than one pixel below the top of a `platform` object, the `princess.isFalling` flag will be set, and since there are no more platforms below her she will fall off the bottom of the screen. That seems ok -- if a giant spider lands on your head while you are balancing on a log in turbulent underground river, you might very well fall off the log.  However the collision box is currently too big; the actual spider image (the non-transparent part of the image) only takes up about half the width of the frame and is maybe 30 pixels high. 
+
+- [ ] Override the `Sprite` class's collision handler by replacing it with this:
+
+```
+handleCollision(otherSprite) {
+    // Spiders only care about collisons with Ann.
+    if (otherSprite === ann) {
+	    // Spiders must hit Ann on top of her head.
+   		let horizontalOffset = this.x - otherSprite.x;
+   		let verticalOffset = this.y - otherSprite.y;
+   		if (Math.abs(horizontalOffset) < this.width / 2 && 
+   		    Math.abs(verticalOffset) < 30) {
+        		otherSprite.y = otherSprite.y + 1; // knock Ann off platform
+   		}
+   	}
+    return false;
+}
+```
+
+Remember that if the collision handler returns `false`, the colliding object will not bounce off after the collision.  This isn't a JavaScript thing; here is no way to know this without looking at the sgc documentation for `handleCollision()`.
+
+- [ ] Run your game and verify that the princess falls off the platform if the spider lands on her head.
+
+## Attack of the bats
+
+The next type of enemy is a bat.   They will hover about their starting locations until they (randomly) decide to dive-bomb the princess.  
+
+- [ ] Define a class called `Bat` that uses the `bat.png` image file, x and y coordinates passed to the constructor, doesn't bounce when hit, has a name like "A scary bat," and continuously plays an animation called "flap" that uses both frames in the image sheet.  
+
+- [ ] Create an instance of the `Bat` class at location (200, 100) called `leftBat`.
+
+- [ ] Create an anonymous instance of the `Bat` class at location (500, 75) called `rightBat`.
+
+- [ ] Run your game and verify that the bats appear and flap around in place. 
+
+We will program two parts to the bats' behavior.  One where they fly about slowly in random (diagonal) directions, and one in attack (dive-bomb) mode.
+
+Let's define the attack mode first.
+
+- [ ] Still inside the constructor of the `Bat` class, initialize a custom variable called `attackSpeed` and set it to 300.  
+
+- [ ] In the `Bat` class definition, but outside the constructor method, define a method called `attack()` that does two things:
+
+- changes the speed of the bat to the value of the `attackSpeed` variable.
+- uses the `aimFor` method to set the angle of the bat to point to the current location of the princess, like this:
+
+```javascript
+this.aimFor(ann.x, ann.y);
+```
+
+(see `Sprite` class properties in the Game Controller documentation for more information on this method)
+
+We want the bat to fly around randomly most of the time, but one time in 1000 game loops, the bat should fly directly toward the princess at high speed.
+
+Unfortunately there is a spooky castle wall at y = 175.  If we use the parent's collision handler, the bats will just bounce off the wall and never hit the princess.  You know what to do: override the parent's collision handler!
+
+- [ ] Using the `Spider` class collision handler as a guide, override the `handleCollision(otherSprite)` method so that bats only care about collisions with `ann` and increase her y coordinate by 1 when they hit. Don't worry about reducing the collision box like we did with the spiders.  Return `false` as before.  
+
+- [ ] Define a `handleGameLoop` method that tests to see if `Math.random()` is less than 0.001.  If so, call the bat's attack method.  We will do more with this after we test what we have so far.  For now you can create a *stub* here by adding a comment after the the `if` statement closing bracket that says `// if bat is not attacking: hover`. 
+
+- [ ] Run the game and see if the bats randomly dive bomb the princess and knock her off the platforms. 
+
+## Bat hovering
+
+Looking back at the stub in your `handleGameLoop` method, we see that we wanted to test to see if the bat is not attacking.  There are few ways we might do that.  For example, we might check its current location (x and y coordinates) and see if it is different from the starting location.  As our code is currently written, that would necessarily mean the bat had started his bombing run.  But if we start fluttering about (hovering), the position will change even though the bat is not attacking.  So we need something else.  How about speed?  If attacking, the bat will be at speed 300, and as long as we pick a different speed for hovering, we could test the bat's speed variable.  In order to make our code more readable, let's define two custom variables for these speeds.
+
+- [ ] Inside the constructor method of the `Bat` class, define a custom variable called `normalSpeed` and set its value to 20.  While we are at it, lets set the object's `speed` to this value too.  One way to do this is with a *chained assignment* statement that looks like this:
+
+```javascript
+this.speed = this.normalSpeed = 20;
+```
+
+This works because the right-hand side of an assignment must be evaluated before the assignment can happen.  Read [this](https://en.wikipedia.org/wiki/Operator_associativity#Right-associativity_of_assignment_operators) paragraph in Wikipedia for more information about operator associativity.
+
+Now we are ready to write an `if` statement that tests to see if the bat is attacking.  But first let's talk about the hovering behavior we would like to program for the bats:
+
+- give each bat a random diagonal direction when it is created
+
+- every 3 seconds, increase the `angle` property of the bat either by 90 degrees or 180 degrees.  Whether it changes by 90 or 180 degrees depends on the flip of a coin:  50% of the time it does one rather than the other.
+
+The first bullet sets the starting angle. We will use `Math.round()` on the `Math.random()` method to get a random *integer* between (and including) 0 and 3, then multiply that integer by 90 to pick out one of 4 directions.  See [mozilla](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round) for an explanation of `Math.round()`.  This is a useful trick that we will use again.
+
+- [ ] In the constructor function method for the `Bat` class, set the `angle` property to 
+
+```javascript
+this.angle = 45 + Math.round(Math.random() * 3) * 90;
+```
+
+To program the second bullet, you might want to review the "spell cast timer" we used to limit Marcus's spell casting in `wizardDuel`.  The relevant block of code might have looked like this:
+
+```javascript
+handleSpacebar() {
+    let now = game.getTime();
+    if (now - this.spellCastTime >= 2) {
+        this.spellCastTime = now;
+        // cast a spell
+    }
+}
+```
+
+Instead of `spellCastTime` use a descriptive name like `angleTimer` for example.  Your `angleTimer` code will look similar to the code snippet above, except the timer duration will be different.
+
+- [ ] Inside the `Bat` class `constructor()` method, define a custom variable called `angleTimer` and set it to zero.
+
+- [ ] Inside the `Bat` class `handleGameLoop()` method, and using the `normalSpeed` variable, test to see if the bat is hovering.  If so, start a 5 second timer to change the bat's direction by 90 degrees 50% of the time, and 180 degrees the other 50% of the time.  Challenge yourself to see if you can do this using the rounding trick we used to set the original angle, instead of writing a second `if` statement.
+
+You might run into a problem with your first `if` statement if you used `(this.speed === this.normalSpeed)` for your conditional expression.  You can find the cause of the problem by adding `console.log(this.speed)` inside the `handleGameLoop()` method.  You should have seen 20.000000000000004 whereas `leftBat.normalSpeed` returns 20.  We will learn more about why this happens next semester, but if you want a sneak preview, read this short article on [Avoiding Problems with Decimal Math in JavaScript](http://adripofjavascript.com/blog/drips/avoiding-problems-with-decimal-math-in-javascript.html).  For now you can just round `this.speed` and your conditional statement will return true when the speed is *about* 20.
+
+## Keeping the bats in play
+
+Lastly we need to figure out what to do about bats hovering or dive-bombing out of the display area.  Let's say if a bat reaches the bottom or sides of the screen, we just send it back to its starting point, perhaps representing the creation of a new bat to take its place.  But if it hovers to the top of the screen, we will just keep it from leaving the display area by resetting its y coordinate to zero.
+
+First we need to keep track of the bat's starting position by creating two custom variables.
+
+- [ ] In the constructor of the `Bat` class definition, create a custom variable called `startX` and set its value equal to the x value passed to the constructor.  You can do this by modifying your existing `this.x` assignment statement with a chained assignment statement like this if you like:
+
+```javascript
+this.x = this.startX = x;
+```
+
+- [ ] Do the same for the starting y coordinate with a variable called `startY`.
+
+Now that we have stored the starting coordinates for each instance of the `Bat` class, we can define our `handleBoundaryContact` method.
+
+- [ ] In the `Bat` class definition, define a `handleBoundaryContact()` method that does the following:
+
+- if the bat's `y` coordinate is less than zero, set it equal to zero
+- if the bat's `y` coordinate is greater than `game.displayHeight`, reset the bat's position to its starting position, its `speed` to `this.normalSpeed`, and its `angle` to 225 degrees.
+
+- [ ] Run your game and verify that:
+
+- the bats hover about, changing directions every three seconds, either by 90 or 180 seconds
+- the bats return to their starting positions if they leave the left or right or bottom of the display
+- the bats hug the top of the display if they touch it (until another direction change happens)
 
 ##Wrapping Up
 
