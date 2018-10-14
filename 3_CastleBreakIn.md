@@ -18,7 +18,7 @@ In the Stranger Hunt tutorial we created four wall objects directly from the `Sp
 - [ ] Define a class called `Wall` that is a child of the parent class `Sprite`.
 - [ ] Define a `constructor()` method of the `Wall` class that accepts `x` , `y`, `name` and `image` arguments like this:
 
-```
+```javascript
 constructor(x, y, name, image) {
     ...
 }
@@ -101,7 +101,7 @@ At this point, the princess can walk through the walls and off screen. That prob
   * Sets the `x` and `y` coordinates so that it is horizontally and vertically centered in the window.
   * Sets the `height` and `width` to 48.
   * Gives it an appropriate name and image sheet.
-  * Defines an animation called "spin" that uses all 12 frames, and then plays that animation.
+  * Defines an animation called "spin" that uses all 12 frames, and then plays that animation repeatedly (so add `true` as in `this.playAnimation("spin", true)`).
   * Sets the `speed` property equal to 1.
   * Sets the `angle` property to `50 + Math.random() * 80`.
 
@@ -124,7 +124,7 @@ The default collision handler for sprites is to bounce off, like a wall (angle o
 
 - [ ] Inside the `Princess` class definition, define a `handleCollision()` method as follows:
 
-```
+```javascript
 handleCollision(otherSprite) {
         // Horizontally, Ann's image file is about one-third blank, one-third Ann, and 		   // one-third blank.
         // Vertically, there is very little blank space. Ann's head is about one-fourth 		// the height.
@@ -162,7 +162,7 @@ As it happens, there is a `game` method that does this.  It is called `createTex
 
 - [ ] Inside the `Princess` class definition, define a `handleFirstGameLoop()` method with the following lines:
 
-```
+```javascript
 // Set up a text area to display the number of lives remaining.
 this.livesDisplay = game.createTextArea(**PUT YOUR VALUE FOR X HERE**, 20);
 this.updateLivesDisplay();
@@ -172,7 +172,7 @@ In place of **PUT YOUR VALUE OF X HERE**, pick a value that is three soccer ball
 
 - [ ] Still inside the `Princess` class definition, define a custom method called `updateLivesDisplay()` that contains the following line of code:
 
-```
+```javascript
 game.writeToTextArea(this.livesDisplay, "Lives = " + this.lives);
 ```
 
@@ -184,7 +184,7 @@ Perhaps you are thinking to yourself, "Why didn't we just put that line inside t
 
 If the ball leaves play, we should delete the sprite to avoid memory leaks, and decrement the life counter by one.  First let's create a custom method in the `Princess` class that decrements the life counter and gives us a new ball until we run out of lives.
 
-- [ ] In the `Princess` class definition, define a custom method called `LoseALife()` that does the following:
+- [ ] In the `Princess` class definition, define a custom method called `loseALife()` that does the following:
   - [ ] Decrements the value of `this.lives` by 1.
   - [ ] Calls `this.updateLivesDisplay()`.
   - [ ] Checks to see if `this.lives` is greater than zero.  If it is, create an new anonymous instance of the `Ball` class.  If not, end the game with the following message: `game.end('The mysterious stranger has escaped\nPrincess Ann for now!\n\nBetter luck next time.'`
@@ -218,7 +218,7 @@ Next, you will create the magic stone blocks that the stranger has placed in Pri
 
 ## `For` loops
 
-Let's say we want to create many of these blocks to make the game more interesting.  We could write a series of `new Block()` statements but there is a more efficient and elegant way: with a loop!  This is probably tied for **the** most powerful programing technique you will learn (along with conditional statements)
+Let's say we want to create many of these blocks to make the game more interesting.  We could write a series of `new Block()` statements but there is a more efficient and elegant way: with a loop!  This is probably tied for **the** most powerful programming technique you will learn (along with conditional statements)
 
 - [ ] Read [Loops and Making Horseshoes](http://computationaltales.blogspot.com/2011/03/loops-and-making-horseshoe.html)
 
@@ -229,7 +229,7 @@ Now let's use a `for` loop to automate the process of adding a row of blocks.
 - [ ] Replace the line you just wrote that creates *one* anonymous block with the following `for` loop that creates multiple blocks:
 
 ```javascript
-for (let i = 0; i < 5; i = i + 1) {
+for (let i = 0; i < 5; i++) {
     new Block(200 + i * 48, 200);
 }
 ```
@@ -313,7 +313,7 @@ The same is true with object programming. There is no sense in creating a child 
 
 Right now, all three types of block have identical behavior and appearance. Let's start by defining some new properties and behavior for `ExtraLifeBlock`. The ball should still bounce against it. However, it will not be destroyed; it will remain in place. Each time the ball strikes it, the player earns an additional life.  And to distinguish it from the parent block, let's give it a different image file.  But we need to be careful here.  The parent class constructor accepts two arguments (`x` and `y`).  This means we will need to have these arguments in the constructor of the child class too, and pass those to the parent class constructor by putting them in the argument list for the `super()` method, like this:
 
-```
+```javascript
 class ExtraLifeBlock extends Block {
     constructor(x, y) {
         super(x, y);
