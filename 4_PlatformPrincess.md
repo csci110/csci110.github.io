@@ -364,14 +364,14 @@ Now that we have stored the starting coordinates for each instance of the `Bat` 
 
 ##Wrapping Up
 
-We're not quite done the tutorial yet.  If you are reading this, you are farther ahead than I expected.  Please use the extra time to start on the project below.  
+This completes the platform princess tutorial. 
 
--[ ] Read [The Town of Bool: Part 1 of Ann's encounter with the Booleans](http://computationaltales.blogspot.com/2011/05/town-of-bool.html)
--[ ] Read [The Marvelous IF-ELSE Life of the King's Turtle](http://computationaltales.blogspot.com/2011/09/marvelous-if-else-life-of-kings-turtle.html)
+- [ ] Read [The Town of Bool: Part 1 of Ann's encounter with the Booleans](http://computationaltales.blogspot.com/2011/05/town-of-bool.html)
+- [ ] Read [The Marvelous IF-ELSE Life of the King's Turtle](http://computationaltales.blogspot.com/2011/09/marvelous-if-else-life-of-kings-turtle.html)
 
 Use question set 5 (Platform Princess) to review and evaluate your mastery of new concepts.
 
--[ ] Using the png files in Sakai [Platform images folder](https://sakai.lampschools.org/portal/site/8327cf3f-758a-4ce1-bb40-5a816869e7bc/tool/40fd529a-cd2b-46fd-bed3-501a3f39e116?panel=Main#)*, create a Halloween-themed platform game similar to platformPrincess with the following minimum requirements:
+- [ ] Using the png files in Sakai [Platform images folder](https://sakai.lampschools.org/portal/site/8327cf3f-758a-4ce1-bb40-5a816869e7bc/tool/40fd529a-cd2b-46fd-bed3-501a3f39e116?panel=Main#)*, create a Halloween-themed platform game similar to platformPrincess with the following minimum requirements:
 
 * one or more sliding platforms move vertically in addition to horizontally
 * the background and platforms conform to the tile set in the Platform images folder
@@ -379,7 +379,7 @@ Use question set 5 (Platform Princess) to review and evaluate your mastery of ne
 
 You may remove the bat and spider objects and re-use the wooden platforms if you wish.  You can resize and otherwise molest the png files with a free program such as [IrfanView](http://www.irfanview.com/main_download_engl.htm).  
 
--[ ] Upload your finished project js file to GitHub.
+- [ ] Synchronize your finished project js file with GitHub.
 
 \* The platform graphics were provided courtesy of [Game Art 2D](http://www.gameart2d.com/freebies.html).
 
