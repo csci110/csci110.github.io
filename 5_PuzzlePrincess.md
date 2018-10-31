@@ -213,23 +213,23 @@ For more insight into two-dimensional arrays, read [Ushers, Peanut Vendors, and 
 
 In order to program sophisticated tic-tac-toe play, we will need to model the state of the game with data.
 
--[ ] Add the following to the constructor method of the `TicTacToe` class definition:
+- [ ] Add the following to the constructor method of the `TicTacToe` class definition:
 
 ```javascript
-this.board = [];
-for (let row = 0; row < this.boardSize; row = row + 1) {
-      this.board[row] = [];
+this.dataModel = [];
+for (let row = 0; row < this.size; row = row + 1) {
+      this.dataModel[row] = [];
       for (let col = 0; col < this.boardSize; col = col + 1) {
           this.board[row][col] = this.emptySquareSymbol;
       }
 }
 ```
 
-This creates and initializes an array that will model the contents of the tic-tac-toe board. Unlike the one dimensional arrays you have seen so far, `board` will be a two-dimensional array. You can think of it as a matrix or a data table with rows and columns.  JavaScript does not have a special syntax for creating multidimensional arrays. A common workaround is to create an *array of arrays* in nested loops like we did here.
+This creates and initializes an array that will model the contents of the tic-tac-toe board. Unlike the one dimensional arrays you have seen so far, `dataModel` will be a two-dimensional array. You can think of it as a matrix or a data table with rows and columns.  JavaScript does not have a special syntax for creating multidimensional arrays. A common workaround is to create an *array of arrays* in nested loops like we did here.
 
-The `board` array has three rows and three columns, for a total of nine cells. The code sets each of the nine cells to contain the value of`emptySquareSymbol` (which we want to be a dash).
+The `dataModel` array has three rows and three columns, for a total of nine cells. The code sets each of the nine cells to contain the value of`emptySquareSymbol` (which we want to be a dash).
 
--[ ] Create a custom variable in the constructor of the `TicTacToe` class called `emptySquareSymbol` and set its value to '-'.  This has to be declared before we use it in the nested `for` loops. 
+- [ ] Create a custom variable in the constructor of the `TicTacToe` class called `emptySquareSymbol` and set its value to '-'.  This has to be declared before we use it in the nested `for` loops. 
 
 The code uses two loops to access every cell of the array. One loop is "nested" inside of the other.  The outer loop generates three row arrays (indexed from 0 to 2).  The inner loop generates column numbers 0 to 2, for whatever the row array index happens to be. 
 
@@ -239,13 +239,13 @@ Study this nested `for` loop pattern carefully. This is the key to processing tw
 
 As a test of your understanding, see if you can figure out which is the *fourth* cell of the array to be marked empty.[^*]
 
-Now when the game starts (i.e. when we create an instance of the `TicTacToe` class called `theGame`), a `board` array will be created, as a model of the empty game board.
+Now when the game starts (i.e. when we create an instance of the `TicTacToe` class called `theBoard`), a `dataModel` array will be created, as a model of the empty game board.
 
 ### Using `substring` to pick out a marker symbol from the name
 
 We already have a symbol for an empty square (-).  We should also define symbols for the stranger and the princess markers.  We could define these separately in the class definitions for the `PrincessMarker` and `StrangerMarker`, but a more elegant way is to do it in the parent class by using the first character of whatever `name` is passed to the parent class constructor with JavaScript's `substring` method.  You can read more about `substring` [here](https://www.w3schools.com/jsref/jsref_substring.asp).
 
--[ ] Add this line to the constructor of the `Marker` class definition (after you create the `name` property):
+- [ ] Add this line to the constructor of the `Marker` class definition (after you create the `name` property):
 
 ```javascript
 this.squareSymbol = this.name.substring(0, 1);
@@ -259,14 +259,14 @@ The array is only data stored in the computer memory; it is not an instance with
 
 More importantly, it will be difficult to know with certainty if the array contents correctly model the visual board. We could sure use something to let us "see" that array.
 
--[ ] In the `TicTacToe` class definition, outside the constructor, define a method named `debugBoard`, containing the following code:
+- [ ] In the `TicTacToe` class definition, outside the constructor, define a method named `debugBoard`, containing the following code:
 
 ```javascript
 debugBoard() {
      let boardString = '\n';
-     for (let row = 0; row < this.boardSize; row = row + 1) {
-         for (let col = 0; col < this.boardSize; col = col + 1) {
-             boardString = boardString + this.board[row][col] + ' ';
+     for (let row = 0; row < this.size; row = row + 1) {
+         for (let col = 0; col < this.size; col = col + 1) {
+             boardString = boardString + this.dataModel[row][col] + ' ';
          }
      	 boardString = boardString + '\n';
      }
@@ -286,14 +286,9 @@ With this debug script in hand, you are ready to take the next step in using the
 
 ## Updating the board array
 
-You need to update the board array whenever a marker is placed on the board.
+We need to update the board array whenever a marker is placed on the board.  A good place to do this is in the  `playInSquare` method that places a marker on the board in the `Marker` class definition. 
 
-Modify the `playInSquare` programming that places a marker on the board in the `Marker` class definition. 
-
--[ ] First, add an assignment statement that stores `this.squareSymbol` in the array cell that corresponds to the board row and column. Remember how to access the `board` array, which is a property of whichever `TicTacToe` instance gets passed to the `Marker` 's constructor.  HINT: `this.board[row][col]` won't work here because `board` is not (directly) a property of `Marker` class instances.
-
-
--[ ] Next, add a call to `TicTacToe`'s  `debugBoard()` method so that you can check the array contents.  Same comment applies.
+- [ ] In the   `playInSquare` method of the `Marker` class definition, add a call to `TicTacToe`'s  `debugBoard()` method so that you can check the array contents.  *HINT: use a property of a property to access this method from within a different class.*
 
 Run the game, and test by dropping markers in various board positions. Verify that the debug output shows the array matching the game board.
 
@@ -307,18 +302,17 @@ The compile window, shown on the right side, contains the output from three call
 
 In `TicTacToe` 's `debugBoard` definition:
 
--[ ] Create a local variable called `moveCount` and set its value to zero.
+- [ ] Create a local variable called `moveCount` and set its value to zero.
 
-
--[ ] Replace your `console.log` statement with this one:
+- [ ] Replace your `console.log` statement with this one:
 
 ```javasript
-console.log('The board after ' + moveCount + ' move(s):' + boardString);
+console.log('The data model after ' + moveCount + ' move(s):' + boardString);
 ```
 
 We need some way to increment the `moveCount` variable for every square that isn't empty.  We already have a nested `for` loop that visits every square on the board, so we might as well have it do this other task for us besides growing the `boardString` string:
 
--[ ] Inside the column loop of the nested `for` loops, test to see if the current square contains the `emptySquareSymbol`.  If it does NOT, increase the value of `moveCount` by one.  Again, challenge yourself to use the property name instead of the character '-' (HINT: it is a property of the `TicTacToe` class instances).
+- [ ] Inside the column loop of the nested `for` loops, test to see if the current square contains the `emptySquareSymbol`.  If it does NOT, increase the value of `moveCount` by one.  Again, challenge yourself to use a property name instead of the character '-' (*HINT: it is a property of the `TicTacToe` class instances*).
 
 Run the game again, and test by dropping markers in various board positions. Verify that the debug output displays the turn number correctly.  
 
@@ -330,12 +324,12 @@ One way to do this, is to create a *flag* that indicates whether or not the mark
 
 In the `Marker` class definition:
 
--[ ] Inside the `constructor` method, define a variable called `inBoard` and set its value to `false`.
--[ ] In the `playInSquare` method, set the flag to `true` to indicate that the marker has been played to a valid square.
+- [ ] Inside the `constructor` method, define a variable called `inBoard` and set its value to `false`.
+- [ ] In the `playInSquare` method, set the flag to `true` to indicate that the marker has been played to a valid square.
 
 In the `PrinessMarker` class definition:
 
--[ ] *At the very beginning* of the `handleMouseLeftButtonDown` and `handleMouseLeftButtonUp` definitions, test to see if the flag has been set to true.  If so, exit the method with a `return` statement.   Remember, you don't have to use `if (this.inBoard === true)`.  The Boolean variable `inBoard` returns `true` all by itself!  It is more elegant and efficient to use `if (this.inBoard)` to do the same thing, and to design your flag names to make code like this readable.
+- [ ] *At the very beginning* of the `handleMouseLeftButtonDown` and `handleMouseLeftButtonUp` definitions, test to see if the flag has been set to true.  If so, exit the method with a `return` statement.   Remember, you don't have to use `if (this.inBoard === true)`.  The Boolean variable `inBoard` returns `true` all by itself!  It is more elegant and efficient to use `if (this.inBoard)` to do the same thing, and to design your flag names to make code like this readable.
 
 Run the game and verify that markers cannot be moved after they are dropped in the game board.
 
@@ -343,9 +337,9 @@ Run the game and verify that markers cannot be moved after they are dropped in t
 
 You may have noticed that there is a problem when you drop one marker on top of another. The program doesn't increment the turn counter but it does call `takeTurns()` again, which will create a problem when we start playing with the stranger.
 
-We will need to add some logic to prevent this and to have the marker automatically jump back to its original position if placed on another marker, just like we did when it was dropped outside the confines of the board in [this](###Preventing drops outside the board) section.  This is a task for our `board` array!
+We will need to add some logic to prevent this and to have the marker automatically jump back to its original position if placed on another marker, just like we did when it was dropped outside the confines of the board in [this](###Preventing drops outside the board) section.  This is a task for our `dataModel` array!
 
--[ ] In `PrincessMarker` `handleMouseLeftButtonUp()` method definition, add another *OR* condition to the `if` statement that checks to see if the marker was dropped outside the playable area:  the condition is "is there *NOT* an empty square symbol in this square?"  
+- [ ] In `PrincessMarker` `handleMouseLeftButtonUp()` method definition, add another *OR* condition to the `if` statement that checks to see if the marker was dropped outside the playable area:  the condition is "is there *NOT* an empty square symbol in this square?"  
 
 Run the game and verify that the marker returns to the start position if placed on another marker, without calling `takeTurns()`.
 
