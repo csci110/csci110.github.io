@@ -115,9 +115,15 @@ For that we will need to know the original position of the marker (i.e. the x an
 
 To know if the spot is allowed, we could find the row and column that the marker is in, and see if it is within the 3x3 board.  For that we will need to know the origin of the `theBoard` (which is an instance of the `TicTacToe` class) as well as its square size and board size.  Later we may also want to verify that the square is unoccupied.
 
+<<<<<<< HEAD
+### Passing a reference
+
+How do we access the properties of the `theBoard` board from another class definition?  If `theBoard` object existed before run-time (like with an *object literal*), we could just say `theBoard.x` for example.  Unfortunately this object does not exist until the program starts.  One way around this is to pass the name of the instance to the class!  In essence we are passing [the reference to] an *object* as an argument, instead of passing a *value* to a method as an argument, like we have been doing so far.[^R]  When we pass a reference, we can modify the object's properties if we want to.  There is a more lengthy comparison of passing values versus passing references [here](https://codeburst.io/javascript-passing-by-value-vs-reference-explained-in-plain-english-8d00fd06a47c).
+=======
 ### Passing by reference
 
 How do we access the properties of the `theBoard` board from another class definition?  If `theBoard` object existed before run-time (like with an *object literal*), we could just say `theBoard.x` for example.  Unfortunately this object does not exist until the program starts.  One way around this is to pass the name of the instance to the class!  In essence we are passing an *object* to a method as an argument, instead of passing a *value* to a method as an argument, like we have been doing so far.  This is referred to as "passing by reference" (as opposed to "passing by value").  When we pass by reference, we can modify the object's properties if we want to.  There is a more lengthy comparison of passing by value or passing by reference [here](https://codeburst.io/javascript-passing-by-value-vs-reference-explained-in-plain-english-8d00fd06a47c).
+>>>>>>> ff9983cbfb51bf7453deb0a64a8d8459c2d07110
 
 For example we can refer to `x` property of `theBoard` object from the `PrincessMarker` class like this:
 
@@ -139,7 +145,11 @@ Here `this` refers to an instance of the `TicTacToe` class - meaning `theBoard` 
 
 Here is how we want to identify the rows and columns on the board:
 
+<<<<<<< HEAD
+![board](/images/board.png)
+=======
 ![board](C:/Users/stauberr/Downloads/images/board.png)
+>>>>>>> ff9983cbfb51bf7453deb0a64a8d8459c2d07110
 
 
 
@@ -194,8 +204,6 @@ We still need to prevent the player from dropping a marker on top of an existing
 
 For more insight into two-dimensional arrays, read [Ushers, Peanut Vendors, and Matrix Indices](http://computationaltales.blogspot.com/2011/07/ushers-peanut-vendors-and-matrix.html).
 
-
-
 # Puzzled Princess, Part 2
 
 ## Modeling the state of the game
@@ -209,7 +217,7 @@ this.dataModel = [];
 for (let row = 0; row < this.size; row = row + 1) {
       this.dataModel[row] = [];
       for (let col = 0; col < this.boardSize; col = col + 1) {
-          this.board[row][col] = this.emptySquareSymbol;
+          this.dataModel[row][col] = this.emptySquareSymbol;
       }
 }
 ```
@@ -276,6 +284,8 @@ With this debug script in hand, you are ready to take the next step in using the
 ## Updating the board array
 
 We need to update the board array whenever a marker is placed on the board.  A good place to do this is in the  `playInSquare` method that places a marker on the board in the `Marker` class definition. 
+
+- [ ] First, add an assignment statement that stores `this.squareSymbol` in the array cell that corresponds to the board row and column. Remember how to access the `dataModel` array, which is a property of whichever `TicTacToe` instance gets passed to the `Marker` 's constructor.  HINT: `this.dataModel[row][col]` won't work here because `dataModel` is not (directly) a property of `Marker` class instances.
 
 - [ ] In the   `playInSquare` method of the `Marker` class definition, add a call to `TicTacToe`'s  `debugBoard()` method so that you can check the array contents.  *HINT: use a property of a property to access this method from within a different class.*
 
@@ -344,13 +354,13 @@ Now that the player can drag princess markers onto the board, it is time to prog
 
 First let's make a `StrangerMarker` class much like the `PrincessMarker` class:  
 
-- [ ] Define a class called `StrangerMarker` that is a *child* of the `Marker` class and whose constructor function accepts an argument called `game` and which does the following:
+- [ ] Define a class called `StrangerMarker` that is a *child* of the `Marker` class and whose constructor function accepts an argument called `board` and which does the following:
 
-- Calls the parent class constructor, passing it the values of `game`, `'strangerFace.png'`, and `'Stranger'` for `game`, `imageFile`, and `name` respectively.
+- Calls the parent class constructor, passing it the values of `board`, `'strangerFace.png'`, and `'Stranger'` for `board`, `image`, and `name` respectively.
 
 Inside the `StrangerMarker` class definition, outside its constructor:
 
--[ ] Define a `handleGameLoop()` function that contains the following code
+- [ ] Define a `handleGameLoop()` function that contains the following code
 
 ```javascript
 if (this.inBoard) {
@@ -360,17 +370,17 @@ if (this.inBoard) {
 
 Just like we did to "lock in" princess markers that had already been placed in the board, we use the `inBoard` flag to skip every `StrangerMarker` instance that has already been played.  We can think of this as "do nothing if the marker has already been played." Remember, this is the game loop method for *every instance of the class*, and we really only want to find a move for the marker that hasn't yet been placed.
 
--[ ] Add the following to the same `handleGameLoop()` method:
+- [ ] Add the following to the same `handleGameLoop()` method:
 
 ```javascript
 // Mark a random empty square.
 let row, col;
 do {
-    row = Math.round(Math.random() * (this.game.boardSize - 1));
-    col = Math.round(Math.random() * (this.game.boardSize - 1));
-} while (this.game.board[row][col] !== this.game.emptySquareSymbol);
+    row = Math.round(Math.random() * (this.board.size - 1));
+    col = Math.round(Math.random() * (this.board.size - 1));
+} while (this.board.dataModel[row][col] !== this.game.emptySquareSymbol);
 
-this.game.board[row][col] = this.squareSymbol;
+this.board.[row][col] = this.squareSymbol;
 this.playInSquare(row, col);
 this.game.takeTurns();
 ```
@@ -865,4 +875,5 @@ Congratulations! You have progressed from Stranger Hunt, a simple click game, to
 
 In many ways, the simple story arc running through these games is a "prequel" to Jeremy Kubica's Computational Fairy Tales. The programming skills that you have learned in this course are valuable in their own right. More importantly (?), programming skills are a prerequisite to fully understanding Princess Ann's quest and the nature of the darkness that threatens the kingdom. If you choose to continue your study of computer science, you will soon apply your new programming skills to investigate the computing topics explained in the tales of Ann's quest and her ultimate triumph.
 
+[^R]: To be fair, even when we pass an object we are really passing the *value* of that object's ID, so everything in Javascript is technically "pass by value."
 [^*]: Cell 1,0 (2nd row, first column) would be the fourth cell to be marked empty, since the column runs three times before the row is incremented by the outer loop.
