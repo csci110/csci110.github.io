@@ -1,120 +1,109 @@
-#Puzzled Princess, Part 1
+# Puzzled Princess, Part 1
 
 Princess Ann has caught the mysterious stranger at last! Stung by his claim that she is not yet ready to learn about the darkness foretold in prophecy, she rashly agrees to any test the stranger can devise.
-
-## Import the project archive
-
--[ ] Upload the following files using `git pull` from a terminal window in your C9 `tutorials` directory, or by downloading them from the Sakai resources tab:
-
-* `puzzlePrincess.html`, and an empty `puzzlePrincess.js` file (or you may create these if you wish)
-* `floor`, `board`, `princessFace` and `strangerFace` png files
 
 ## Overview
 
 The game is deceptively simple for humans, but programming the best play for the computer opponent is not an easy task, and will take us several hundred lines of code.  Here is a broad-brush overview of where we are going:
 
--[ ] Type or paste this into your code window. 
+- [ ] Type or paste this into your code window. 
 
 ```javascript
-gameController.backgroundImageFile = 'floor.png';
-gameController.preloadImages('princessFace.png', 'strangerFace.png', 'board.png');
+import {game, Sprite} from "./sgc/sgc.js";
+game.setBackground("floor.png");
 
-class Marker {   }
+class Marker extends Sprite {   }
 class PrincessMarker extends Marker {   }
 class StrangerMarker extends Marker {   }
-class TicTacToe {   }
+class TicTacToe  extends Sprite {   }
 
-gameController.startGame();
-let theGame = new TicTacToe();
-theGame.takeTurns();
+let theBoard = new TicTacToe();
+theBoard.takeTurns();
 ```
 
 That's what the whole program will look like, using the collapsed view in the code window (you can use the little white triangles in the left margin to expand or contract the class definitions).  For now this will serve as a useful outline that we can fill in as we go.
 
-* The `TicTacToe` class will keep track of the moves on the board and whose turn it is, and when someone wins loses or draws.  Its methods will be:
-   * takeTurns()
-   * markSquare(row, col, forOpponent)
-   * unmarkSquare(row, col)
-   * getSquareSymbol(rol, col)
-   * gameIsWon()
-   * gameIsDrawn()
-   * countWinningMoves(forOpponent)
-   * debugBoard() - for printing the current state of the board to the console window
-* The `Marker` class places one of the children class marker images on the board with a `playInSquare` method.
-* The `PrincessMarker` derived class will handle click-and-dragging the Princess marker onto the board.  This is the player's move.
-* The `StrangerMarker` derived class will handle finding the best play for the computer opponent.
+- The `TicTacToe` class will keep track of the moves on the board and whose turn it is, and when someone wins loses or draws.  Its methods will be:
+  - takeTurns()
+  - markSquare(row, col, forOpponent)
+  - unmarkSquare(row, col)
+  - getSquareSymbol(rol, col)
+  - gameIsWon()
+  - gameIsDrawn()
+  - countWinningMoves(forOpponent)
+  - debugBoard() - for printing the current state of the board to the console window
+- The `Marker` class places one of the children class marker images on the board with a `playInSquare` method.
+- The `PrincessMarker` derived class will handle click-and-dragging the Princess marker onto the board.  This is the player's move.
+- The `StrangerMarker` derived class will handle finding the best play for the computer opponent.
 
 Let's start with the board.
 
 ## Create the board
 
--[ ] Define a class called `TicTacToe` whose constructor function accepts no inputs and does the following:
+- [ ] Define a class called `TicTacToe` , derived from the `Sprite` class whose constructor function accepts no arguments and does the following:
 
-* Gives it a name.
-* Gives it the `board.png` image file.
-* Sets its position to (x,y) = (300, 85).
-* Defines a custom variable called `squareSize` and sets it equal to 150 (the number of pixels on each side of a board square).
-
-* Defines a custom variable called `boardSize` and sets it equal to 3 (for a 3 by 3 board).
-
-* *Declares* but does not initialize a custom variable called `activeMarker` like this:
+- Gives it a name.
+- Uses the `board.png` image file.
+- Sets its position to (x,y) = (300, 85).
+- Defines a custom variable called `SquareSize` and sets it equal to 150 (the number of pixels on each side of a board square).
+- Defines a custom variable called `size` and sets it equal to 3 (for a 3 by 3 board).
+- *Declares* but does not initialize a custom variable called `activeMarker` like this:
 
 ```javascript
 this.activeMarker; // variable exists, but value is undefined
 ```
 
-* Adds the sprite to the game.
-
 In the overview you notice we call a `takeTurns` method to kick everything off.  We'll write enough of that now so that we can start testing the code we have written so far.
 
-##Start the game with the player moving first
+## Start the game with the player moving first
 
 Later we will sometimes let the Stranger play first, but for now we want to test our ability to click and drag our Princess marker onto the game board, so we will let her go first.
 
--[ ] Inside the `TicTacToe` class definition, define a method called `takeTurns()` that accepts no arguments and contains only the following line:
+- [ ] Inside the `TicTacToe` class definition, define a method called `takeTurns()` that accepts no arguments and contains only the following line:
+
 ```javascript
 this.activeMarker = new PrincessMarker(this);
 ```
 
-This will create a new instance of the `PrincessMarker` derived class, using `theGame` object as an argument (see overview section).  So let's define the parent `Marker` class first.
+In our program, the `theBoard` object is the only instance we will make of the `TicTacToe` class, so the constructor of the `PrincessMarker` class will always be using `theBoard` as an argument for its constructor.  Let's define the parent `Marker` class before the `PrincessMarker` child class.
 
-##The `Marker` parent class
+## The `Marker` parent class
 
--[ ] Define a class called `Marker` whose constructor function accepts three arguments(`game`, `imageFile`, and `name`) and does the following:
+- [ ] Define a class called `Marker` whose constructor function accepts three arguments(`board`, `image`, and `name`) and does the following:
 
-* sets the `game`, `imageFile`, and `name` properties for each instance of the class equal to the values passed as arguments to the constructor (for example `this.game = game;` and so on)
-* Sets its position to (x,y) = (150, 275).
-* Adds the sprite to the game.
+- Calls the parent class constructor
+- Sets the `board`, and `name` properties for each instance of the class equal to the values passed as arguments to the constructor (for example `this.board = board;` and so on)
+- Set the image using the string passed to the `image` argument
+- Sets its position to (x,y) = (150, 275).
 
-##The `PrincessMarker` child class
+## The `PrincessMarker` child class
 
 This is where you will implement drag and drop so that the player can use the mouse to move the princess game markers.
 
--[ ] Define a class called `PrincessMarker` that is a *child* of the `Marker` class and whose constructor function accepts an argument called `game` and which does the following:
+- [ ] Define a class called `PrincessMarker` that is a *child* of the `Marker` class and whose constructor function accepts an argument called `board` and which does the following:
 
-* Calls the parent class constructor, passing it the values of `game`, `'princessFace.png'`, and `'Princess Ann'` for `game`, `imageFile`, and `name` respectively.  HINT: use the `super` keyword like you did in previous tutorials.
-* Defines a custom variable called `dragging` and sets its value to `false`.
-
+- Calls the parent class constructor, passing it the values of `board`, `'annFace.png'`, and `'Princess Ann'` for `board`, `image`, and `name` respectively.  HINT: use the `super` keyword like you did in previous tutorials.
+- Defines a custom variable called `dragging` and sets its value to `false`.
 
 The `dragging` flag will keep track of whether or not we left-clicked on a Princess marker.
 
-In the `PrincessMarker` class definition:
+Still in the `PrincessMarker` class definition:
 
--[ ] Define a `handleMouseLeftButtonDown()` method that sets `dragging` to `true`.
--[ ] Define a `handleMouseLeftButtonUp()` method that sets `dragging` to `false`.
--[ ] Define a `handleGameLoop()` method that tests the value of `dragging`. When it is `true`, the instance is being dragged, so it should move to the mouse pointer's location. You will need to use the `gameController.getMouseX()` and `getMouseY()` methods, like this, for example:
+- [ ] Define a `handleMouseLeftButtonDown()` method that sets `dragging` to `true`.
+- [ ] Define a `handleMouseLeftButtonUp()` method that sets `dragging` to `false`.
+- [ ] Define a `handleGameLoop()` method that tests the value of `dragging`. When it is `true`, the instance is being dragged, so it should move to the mouse pointer's location. You will need to use the `game.getMouseX()` and `getMouseY()` methods, like this, for example:
 
 ```javascript
-this.x = gameController.getMouseX() - this.width / 2;
+this.x = game.getMouseX() - this.width / 2;
 ```
 
 We subtract half the width (or height for y) of the sprite so that the *center* of the sprite will land where we release the mouse, instead of the upper left hand corner, where its origin is.
 
 Run your game and verify that:
 
-* The board and princess markers appear over the floor background.
-* You can click and hold the left mouse button on a marker to "drag" it, and
-* release the left mouse button to "drop" the marker anywhere in the room.
+- The board and princess markers appear over the floor background.
+- You can click and hold the left mouse button on a marker to "drag" it, and
+- release the left mouse button to "drop" the marker anywhere in the room.
 
 ## Controlling the drop
 
@@ -122,47 +111,47 @@ Now we need to add some logic to control where the markers can be dropped.  When
 
 For that we will need to know the original position of the marker (i.e. the x and y coordinates in the `Marker` class constructor method).  
 
--[ ] In the constructor method for `Marker`, create custom variables `startX` and `startY` and set their values equal to the original `x` and `y` coordinates.  You may find the chained assignment version useful again (for example`this.x = this.startX = 150;`)
+- [ ] In the constructor method for `Marker`, create custom variables `startX` and `startY` and set their values equal to the original `x` and `y` coordinates.  You may find the chained assignment version useful again (for example`this.x = this.startX = 150;`)
 
-To know if the spot is allowed, we could find the row and column that the marker is in, and see if it is within the 3x3 board.  For that we will need to know the origin of the `theGame` board (which is an instance of the `TicTacToe` class) as well as its square size and board size.  Later we may also want to verify that the square is unoccupied.
+To know if the spot is allowed, we could find the row and column that the marker is in, and see if it is within the 3x3 board.  For that we will need to know the origin of the `theBoard` (which is an instance of the `TicTacToe` class) as well as its square size and board size.  Later we may also want to verify that the square is unoccupied.
 
-###Passing by reference
+### Passing a reference
 
-How do we access the properties of the `theGame` board from another class definition?  If `theGame` object existed before run-time (like with an *object literal*), we could just say `theGame.x` for example.  Unfortunately this object does not exist until the program starts.  One way around this is to pass the name of the instance to the class!  In essence we are passing an *object* to a method as an argument, instead of passing a *value* to a method as an argument, like we have been doing so far.  This is referred to as "passing by reference" (as opposed to "passing by value").  When we pass by reference, we can modify the object's properties if we want to.  There is a more lengthy comparison of passing by value or passing by reference [here](https://codeburst.io/javascript-passing-by-value-vs-reference-explained-in-plain-english-8d00fd06a47c).
+How do we access the properties of the `theBoard` board from another class definition?  If `theBoard` object existed before run-time (like with an *object literal*), we could just say `theBoard.x` for example.  Unfortunately this object does not exist until the program starts.  One way around this is to pass the name of the instance to the class!  In essence we are passing [the reference to] an *object* as an argument, instead of passing a *value* to a method as an argument, like we have been doing so far.[^R]  When we pass a reference, we can modify the object's properties if we want to.  There is a more lengthy comparison of passing values versus passing references [here](https://codeburst.io/javascript-passing-by-value-vs-reference-explained-in-plain-english-8d00fd06a47c).
 
-For example we can refer to `x` property of `theGame` board object from the `PrincessMarker` class like this:
+For example we can refer to `x` property of `theBoard` object from the `PrincessMarker` class like this:
 
 ```javascript
-this.game.x
+this.board.x
 ```
 
-`x` is a property of whatever object `game` refers to, and the `game` is a property of the current instance of the `PrincessMarker` class.  A property of a property!  This is hard to grasp so let's take a moment to summarize what we have done so far.
+`x` is a property of whatever object `board` refers to, and `board` is a property of the current instance of the `PrincessMarker` class.  A property of a property!  This is hard to grasp so let's take a moment to summarize what we have done so far.
 
-Look back at the overview section for a moment.  Notice on the second-to-last line we are creating an instance of the `TicTacToe` class called `theGame`.  `theGame` has a method in it called `takeTurns()`, which we call in the last line of the code.  The `takeTurns()` method creates an instance of one of the children derived from the `Marker` class (in this case `PrincessMarker`), and it passes the name of `theGame` to the `PrincessMarker` constructor method!  Look at your `takeTurns()` method again to confirm this:  
+Look back at the overview section for a moment.  Notice on the second-to-last line we are creating an instance of the `TicTacToe` class called `theBoard`.  Like every member of its class, `theBoard` has a method in it called `takeTurns()`, which we call in the last line of the code.  The `takeTurns()` method creates an instance of  the `PrincessMarker` class, and it passes the name of `theBoard` to the `PrincessMarker` constructor method!  Look at your `takeTurns()` method again to confirm this:  
 
 ```javascript
 this.activeMarker = new PrincessMarker(this);
 ```
 
-Here `this` refers to an instance of the `TicTacToe` class - meaning `theGame` in our case.  The constructor method of `PrincessMarker` calls the constructor of the parent `Marker` class, which makes `game` a property of any instance of the `Marker` class with the `this.game = game;` command.  There is a lot of complex programming happening here; you can be proud of your accomplishment if you can follow this line of reasoning.
+Here `this` refers to an instance of the `TicTacToe` class - meaning `theBoard` in our case.  The constructor method of `PrincessMarker` calls the constructor of the parent `Marker` class, which makes `game` a property of any instance of the `Marker` class with the `this.board = board;` command.  There is a lot of complex programming happening here; you can be proud of your accomplishment if you can follow this line of reasoning.
 
-###Computing the board row and column
+### Computing the board row and column
 
 Here is how we want to identify the rows and columns on the board:
 
-![board](images/board.png)
+![board](/images/board.png)
 
 
 
 Remember the length of the yellow line is stored in the `squareSize` property of (an instance of) the `TicTacToe` class. Notice the top row of the board is numbered 0, and the bottom row is numbered 2. 
 
--[ ] In the `handleMouseLeftButtonUp` method of `PrincessMarker` class, define a local variables called `row`.  Devise an expression (a formula) that calculates the game board row number that the instance was just dropped in and store this value in `row`. The value should be rounded down to the nearest integer (i.e. truncated so that 2.9 become 2 for example).  The `Math.floor()` method might be useful.
+- [ ] In the `handleMouseLeftButtonUp` method of `PrincessMarker` class, define a local variable called `row`.  Devise an expression (a formula) that calculates the game board row number that the instance was just dropped in and store this value in `row`. The value should be rounded down to the nearest integer (i.e. truncated so that 2.9 become 2 for example).  The `Math.floor()` method might be useful.
 
-I know you can just use 150 for this but challenge yourself to use the property name in your expression.  This will make your code easier to maintain if you should choose to change the board size (and therefore the size of the squares) at some later date.
+I know you can just use 150 for this but challenge yourself to use the property name in your expression.  It will be a good test of your understanding of the "property of a property" thing, and it will make your code easier to maintain if you should choose to change the board size (and therefore the size of the squares) at some later date.
 
 There is no need to limit your expression to values of 0 to 2. In other words, when a marker is dropped above or below the board, the value computed by the expression will not be in the range 0 to 2. This is not a problem; it will become useful later.
 
--[ ] To test the correctness of your expression, add the following statement to the `handleMouseLeftButtonUp` method, then run the game.  Test all three rows, as well as positions above and below the game board.
+- [ ] To test the correctness of your expression, add the following statement to the `handleMouseLeftButtonUp` method, then run the game.  Test all three rows, as well as positions above and below the game board.
 
 ```
 window.alert("The row number is " + row);
@@ -170,32 +159,32 @@ window.alert("The row number is " + row);
 
 Do not proceed until the expression is correct.
 
--[ ] Declare a local variable named `col` (short for "column"), and use it to store the number of the board column. This is computed with an expression similar to the one that computes the row number.
+- [ ] Declare a local variable named `col` (short for "column"), and use it to store the number of the board column. This is computed with an expression similar to the one that computes the row number.
 
 As before, test by using a console message to show the column number that is computed.
 
 Do not proceed until the expression is correct.
 
--[ ] Remove all `window.alert` statements used for testing.
+- [ ] Remove all `window.alert` statements used for testing.
 
-###Preventing drops outside the board
+### Preventing drops outside the board
 
 We can use these values of `row` and `column` to determine if the marker has been dropped within the board.
 
--[ ] Within the `handleMouseLeftButtonUp` of the `PrincessMarker` class, write an `if` statement to test if the row and column are outside the playable area using the `game.boardSize` property.  If so, set the marker's `x` and `y` coordinates to their original positions (`startX`, `startY`) and exit the method with a `return` statement. 
+- [ ] Within the `handleMouseLeftButtonUp` of the `PrincessMarker` class, write an `if` statement to test if the row and column are outside the playable area using the `game.size` property.  If so, set the marker's `x` and `y` coordinates to their original positions (`startX`, `startY`) and exit the method with a `return` statement. 
 
 The return statement stops the execution of a function and returns a value from that function.  We will be using it a lot in this tutorial so you might want to familiarize yourself with its [syntax and usage](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return).
 
-###Centering the marker
+### Centering the marker
 
 The game display will be much cleaner if markers are placed neatly in the center of game board squares. The player, however, may drop them off-center. In fact, the current programming will allow the player to drop markers on the dividing lines of the board. This is messy and confusing. You will now add code to reposition the marker in the center of the square it was dropped in.
 
--[ ] Inside the class definition for the `Marker` class, define a method called `playInSquare` that accepts `row` and `col` as arguments and changes the values of `this.x` and `this.y` so that the marker is horizontally and vertically centered in the square where it was dropped. You must devise an expression to compute the correct x and coordinates.  Please use the `this.game.x`, `this.game.y` and `this.game.squareSize` properties again instead of their numeric values.
--[ ] At the end of the `handleMouseLeftButtonUp` method of the `PrincessMarker` class, add a call to `this.playInSquare(row, col)`.
+- [ ] Inside the class definition for the `Marker` class, define a method called `playInSquare` that accepts `row` and `col` as arguments and changes the values of `this.x` and `this.y` so that the marker is horizontally and vertically centered in the square where it was dropped. You must devise an expression to compute the correct x and coordinates.  Please use the `this.game.x`, `this.game.y` and `this.game.size` properties again instead of their numeric values.
+- [ ] At the end of the `handleMouseLeftButtonUp` method of the `PrincessMarker` class, add a call to `this.playInSquare(row, col)`.
 
 We would like to follow this with a call to `theBoard` object's `takeTurns()` method.  Remember that `theBoard` is an instance (which is created at run-time) of the `TicTacToe` class.  How can we refer to an instance that doesn't yet exist?  If you need a reminder about how you might do this, review the [Passing by Reference](###Passing by reference) section.
 
--[ ] At the end of the `handleMouseLeftButtonUp` method of the `PrincessMarker` class, add a call to the `takeTurns()` method of the game object that is passed to the `PrincessMarker`'s constructor.
+- [ ] At the end of the `handleMouseLeftButtonUp` method of the `PrincessMarker` class, add a call to the `takeTurns()` method of the game object that is passed to the `PrincessMarker`'s constructor.
 
 Test and correct your game until it shows the desired behavior.
 
@@ -204,8 +193,6 @@ We still need to prevent the player from dropping a marker on top of an existing
 ## Wrapping Up
 
 For more insight into two-dimensional arrays, read [Ushers, Peanut Vendors, and Matrix Indices](http://computationaltales.blogspot.com/2011/07/ushers-peanut-vendors-and-matrix.html).
-
-
 
 # Puzzled Princess, Part 2
 
@@ -220,7 +207,7 @@ this.dataModel = [];
 for (let row = 0; row < this.size; row = row + 1) {
       this.dataModel[row] = [];
       for (let col = 0; col < this.boardSize; col = col + 1) {
-          this.board[row][col] = this.emptySquareSymbol;
+          this.dataModel[row][col] = this.emptySquareSymbol;
       }
 }
 ```
@@ -287,6 +274,8 @@ With this debug script in hand, you are ready to take the next step in using the
 ## Updating the board array
 
 We need to update the board array whenever a marker is placed on the board.  A good place to do this is in the  `playInSquare` method that places a marker on the board in the `Marker` class definition. 
+
+- [ ] First, add an assignment statement that stores `this.squareSymbol` in the array cell that corresponds to the board row and column. Remember how to access the `dataModel` array, which is a property of whichever `TicTacToe` instance gets passed to the `Marker` 's constructor.  HINT: `this.dataModel[row][col]` won't work here because `dataModel` is not (directly) a property of `Marker` class instances.
 
 - [ ] In the   `playInSquare` method of the `Marker` class definition, add a call to `TicTacToe`'s  `debugBoard()` method so that you can check the array contents.  *HINT: use a property of a property to access this method from within a different class.*
 
@@ -355,13 +344,13 @@ Now that the player can drag princess markers onto the board, it is time to prog
 
 First let's make a `StrangerMarker` class much like the `PrincessMarker` class:  
 
-- [ ] Define a class called `StrangerMarker` that is a *child* of the `Marker` class and whose constructor function accepts an argument called `game` and which does the following:
+- [ ] Define a class called `StrangerMarker` that is a *child* of the `Marker` class and whose constructor function accepts an argument called `board` and which does the following:
 
-- Calls the parent class constructor, passing it the values of `game`, `'strangerFace.png'`, and `'Stranger'` for `game`, `imageFile`, and `name` respectively.
+- Calls the parent class constructor, passing it the values of `board`, `'strangerFace.png'`, and `'Stranger'` for `board`, `image`, and `name` respectively.
 
 Inside the `StrangerMarker` class definition, outside its constructor:
 
--[ ] Define a `handleGameLoop()` function that contains the following code
+- [ ] Define a `handleGameLoop()` function that contains the following code
 
 ```javascript
 if (this.inBoard) {
@@ -371,17 +360,17 @@ if (this.inBoard) {
 
 Just like we did to "lock in" princess markers that had already been placed in the board, we use the `inBoard` flag to skip every `StrangerMarker` instance that has already been played.  We can think of this as "do nothing if the marker has already been played." Remember, this is the game loop method for *every instance of the class*, and we really only want to find a move for the marker that hasn't yet been placed.
 
--[ ] Add the following to the same `handleGameLoop()` method:
+- [ ] Add the following to the same `handleGameLoop()` method:
 
 ```javascript
 // Mark a random empty square.
 let row, col;
 do {
-    row = Math.round(Math.random() * (this.game.boardSize - 1));
-    col = Math.round(Math.random() * (this.game.boardSize - 1));
-} while (this.game.board[row][col] !== this.game.emptySquareSymbol);
+    row = Math.round(Math.random() * (this.board.size - 1));
+    col = Math.round(Math.random() * (this.board.size - 1));
+} while (this.board.dataModel[row][col] !== this.game.emptySquareSymbol);
 
-this.game.board[row][col] = this.squareSymbol;
+this.board.[row][col] = this.squareSymbol;
 this.playInSquare(row, col);
 this.game.takeTurns();
 ```
@@ -876,4 +865,5 @@ Congratulations! You have progressed from Stranger Hunt, a simple click game, to
 
 In many ways, the simple story arc running through these games is a "prequel" to Jeremy Kubica's Computational Fairy Tales. The programming skills that you have learned in this course are valuable in their own right. More importantly (?), programming skills are a prerequisite to fully understanding Princess Ann's quest and the nature of the darkness that threatens the kingdom. If you choose to continue your study of computer science, you will soon apply your new programming skills to investigate the computing topics explained in the tales of Ann's quest and her ultimate triumph.
 
+[^R]: To be fair, even when we pass an object we are really passing the *value* of that object's ID, so everything in Javascript is technically "pass by value."
 [^*]: Cell 1,0 (2nd row, first column) would be the fourth cell to be marked empty, since the column runs three times before the row is incremented by the outer loop.
