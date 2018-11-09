@@ -115,15 +115,9 @@ For that we will need to know the original position of the marker (i.e. the x an
 
 To know if the spot is allowed, we could find the row and column that the marker is in, and see if it is within the 3x3 board.  For that we will need to know the origin of the `theBoard` (which is an instance of the `TicTacToe` class) as well as its square size and board size.  Later we may also want to verify that the square is unoccupied.
 
-<<<<<<< HEAD
 ### Passing a reference
 
 How do we access the properties of the `theBoard` board from another class definition?  If `theBoard` object existed before run-time (like with an *object literal*), we could just say `theBoard.x` for example.  Unfortunately this object does not exist until the program starts.  One way around this is to pass the name of the instance to the class!  In essence we are passing [the reference to] an *object* as an argument, instead of passing a *value* to a method as an argument, like we have been doing so far.[^R]  When we pass a reference, we can modify the object's properties if we want to.  There is a more lengthy comparison of passing values versus passing references [here](https://codeburst.io/javascript-passing-by-value-vs-reference-explained-in-plain-english-8d00fd06a47c).
-=======
-### Passing by reference
-
-How do we access the properties of the `theBoard` board from another class definition?  If `theBoard` object existed before run-time (like with an *object literal*), we could just say `theBoard.x` for example.  Unfortunately this object does not exist until the program starts.  One way around this is to pass the name of the instance to the class!  In essence we are passing an *object* to a method as an argument, instead of passing a *value* to a method as an argument, like we have been doing so far.  This is referred to as "passing by reference" (as opposed to "passing by value").  When we pass by reference, we can modify the object's properties if we want to.  There is a more lengthy comparison of passing by value or passing by reference [here](https://codeburst.io/javascript-passing-by-value-vs-reference-explained-in-plain-english-8d00fd06a47c).
->>>>>>> ff9983cbfb51bf7453deb0a64a8d8459c2d07110
 
 For example we can refer to `x` property of `theBoard` object from the `PrincessMarker` class like this:
 
@@ -139,17 +133,13 @@ Look back at the overview section for a moment.  Notice on the second-to-last li
 this.activeMarker = new PrincessMarker(this);
 ```
 
-Here `this` refers to an instance of the `TicTacToe` class - meaning `theBoard` in our case.  The constructor method of `PrincessMarker` calls the constructor of the parent `Marker` class, which makes `game` a property of any instance of the `Marker` class with the `this.board = board;` command.  There is a lot of complex programming happening here; you can be proud of your accomplishment if you can follow this line of reasoning.
+Here `this` refers to an instance of the `TicTacToe` class - meaning `theBoard` in our case.  The constructor method of `PrincessMarker` calls the constructor of the parent `Marker` class, which makes `board` a property of any instance of the `Marker` class with the `this.board = board;` command.  There is a lot of complex programming happening here; you can be proud of your accomplishment if you can follow this line of reasoning.
 
 ### Computing the board row and column
 
 Here is how we want to identify the rows and columns on the board:
 
-<<<<<<< HEAD
 ![board](/images/board.png)
-=======
-![board](C:/Users/stauberr/Downloads/images/board.png)
->>>>>>> ff9983cbfb51bf7453deb0a64a8d8459c2d07110
 
 
 
@@ -192,9 +182,9 @@ The game display will be much cleaner if markers are placed neatly in the center
 - [ ] Inside the class definition for the `Marker` class, define a method called `playInSquare` that accepts `row` and `col` as arguments and changes the values of `this.x` and `this.y` so that the marker is horizontally and vertically centered in the square where it was dropped. You must devise an expression to compute the correct x and coordinates.  Please use the `this.game.x`, `this.game.y` and `this.game.size` properties again instead of their numeric values.
 - [ ] At the end of the `handleMouseLeftButtonUp` method of the `PrincessMarker` class, add a call to `this.playInSquare(row, col)`.
 
-We would like to follow this with a call to `theBoard` object's `takeTurns()` method.  Remember that `theBoard` is an instance (which is created at run-time) of the `TicTacToe` class.  How can we refer to an instance that doesn't yet exist?  If you need a reminder about how you might do this, review the [Passing by Reference](###Passing by reference) section.
+We would like to follow this with a call to `theBoard` object's `takeTurns()` method.  Remember that `theBoard` is an instance (which is created at run-time) of the `TicTacToe` class.  How can we refer to an instance that doesn't yet exist?  If you need a reminder about how you might do this, review the [Passing a Reference](###Passing a reference) section.
 
-- [ ] At the end of the `handleMouseLeftButtonUp` method of the `PrincessMarker` class, add a call to the `takeTurns()` method of the game object that is passed to the `PrincessMarker`'s constructor.
+- [ ] At the end of the `handleMouseLeftButtonUp` method of the `PrincessMarker` class, add a call to the `takeTurns()` method of the `board` object that is passed to the `PrincessMarker`'s constructor.
 
 Test and correct your game until it shows the desired behavior.
 
@@ -311,7 +301,7 @@ console.log('The data model after ' + moveCount + ' move(s):' + boardString);
 
 We need some way to increment the `moveCount` variable for every square that isn't empty.  We already have a nested `for` loop that visits every square on the board, so we might as well have it do this other task for us besides growing the `boardString` string:
 
-- [ ] Inside the column loop of the nested `for` loops, test to see if the current square contains the `emptySquareSymbol`.  If it does NOT, increase the value of `moveCount` by one.  Again, challenge yourself to use a property name instead of the character '-' (*HINT: it is a property of the `TicTacToe` class instances*).
+- [ ] Inside the column loop of the nested `for` loops, test to see if the current square does NOT contain the `emptySquareSymbol`.  If it does NOT, increase the value of `moveCount` by one.  Again, challenge yourself to use a property name instead of the character '-' (*HINT: it is a property of the `TicTacToe` class instances*).
 
 Run the game again, and test by dropping markers in various board positions. Verify that the debug output displays the turn number correctly.  
 
@@ -378,11 +368,11 @@ let row, col;
 do {
     row = Math.round(Math.random() * (this.board.size - 1));
     col = Math.round(Math.random() * (this.board.size - 1));
-} while (this.board.dataModel[row][col] !== this.game.emptySquareSymbol);
+} while (this.board.dataModel[row][col] !== this.board.emptySquareSymbol);
 
-this.board.[row][col] = this.squareSymbol;
+this.board.dataModel[row][col] = this.squareSymbol;
 this.playInSquare(row, col);
-this.game.takeTurns();
+this.board.takeTurns();
 ```
 
 This introduces a valuable, and somewhat dangerous new looping construct.  The `do` loop is executed as long as the condition after `while` is satisfied.  Therein lies the danger: it is possible to create a loop that will never terminate, possibly locking up your browser window.  In fact, this loop will do just that once all the empty squares are taken.  Please read this short [w3schools](https://www.w3schools.com/jsref/jsref_dowhile.asp) article for an explanation of the do/while statement. 
@@ -395,8 +385,8 @@ Next we have to modify our `takeTurns` method so that stranger can make his move
 
 In the `takeTurns` method of the `TicTacToe` class:
 
--[ ] *Remark out* (with `//` ) the line that makes the active marker an instance of the `PrincessMarker` class.
--[ ] Test to see if the `activeMarker` marker does *not* have a value, like this:
+- [ ] *Remark out* (with `//` ) the line that makes the active marker an instance of the `PrincessMarker` class.
+- [ ] Test to see if the `activeMarker` marker does *not* have a value, like this:
 
 ```javascript
  if (!this.activeMarker) 
@@ -404,7 +394,7 @@ In the `takeTurns` method of the `TicTacToe` class:
 
 Remember the `!` is the NOT operator so if `activeMarker` has a value (which is to say *is defined*), `this.activeMarker` will return true.  So far, the `activeMarker` variable has been declared but has no value so `this.activeMarker` will return false.
 
--[ ] If it does *not*, flip a coin to make it either an instance of `PrincessMarker` class, or (*else*) the `StrangerMarker` class.  HINT:  `Math.random()` will return a value of less than 0.5 about 1 time out of 2.  
+- [ ] If the `activeMarker` does not have a value , flip a coin to make it either an instance of `PrincessMarker` class, or (*else*) the `StrangerMarker` class.  HINT:  `Math.random()` will return a value of less than 0.5 about 1 time out of 2.  
 
 You already know how to make `activeMarker` an instance of the `PrincessMarker` class -- you have it remarked out.  Now you can remove the `//` and paste it into the right place!  
 
@@ -414,7 +404,7 @@ After the random choice of starting player, the game should create an appropriat
 
 In the `takeTurns` method of the `TicTacToe` class definition:
 
--[ ] Add the following code after the `if` statement that checks to see if `activeMarker` is undefined:
+- [ ] Add the following code after the `if` statement that checks to see if `activeMarker` is undefined:
 
 ```javascript
 else if (this.activeMarker instanceof PrincessMarker) {
@@ -442,7 +432,7 @@ Do not continue until this is working properly.
 
 At this point, turn-based play between a human player and an NPC is working. However, the programming does not know if one player wins, or if a full board makes the game a draw. Your next task is to address this.
 
--[ ] Edit the `takeTurns` method in the `TicTacToe` class, adding the following code at the top:
+- [ ] Edit the `takeTurns` method in the `TicTacToe` class, adding the following code at the top:
 
 ```javascript
 if (this.gameIsWon()) {
@@ -452,12 +442,12 @@ if (this.gameIsWon()) {
 	} else if (this.activeMarker instanceof StrangerMarker) {
 		message = message + 'The Stranger wins.';
 	}
-	gameController.endGame(message);
+	game.endGame(message);
 	return;
 }
 
 if (this.gameIsDrawn()) {
-	gameController.endGame('        Game Over.\n        The game ends in a draw.');
+	game.endGame('        Game Over.\n        The game ends in a draw.');
 	return;
 }
 ```
@@ -466,7 +456,7 @@ This completes the end-of-game programming with appropriate `endGame` messages, 
 
 ###Is the game won?
 
--[ ] In the `TicTacToe` class definition, define a method called `gameIsWon()` with the following partial code:
+- [ ] In the `TicTacToe` class definition, define a method called `gameIsWon()` with the following partial code:
 
 ```javascript
 // Are there three of the same markers diagonally from upper left?
@@ -480,19 +470,17 @@ if (this.board[0][0] === this.board[1][1] &&
 
 This is the complete logic for testing the diagonal that begins in the upper left corner. If the three cells in that diagonal all match the symbol of the current marker, the script returns `true` to indicate that the player using that marker has won the game.
 
--[ ] Add (very similar) code to test the other diagonal.
+- [ ] Add (very similar) code to test the other diagonal.
 
+- [ ] Write a loop to determine if there are three in a row horizontally. For each row, test if all three cells match the marker. If so, return `true`.
 
--[ ] Write a loop to determine if there are three in a row horizontally. For each row, test if all three cells match the marker. If so, return `true`.
-
-
--[ ] Write a loop to determine if there are three in a row vertically. For each column, test if all three cells match the marker. If so, return `true`.
+- [ ] Write a loop to determine if there are three in a row vertically. For each column, test if all three cells match the marker. If so, return `true`.
 
 The last line of the method should return `false`, to indicate that there were not three of the marker in a row.
 
 ### Is the game drawn?
 
--[ ] In the `TicTacToe` class definition, define the `gameIsDrawn()` method. Write nested loops to examine each cell of the array. If the square is empty, return `false`. The last line (outside the loops) should return `true`; the game is a draw if all squares are full.
+- [ ] In the `TicTacToe` class definition, define the `gameIsDrawn()` method. Write nested loops to examine each cell of the array. If the square is empty, return `false`. The last line (outside the loops) should return `true`; the game is a draw if all squares are full.
 
 Run the game and verify that you can play against the (really weak) opponent until the game ends. Test as many different kinds of final patterns as possible: horizontal wins, vertical wins, diagonal wins, and draws.
 
