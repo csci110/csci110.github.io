@@ -10,13 +10,15 @@ General information appears in ordinary unlabeled text, like this sentence. This
 
 Action steps are indicated with a checkbox.  Basically just do all the stuff with a box next to it.  
 
-Complete the tutorial program, AND the assignment at the end of the tutorial in separate js fies and submit them by right-clicking `sync.sh` in the github-tools folder.
+Complete the tutorial program, AND the assignment at the end of the tutorial in separate `js` files.  Your instructor will grade your work in its current state on the due date for each assignment.
 
 ## Access the virtual workspace
 
-Cloud9 (c9) combines an online code editor with a workspace in the cloud.  It supports over 40 languages including Javascript, which we will be using.   You should have received an email inviting you to sign up for a c9 account.  If not, let me know and I will send you one.  You can sign up without an invitation, but accepting my invitation will keep you from having to give c9 a credit card number.  See Sakai Welcome section item #1 for more information.  It will walk you through cloning a workspace for this assignment.  
+`repl.it` combines an online code editor with a workspace in the cloud.  It supports over 60 languages including JavaScript, which we will be using.   Accept the invitation in your `@dewv` email from your instructor or click on [this](https://repl.it/classroom/invite/ftKp6S7) link for a direct invitation.
 
-Most of your time in this course will be spent writing some Javascript code in the C9 development environment, and viewing the output in a web browser. The beauty of it is you can give anyone in the world with an internet connection the address of the webpage created when you launch your application from c9 and they can use your application (i.e. play your game) on any platform in any browser with no software required.[^1]
+In your repl dashboard, select the CSCI-110 Classroom, then select the first project "Stranger Hunt."  This will create your own personal repl that contains some files that will help you get started on the first tutorial.
+
+Most of your time in this course will be spent writing some JavaScript code in the repl development environment, and viewing the output in a web browser. The beauty of it is you can give anyone in the world with an internet connection the address of the webpage created when you launch your application from repl and they can use your application (i.e. play your game) on any platform in any browser with no software required.[^1]
 
 ## Cast of Characters
 
@@ -30,7 +32,7 @@ The third character is a mysterious stranger in a dark cloak. Are his spells pow
 
 ## Game Design: Stranger Hunt
 
-You are about to build a simple game that will introduce you to the basics of running a javascript program from Cloud9.
+You are about to build a simple game that will introduce you to the basics of running a JavaScript program from repl.it.
 
 In this game, our three characters will move about inside a room enclosed by stone walls.
 
@@ -44,12 +46,12 @@ Worse still, casting the spell on Princess Ann, who has no magical protection, w
 
 First we will create a valid but do-nothing game, just a background and a score board.
 
-- [ ] Open a web browser and go to https://c9.io
-- [ ] Login and open your csci110 personal workspace.
+- [ ] Open a web browser and go to https://repl.it
+- [ ] Login and open your Stranger Hunt repl (this assumes you already enrolled in the class and linked the first project)
 
-In the left margin you will notice a "Workspace" tab that contains a directory tree of the tutorials.  
+In the left margin you will notice a "Workspace" tab that contains a directory tree of files in the current project.  
 
-In the strangerhunt folder you should see some .png files, a .html file, and a .js file.
+You should see some .png files, an .html file, and a .js file.
 
 - [ ] Double click the StrangerHunt.js file and you will see this in the editor window
 
@@ -65,11 +67,7 @@ Some explanations are in order.  `game` is an object created in sgc that has sev
 
 All we are doing with these three lines is assigning values to a`game` *property*  (`showScore`) and calling a `game` *method* (`setBackground()`).  From now on I will refer to these properties and methods without the `game` *identifier* (the name of the object), but remember to always include it in your code!
 
-- [ ] Open the `strangerHunt.html` file and hit the green arrow to 'Run' it.  Alternatively, you can right click the html file without opening it, and select 'Run' from the right-click menu.  You will see a status window appear below the editor window, with a statement that looks like this:
-
-`Starting Apache httpd, serving https://csci110-your_user_name.c9users.io/tutorials/1.strangerHunt/strangerHunt.html.`
-
-Select the link in your c9 window (hover or left click) then choose `Open` in the menu that appears.  The first time you do this you may have to let your browser "Open the App" by clicking the red button that appears. A new window will open with the `floor.png` image and the score block.
+- [ ] Select the `index.html` file and hit the green arrow to 'Run' it.   A result window will display the `floor.png` image and a score block.  The console window will show you any errors or warning from the interpreted code.  You can ignore the phaser warning about the background.
 
 Congratulations!  First steps are the hardest; now you know how to enter Javascript code and make your application run in any browser window. 
 
@@ -101,9 +99,9 @@ Please read [Marcus and the Cursed Cheese](http://computationaltales.blogspot.co
 
 **In objected oriented programming, a class defines the type of an object. In particular, an object's class defines the data and methods for that object. Alternately, the individual objects in a program can be viewed as specific instances of a class.** (from [Part 3 of Marcus and the Cursed Cheese](http://computationaltales.blogspot.com/2011/09/classes-of-cheese-part-3-of-marcus-and.html)).
 
-There is a lengthy explanation of how to use classes in Javascript [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes), but I often find it easier to learn something by using it, so let's jump right in by looking at the class documentation for the `Sprite` class in `sgc.js`.
+There is a lengthy explanation of how to use classes in Javascript [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes), but I often find it easier to learn something by using it, so let's jump right in by looking at the class documentation for the `Sprite` class in `sgc.js`: https://csci110.github.io/sgc/
 
-- [ ] Expand the `docs` folder inside the `sgc` folder. Right-click `index.html` and select `Preview`.  You will see a table of contents for the API documentation.  Select the `Sprite` class from the list on the right-hand side. 
+- [ ]  At the sgc home page you will see a table of contents for the API documentation.  Select the `Sprite` class from the list on the right-hand side. 
 
 Notice the class definition has a list of properties and methods, which can be used by any instance of the class.  In particular, notice that there are some *properties* called `width`,` height`, `x`, `y`, and `accelerateOnBounce`; and a *method* called `setImage()`.  This keeps us from having to define these every time we want to make a new sprite that would use these properties and methods!  
 
@@ -375,21 +373,20 @@ Here is a test of your understanding of constructors:  Can you explain why we di
 
 ## Wrapping up
 
-This completes the first game tutorial.  If there are any things that aren't working right in your program, please see one of the instructors before your final submission on Monday.
+This completes the first game tutorial.  If there are any things that aren't working correctly in your program, please see one of the instructors before your final submission.
 
 
-- [ ] Complete the quiz for Stranger Hunt in the Tests and Quizzes tab of Sakai before Friday noon. 
+- [ ] Complete the quiz for Stranger Hunt in the Tests and Quizzes tab of Sakai.
 - [ ] Read [The Importance of Good Comments: A Tale of the Baker's Apprentice](http://computationaltales.blogspot.com/2011/08/importance-of-good-comments-tale-of.html)
-- [ ] Project work minimum requirements due next Wednesday.
+- [ ] Project work minimum requirements:
   - [ ] Make your own sprite using the graphics editor of your choice.  
   - [ ] Download a background image file, or create one of your own.  Resize it to 800 by 600 to fit in the default window, or change the `game.displayWidth` and `game.displayHeight` values to suit your tastes.
-  - [ ] Import the graphics file into your workspace by selecting `File` at the top of the workspace, and then `Upload Local Files...`.
-  - [ ] Right-click the `loader.js` file and select `Duplicate`.  Change the name of it to `spriteLoader.js`
-  - [ ] Add your image file names (for the background and the sprite) to the list of things that get pre-loaded in the `spriteLoader.js` file and delete the ones you won't use.  Save your changes by hitting `CTRL+s`.  You should see the grey circle next to the name in the `spriteLoader.js` tab turn green, and then turn into a x.
-  - [ ] Create a new JavaScript file by right-clicking the `strangerHunt` folder, selecting `New File` and giving it the name  `spriteProject.js`.
-  - [ ] Right-click the `strangerHunt.html` file and select `Duplicate`.  Change the name of it to `spriteProject.html`.   
-  - [ ] In the  `spriteProject.html` file, change the last script source callout to `spriteProject.js` instead of `strangerHunt.js`, and change the second-to-last callout to `spriteLoader.js` instead of `loader.js`.  Save your changes as before (`CTRL+s`).
+  - [ ] Import the graphics file into your workspace by dragging it into the project explorer pane on the left of your workspace.
+  - [ ] Click the `+File` icon at the top of the  `loader.js` file and name the new file`spriteLoader.js`.  From now on I will just say "Add a `loader.js` file to your project."
+  - [ ] Add your image file names (for the background and the sprite) to the list of things that get pre-loaded in the `spriteLoader.js` file and delete the ones you won't use. 
+  - [ ] Add a  `spriteProject.js` file to your project.
+  - [ ] Add a file called `index.html.old` to your project.  Copy all the code from `index.html` to it.    
+  - [ ] In the  `index.html` file, change the last script source callout to `spriteProject.js` instead of `strangerHunt.js`, and change the second-to-last callout to `spriteLoader.js` instead of `loader.js`. 
   - [ ] In the `spriteProject.js` file, write a JavaScript program that loads the background image and places your sprite on it.  Feel free to copy as much of the code as you need from the tutorial game you just completed!  Optionally, send the url to your mom so she can run your app from wherever she is -- in any browser, on any computer or smartphone.
-  - [ ] Don't forget to sync your changed files to github so I can review them before next Wednesday.
 
-[^1]: Some restrictions apply.  For example, your session has to be active in C9, and it will time out after a certain amount of inactivity.  But the code is portable - you could use a different hosting site if you wish, though usually they require payment to keep your content available.
+[^1]: Some restrictions apply.  For example, your session has to be active in repl, and it will time out after a certain amount of inactivity.  But the code is portable - you could use a different hosting site if you wish, though usually they require payment to keep your content available.
