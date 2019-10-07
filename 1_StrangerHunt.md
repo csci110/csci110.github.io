@@ -147,9 +147,9 @@ The new operator creates an instance of a class.  That is to say, it creates an 
 
 How did we know what values to use for `width` and `height`?  In order to answer that we have to look at the image file that we are using to represent this sprite.  The fourth line in the code you just wrote says the associated image file is `horizontalWall.png`. 
 
-- [ ] Find the `horizontalWall.png` file in your workspace directory and double-click to open it.  
+- [ ] Select the `horizontalWall.png` file in your workspace directory and click on the link in the IDE window that says "Click here to download."  
 
-At the top of the new window are some image manipulation functions and a box that says W: 800px, H:48px.  This is the width (W) and height (H) of the image in pixels (px).
+Open the downloaded file with Paint 3D and select `Canvas`.  On the right panel you will see Width: 800px, Height:48px.  This is the width (W) and height (H) of the image in pixels (px).
 
 <u>`accelerateOnBounce`</u>
 
@@ -175,10 +175,6 @@ leftWall.accelerateOnBounce = false;
 - [ ] Using the previous steps as a guide, create two more instances of the Sprite class for the right and bottom walls.  You should use the values stored in `topWall.height`, `leftWall.height`, `topWall.width`, and `rightWall.width`  to make your code more readable, and to avoid doing any math!
 - [ ] Test your game.  You should have a room with four walls. 
 
-If you haven't already, now would be a good time to synchronize your work with gitHub.
-
-- [ ] Expand the `github-tools` directory in your workspace, right-clik the `sync.sh` file and select `Run`.
-
 Not too exciting yet, but we have covered a lot of advanced background material that will give you a good foundation going forward.
 
 Next we will learn another powerful way to use classes; using "child" object classes that inherit features from their "parent" classes.
@@ -193,7 +189,7 @@ Remember way back in the game design section we said that the player scores poin
 
 Yes!  It looks like `handleMouseClick` will do what we need.  Now we must define the method we want to invoke when a mouse button release on the sprite is detected.  By the way you can see the whole sgc reference [here.](https://dewv.github.io/csci110-retooled/sgc/GameController.html)
 
-To customize sprite behavior, we must first create a new class that `extend`s the `Sprite` class. This allows us to modify the default behavior for mouse clicks (which is do nothing) by **overriding** the `Sprite` class's `handleMouseClick`method. 
+To customize sprite behavior, we must first create a new class that `extends` the `Sprite` class. This allows us to modify the default behavior for mouse clicks (which is do nothing) by **overriding** the `Sprite` class's `handleMouseClick`method. 
 
 - [ ] Add the following class definition to your `strangerHunt.js` file, somewhere after your `import` command:
 
@@ -302,7 +298,7 @@ There are some new things in here:  the **this** keyword, and the **super()** me
 
 ## The *this* keyword
 
-In JavaScript,  `this` is the object that "owns" the method we are executing.  It refers to (or you could say, "it's value is") the method's object.  Inside our constructor methods, we will use `this` to modify the properties of the object whose method it will be.  Even though we know we will only create one instance of the Princess object, and that object will be called `ann`, we can't use `ann` in place of `this` in the constructor, because `ann` hasn't been created yet.  In fact, as far as this class definition is concerned, no object of the `Princess` class has been created, because we are in the middle of defining the template that will be used to make the objects!  So `this` is a placeholder for *any* object that will be created with this class template.
+In JavaScript,  `this` is the object that "owns" the method we are executing.  It refers to (or you could say, "its value is") the method's object.  Inside our constructor methods, we will use `this` to modify the properties of the object whose method it will be.  Even though we know we will only create one instance of the Princess object, and that object will be called `ann`, we can't use `ann` in place of `this` in the constructor, because `ann` hasn't been created yet.  In fact, as far as this class definition is concerned, no object of the `Princess` class has been created, because we are in the middle of defining the template that will be used to make the objects!  So `this` is a placeholder for *any* object that will be created with this class template.
 
 ## The *super*() method
 
