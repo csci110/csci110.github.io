@@ -4,7 +4,7 @@ First let's start with a review of what you learned in the last tutorial.  As a 
 
 In `wizardsDuel.js`, write some JavaScript code to accomplish the following things:
 
-- [ ] Import `game` and `Sprite` modules from "../sgc/sgc.js"
+- [ ] Import `game` and `Sprite` modules from "./sgc/sgc.js"
 - [ ] Set the background to "floor.png" (*HINT: use the `game.setBackground()` method*)
 - [ ] Declare a class called `PlayerWizard` that is a *child* of the `Sprite` class.
 - [ ] In the constructor method of the `PlayerWizard` class:
@@ -12,7 +12,7 @@ In `wizardsDuel.js`, write some JavaScript code to accomplish the following thin
   - [ ] Set the `name` property to "Marcus the Wizard"
   - [ ] Call the `setImage()` function with "marcusSheet.png" as an argument
   - [ ] Set the `width` and `height` properties to 48
-  - [ ] Set the `x` position to `this.width` and `y` to `this.y`
+  - [ ] Set the `x` position to `this.width` and `y` to `this.height`
 - [ ] Create an object of the `PlayerWizard` class called `marcus`.
 - [ ] Run the game.  
 
@@ -22,13 +22,13 @@ ______________________________
 
 In the last tutorial, we used static image files to portray the characters.  Now we will use a series of images in *image sheets* to animate the characters in the story.  These are typically png files with 12 frames in them, three each for left, right, front and back facings of the sprite.  
 
-- [ ] From your c9 workspace, double-click to open `marcusSheet.png`
+- [ ] From your workspace, open `marcusSheet.png`
 
 ![MarcusSheet](/images/MarcusSheet.PNG)
 
 Notice that the frame corresponding to the single image of Marcus we used in the last tutorial is the 8th one from the left.  On either side is Marcus with one or the other foot forward.  Playing these three frames in succession gives the illusion of Marcus walking down the screen. We will use the `defineAnimation` method to tell the game engine which frames to play for each facing.  
 
-Search for (CTRL+F) `defineAnimation` in the gameController help accessed from the README file in your tutorials folder. 
+Search for (CTRL+F) `defineAnimation` in the `gameController` help accessed from the README file in your tutorials folder. 
 
 ![defineAnimation](/images/defineAnimation.PNG)
 
@@ -143,7 +143,7 @@ We are going to use the spacebar to cast spells for Marcus.
 
 ```
 spell.x = this.x;  // this sets the position of the spell object equal to
-spell.y = this.y;  // the position of any object created from the PlayerWizard class
+spell.y = this.y;  // the position of any object created from the class
 ```
 
 * Set the `spell` object's name to "A spell cast by Marcus"
@@ -211,7 +211,7 @@ Marcus eventually gets tired at shooting his spells into thin air, so we should 
 
 ![strangerSheet](/images/strangerSheet.png)
 
-	Note: "up" and "down" can use the same frames that we used for the `marcus` object (0 through 2 for 				"up," and 6 through 8 for "down"), but can you tell what frames we should use for "left"?
+	Note: "up" and "down" can use the same frames that we used for the `marcus` object (0 through 2 for "up," and 6 through 8 for "down"), but can you tell what frames we should use for "left"?
 
 * Play the "down" animation
 
@@ -380,12 +380,6 @@ This might also be a good time to mention the following suggestion from the [Jav
 
 In the code snippet above, the game ending message string was longer than 80 characters, so we used the `+` operator to concatenate the two parts of the message.  This is our preferred way to break up long strings.  Notice that we don't need a continuation character for long lines of *code* that don't include strings.  JavaScript doesn't care about line endings; it uses semicolons to tell when you have completed a program statement.
 
-You can tell how many characters are in your line by placing the cursor at the end of your line and looking at the grey text in the lower right corner of your development window.  The first set of numbers is line:character#.  (Line 5, character 73 in this example)
-
-![LineAndChar](/images/LineAndChar.PNG)
-
-There is also a faint white line in the c9 IDE at the 80-character point.
-
 - [ ] Run your game and test that the correct message is displayed when you hit the `stranger` and the explosion animation ends.
 
 ____________
@@ -506,7 +500,7 @@ Instead we need a variable that will stick around even when we get ejected from 
 
 ## Wrapping Up
 
-We are not yet finished with the Wizard Duel tutorial.  If you are reading this you are farther along than I expected.  Please use the extra time to start on your Shooter project (below).
+This completes the Wizard's Duel tutorial.
 
 - [ ] Read [Functions and Sailing](http://computationaltales.blogspot.com/2011/04/functions-and-sailing.html)
 
