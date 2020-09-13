@@ -103,7 +103,7 @@ this.y = Math.min(552, this.y);
 
 This is an example of a code segment that should include comments, since it is not immediately obvious what it does. The first line picks the *greatest* of 5, or the current value of `y` and assigns it to `y`.  The second takes the *lowest* of 552, or the current value of `y` and assigns it to `y`.  In other words, if y gets to -1 as a result of being decremented in a call to `handleUpArrowKey`, the first assignment statement will set it to 5. If `y` gets to 553 as a result of being incremented in a call to `handleDownArrowKey`, the second assignment will set it back to 552.  The net effect is to keep Marcus in the display area.  Unfortunately, writing the code in this way does not make it very flexible, should you decide to change the display dimensions or sprite size.
 
-- [ ] Inside the `PlayerWizard` class definition (but outside the constructor), define a `handleGameLoop` method that adjusts y coordinates as shown above, except modify the second line to use the`game` properties of `displayHeight` and `gridSize`.  Don't forget to add comments like this to your function definition:
+- [ ] Inside the `PlayerWizard` class definition (but outside the constructor), define a `handleGameLoop` method that adjusts y coordinates as shown above, except modify the second line to use the`game` properties of `displayHeight` and marcus's  `height`.  Don't forget to add comments like this to your function definition:
 
 ```javascript
 // Keep Marcus in the display area 
@@ -342,7 +342,7 @@ One problem is we are getting a collision right away because Marcus is generatin
 - [ ] Inside the collision handler for the `Spell` class, enclose the first two lines in an `if` statement that checks to make sure that the same spell sprites don't destroy each other, like this:
 
 ```
- // Compare images so Stranger's spells don't destroy each other.
+ // Compare images so same spells don't destroy each other.
  if (this.getImage() !== otherSprite.getImage()) {
       game.removeSprite(this);
       new Fireball(otherSprite);
@@ -391,7 +391,7 @@ The images for Marcus's spell objects are mostly transparent, and only the centr
 - [ ] Inside the `Spell` class definition, replace your `handleCollision(otherSprite)` definition with this:
 
 ```
- // Compare images so Stranger's spells don't destroy each other.
+ // Compare images so the same spells don't destroy each other.
  if (this.getImage() !== otherSprite.getImage()) {
       // Adjust mostly blank spell image to vertical center.
       let verticalOffset = Math.abs(this.y - otherSprite.y);
@@ -490,6 +490,12 @@ if (now - this.spellCastTime >= 2) {
  }           
 ```
 
+- [ ] Initialize the value of this.spellCastTime by adding this to the PlayerWizard constructor method:
+
+```javascript
+this.spellCastTime = 0; 
+```
+
 Hopefully the comments clarify how we use the `getTime` function to set and reset a timer, and how to use the difference between the timer variable and the current time to have something happen after 2 seconds has elapsed.    
 
 What might not be so clear is why we use the `let` keyword to hold the current time, and a previously undefined object property `marcus.spellCastTime` to hold the time that the last spell was cast.  If we used `let` for the `spellCastTime` variable too, it would be redefined every time `handleSpacebar()` is triggered, which would make it worthless as a holder for the last spell cast time.  This is important to remember:
@@ -522,3 +528,7 @@ This completes the Wizard's Duel tutorial.
 - [ ] **Cite your sources for pixel art in the comments of your code, or explicitly state which sprites are your original work.**  I expect you will be making *your own* unique modifications to your `wizardsDuel.js` script to complete this project.
 
   Grading is based on level of effort in any of the above categories.  For example if you wish to focus on sprite creation instead of programming complexity, please see [this tutorial](http://makegames.tumblr.com/post/42648699708/pixel-art-tutorial) on pixel art. 
+
+```
+
+```

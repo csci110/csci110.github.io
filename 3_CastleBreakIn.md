@@ -4,7 +4,7 @@ After his duel with Marcus, the mysterious stranger flees. Pursued by Princess A
 
 The magic stones block Ann's path, but a sharp impact will destroy them. Thinking quickly, Ann grabs her souvenir East Alexandria soccer ball. Using the incredible header skills she learned as captain of the royal soccer team, she attempts to make her way inside the castle's walls.
 
-In your c9 workspace, you should see some image files for a castle, a wall, a ball sheet, a princess sheet, and some blocks.  There is also a `grass.png` file we will be using for the background.  
+In your workspace, you should see some image files for a castle, a wall, a ball sheet, a princess sheet, and some blocks.  There is also a `grass.png` file we will be using for the background.  
 
 ## Setting up the game play area
 
@@ -72,10 +72,9 @@ You should now have a grassy game play area that is enclosed by solid objects on
   * Sets the `y` coordinate to `this.height` less than the display height (HINT: use `game.displayHeight`)
 
   * Set a custom property called `speedWhenWalking` equal to 150.
-  * Set a custom property called `lives` equal to 3.
   * Set the `accelerateOnBounce` property to `false`.
   * Define `left` and `right` animations that use frames 9-11 and 3-5 respectively.
-
+  
 - [ ] Create an `ann` object from the `Princess` class you just defined.
 
 - [ ] Run the game to verify that Princess Ann appears horizontally centered in the play area, with her feet touching the bottom edge of the window.
@@ -105,7 +104,7 @@ At this point, the princess can walk through the walls and off screen. That prob
   * Sets the `speed` property equal to 1.
   * Sets the `angle` property to `50 + Math.random() * 80`.
 
-This will make the ball move at an angle of 500 to 130 degrees, or in a generally "upward" direction.
+This will make the ball move at an angle of 50 to 130 degrees, or in a generally "upward" direction.
 
 - [ ] Create an **anonymous** instance of the `Ball` class.  (HINT: you did this previously with the spooky castle wall)
 
@@ -255,7 +254,7 @@ The `new Block()` command is executed 5 times:
 
 The object of our game will be to eliminate all the blocks of a certain kind, not just the ones in front of the gate.  In order to know if we have eliminated all of them, we have to count how many we have made, and subtract one from this number every time a block is smashed.  To keep track of this we will need a so-called **static** variable associated with the `Block` *class*, not just a specific instance of that class.  To implement static variables in JavaScript we use the class name as the object identifier instead of the keyword `this` which refers to a specific instance of the class.  For example:  
 
-- [ ] Outside all of the class definitions, create a variable called `Block.blocksToDestroy` and set its value to zero.  Make sure you do this before the `for` loop that generates all the blocks!
+- [ ] Outside all of the class definitions, create a variable called `Block.blocksToDestroy` and set its value to zero.  **Make sure you do this before the `for` loop that generates all the blocks!**
 
 - [ ] Add this line to the `constructor()` method of the `Block` class
 
@@ -277,7 +276,7 @@ Next we need to define a collision handling method for the `Block` class.
 'Congratulations!\n\nPrincess Ann can continue her pursuit\nof the mysterious stranger!'
 ```
 
-* Return `true`.  The method should return `true `if a bounce is desired, and it is - we want the ball to bounce off the block.  There is no way you would know this without looking at the [sgc documentation](https://csci110.github.io/sgc/).
+* Return `true`. Make sure this happens whether or not `Block.blocksToDestroy` is less than or equal to zero! (i.e. put it outside the `if` block)  The method should return `true `if a bounce is desired, and it is - we want the ball to bounce off the block.  There is no way you would know this without looking at the [sgc documentation](https://csci110.github.io/sgc/).
 
 - [ ] Run the game and test that you get the congratulatory message after destroying all the blocks.  (you may wish to decrease the number of blocks for testing purposes).  You should have the beginning of a "breakout" style game, where the ball destroys the blocks that it hits, but also bounces from the impact.
 
@@ -389,7 +388,7 @@ You will now modify things so that the player loses a life only when all soccer 
 
   If you find it too difficult to catch the balls when they are first created, consider modifying the speed of the Princess.
 
-- [ ] When you are satisfied with the playability of your game, synchronize your work with GitHub.
+- [ ] When you are satisfied with the playability of your game, submit your assignment on Sakai by linking the url of your repl.
 
 - [ ] Use Question Set 4 to review and evaluate your mastery of new concepts. 
 
@@ -397,4 +396,4 @@ You will now modify things so that the player loses a life only when all soccer 
 
 - [ ] Create a copy of your `.js` and `.html` files.  Modify the copied version of your Castle Break-In game to add two or more classes derived from the `Block` class.  Have each derived class provide a unique benefit, power-up or penalty to the player.  
 
-- [ ] Run `sync.sh` to upload your files to GitHub.
+- [ ] Submit your project by linking the url of your repl on Sakai.
