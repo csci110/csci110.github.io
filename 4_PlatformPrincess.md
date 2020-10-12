@@ -90,6 +90,7 @@ Now that the sliders are working, you will program the player character's naviga
 
 * Uses "ann.png" as the argument for the `setImage()` method
 * set the position to (x,y) = (48, 300).  Yes, I know that is 100 pixels above the platform.  We are doing this on purpose to test her falling behavior later.
+* set her height and width to 48.
 * set her `speed` to zero.
 * create a custom variable called `speedWhenWalking` and set it equal to 125.
 * define left and right animations, using frames 9-11, and 3-5 respectively
@@ -162,7 +163,7 @@ if (!this.isFalling) {
 }
 ```
 
-​Notice we are using the `!` (sometimes called the "bang" operator) for **NOT**.   In other words, it flips the value `true` to `false`, and vice-versa.  This is another way of saying `if (this.isFalling === false)`.  When the space bar is pressed, nothing will happen if the princess is falling. But if she isn't falling, she jumps up by 48*1.25 pixels, and then begins falling.
+Notice we are using the `!` (sometimes called the "bang" operator) for **NOT**.   In other words, it flips the value `true` to `false`, and vice-versa.  This is another way of saying `if (this.isFalling === false)`.  When the space bar is pressed, nothing will happen if the princess is falling. But if she isn't falling, she jumps up by 48*1.25 pixels, and then begins falling.
 
 Run the game and test that the princess can:
 
@@ -200,7 +201,7 @@ Although you now have a complete game, it seems a bit simple and uninteresting. 
 
 The first enemies are the spiders. They will move up and down the screen on their webs. If they collide with the princess, she will be knocked off balance— possibly into the water.
 
-- [ ] Define a class called `Spider` whose constructor function accepts two arguments (x, and y) and does the following for each instance of the class:
+- [ ] Define a class called `Spider` that is a child of the Sprite class whose constructor function accepts two arguments (x, and y) and does the following for each instance of the class:
 
 - gives it a name
 - sets its image file as `spider.png`
@@ -212,7 +213,7 @@ The first enemies are the spiders. They will move up and down the screen on thei
 
 - [ ] Create two spiders, one at (200, 225), and the other at (550, 200).
 
-- [ ] Run your game and test that spiders appear on the wall, "creeping" in place and minding their own business.  That is about to change.
+- [ ] Run your game and test that spiders appear on the wall, "creeping" around and minding their own business.  That is about to change.
 
   We will program two parts to the spider's movement behavior, depending on its position relative to the main area of the princess's travel.  This is the area just above the two sliders.  It is the spider's "attack zone."  If a spider is above the attack zone, it will drop.  If a spider is below the attack zone, it will move back up.
 
@@ -228,9 +229,9 @@ The first enemies are the spiders. They will move up and down the screen on thei
 
 What happens if we just use the default "bounce" behavior for collisions between `ann` and the spiders? If one of the spiders collides with the princess by landing on her head, the spider will have a y-component to its motion that will result in the princess bouncing *down*. During first game loop in which the princess goes more than one pixel below the top of a `platform` object, the `princess.isFalling` flag will be set, and since there are no more platforms below her she will fall off the bottom of the screen. That seems ok -- if a giant spider lands on your head while you are balancing on a log in turbulent underground river, you might very well fall off the log.  However the collision box is currently too big; the actual spider image (the non-transparent part of the image) only takes up about half the width of the frame and is maybe 30 pixels high. 
 
-- [ ] Override the `Sprite` class's collision handler by replacing it with this:
+- [ ] Override the `Sprite` class's collision handler in the `Spider` class by replacing it with this:
 
-```
+```javascript
 handleCollision(otherSprite) {
     // Spiders only care about collisons with Ann.
     if (otherSprite === ann) {
@@ -254,7 +255,7 @@ Remember that if the collision handler returns `false`, the colliding object wil
 
 The next type of enemy is a bat.   They will hover about their starting locations until they (randomly) decide to dive-bomb the princess.  
 
-- [ ] Define a class called `Bat` that uses the `bat.png` image file, x and y coordinates passed to the constructor, doesn't bounce when hit, has a name like "A scary bat," and continuously plays an animation called "flap" that uses both frames in the image sheet.  
+- [ ] Define a class called `Bat` (which extends Sprite as usual) that uses the `bat.png` image file, x and y coordinates passed to the constructor, doesn't bounce when hit, has a name like "A scary bat," and continuously plays an animation called "flap" that uses both frames in the image sheet.  
 
 - [ ] Create an instance of the `Bat` class at location (200, 100) called `leftBat`.
 
@@ -301,18 +302,18 @@ this.speed = this.normalSpeed = 20;
 
 This works because the right-hand side of an assignment must be evaluated before the assignment can happen.  Read [this](https://en.wikipedia.org/wiki/Operator_associativity#Right-associativity_of_assignment_operators) paragraph in Wikipedia for more information about operator associativity.
 
-Now we are ready to write an `if` statement that tests to see if the bat is attacking.  But first let's talk about the hovering behavior we would like to program for the bats:
+Now we are ready to write an `if` statement that tests to see if the bat is attacking (in the `handleGameLoop()` method).  But first let's talk about the hovering behavior we would like to program for the bats:
 
 - give each bat a random diagonal direction when it is created
 
 - every 3 seconds, increase the `angle` property of the bat either by 90 degrees or 180 degrees.  Whether it changes by 90 or 180 degrees depends on the flip of a coin:  50% of the time it does one rather than the other.
 
-The first bullet sets the starting angle. We will use `Math.round()` on the `Math.random()` method to get a random *integer* between (and including) 0 and 3, then multiply that integer by 90 to pick out one of 4 directions.  See [mozilla](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round) for an explanation of `Math.round()`.  This is a useful trick that we will use again.
+The first bullet sets the starting angle. We will use `Math.ceil()` on the `Math.random()` method to get a random *integer* between (and including) 1 and 4, then multiply that integer by 90 to pick out one of 4 directions.  See [mozilla](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/ceil) for an explanation of `Math.ceil()`.  This is a useful trick that we will use again./
 
 - [ ] In the constructor function method for the `Bat` class, set the `angle` property to 
 
 ```javascript
-this.angle = 45 + Math.round(Math.random() * 3) * 90;
+this.angle = 45 + Math.ceil(Math.random() * 3) * 90;
 ```
 
 To program the second bullet, you might want to review the "spell cast timer" we used to limit Marcus's spell casting in `wizardDuel`.  The relevant block of code might have looked like this:
@@ -331,7 +332,7 @@ Instead of `spellCastTime` use a descriptive name like `angleTimer` for example.
 
 - [ ] Inside the `Bat` class `constructor()` method, define a custom variable called `angleTimer` and set it to zero.
 
-- [ ] Inside the `Bat` class `handleGameLoop()` method, and using the `normalSpeed` variable, test to see if the bat is hovering.  If so, start a 5 second timer to change the bat's direction by 90 degrees 50% of the time, and 180 degrees the other 50% of the time.  Challenge yourself to see if you can do this using the rounding trick we used to set the original angle, instead of writing a second `if` statement.
+- [ ] Inside the `Bat` class `handleGameLoop()` method, and using the `normalSpeed` variable, test to see if the bat is hovering.  If so, start a 3 second timer to change the bat's direction by 90 degrees 50% of the time, and 180 degrees the other 50% of the time.  Challenge yourself to see if you can do this using the rounding trick we used to set the original angle, instead of writing a second `if` statement.
 
 You might run into a problem with your first `if` statement if you used `(this.speed === this.normalSpeed)` for your conditional expression.  You can find the cause of the problem by adding `console.log(this.speed)` inside the `handleGameLoop()` method.  You should have seen 20.000000000000004 whereas `leftBat.normalSpeed` returns 20.  We will learn more about why this happens next semester, but if you want a sneak preview, read this short article on [Avoiding Problems with Decimal Math in JavaScript](http://adripofjavascript.com/blog/drips/avoiding-problems-with-decimal-math-in-javascript.html).  For now you can just round `this.speed` and your conditional statement will return true when the speed is *about* 20.
 
