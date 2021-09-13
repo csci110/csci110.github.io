@@ -66,7 +66,7 @@ You should now have a grassy game play area that is enclosed by solid objects on
 
   * Calls the parent class constructor
   * Sets the name to "Princess Ann"
-  * Uses the "ann.png" image in the `setImage()` method
+  * Uses the "princessSheet.png" image in the `setImage()` method
   * Sets height and width to 48
   * Sets the `x` coordinate to the middle of the display area. (HINT: use `game.displayWidth`)
   * Sets the `y` coordinate to `this.height` less than the display height (HINT: use `game.displayHeight`)
